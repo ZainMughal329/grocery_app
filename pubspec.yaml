@@ -37,7 +37,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   get:
   flutter_screenutil:
+  password_strength:
   google_fonts:
+  firebase_core:
+  firebase_auth:
+  firebase_messaging:
+  firebase_storage:
+  cloud_firestore:
+  image_picker:
+  flutter_form_builder:
 
 dev_dependencies:
   flutter_test:
