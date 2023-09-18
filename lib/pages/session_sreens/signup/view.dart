@@ -108,13 +108,11 @@ class SignInView extends GetView<SignInController> {
                         phone: controller.state.phoneController.text
                             .trim()
                             .toString(),
-                        email: controller.state.phoneController.text
+                        email: controller.state.emailController.text
                             .trim()
                             .toString(),
                         location: '',
-                        photoUrl: controller.state.phoneController.text
-                            .trim()
-                            .toString(),
+                        photoUrl: '',
                       );
                       controller.registerUser(
                           controller.state.emailController.text.trim().toString(),
