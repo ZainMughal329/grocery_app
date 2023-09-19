@@ -4,6 +4,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 class SignInState {
 
   RxBool loading = false.obs;
+  RxBool obsText = true.obs;
 
 
 

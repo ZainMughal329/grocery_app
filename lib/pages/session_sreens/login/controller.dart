@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
+import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/state.dart';
 
@@ -21,26 +23,23 @@ class LogInController {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        print('Login success');
+        SessionController().userId = value.user!.uid.toString();
+        Snackbar.showSnackBar("Login", "Successfully");
+
         Get.toNamed(AppRoutes.homeScreen);
+
         state.emailController.clear();
         state.passController.clear();
         setLoading(false);
       }).onError((error, stackTrace) {
-        Get.defaultDialog(
-          title: 'Error',
-          middleText: error.toString(),
-        );
+        Snackbar.showSnackBar("Error", error.toString());
 
         state.emailController.clear();
         state.passController.clear();
         setLoading(false);
       });
     } catch (e) {
-      Get.defaultDialog(
-        title: 'Error',
-        middleText: e.toString(),
-      );
+      Snackbar.showSnackBar("Error", e.toString());
 
       state.emailController.clear();
       state.passController.clear();

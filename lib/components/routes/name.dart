@@ -5,6 +5,9 @@ class AppRoutes {
   static const forgotScreen = '/forgot';
   static const homeScreen = '/home';
 
-
-
+  //AdminScreens
+  static const adminHomeScreen = '/adminHomeScreen';
+  static const adminDashBoard = '/adminDashBoard';
+  static const adminInventoryMng = '/adminInventoryMng';
+  static const adminOrdersMng = '/adminOrdersMng';
 }

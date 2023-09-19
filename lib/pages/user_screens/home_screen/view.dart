@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/search_text_field.dart';
+import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
+import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/session_sreens/login/controller.dart';
 import 'package:grocery_app/pages/session_sreens/signup/controller.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
@@ -93,11 +95,14 @@ class HomeView extends GetView<HomeController> {
               onPress: () async {
                 final auth = FirebaseAuth.instance;
                 await auth.signOut().then((value) {
-                  Get.snackbar('SignOut success', 'message');
+                  SessionController().userId = '';
+                  Snackbar.showSnackBar("Logout", "Successfully");
+                  // Get.snackbar('SignOut success', 'message');
                   Get.toNamed(AppRoutes.logInScreen);
                 }).onError(
                   (error, stackTrace) {
-                    Get.snackbar('Error', 'message');
+                    // Get.snackbar('Error', 'message');
+                    Snackbar.showSnackBar("Error", error.toString());
                   },
                 );
               },

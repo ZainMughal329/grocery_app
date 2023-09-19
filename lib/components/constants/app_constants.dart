@@ -15,4 +15,10 @@ class AppConstants{
   static const String dontHaveAccount = 'Don\'t have an account??';
 
 
+
+  //Admin Constants
+  static const String administration = 'Administration';
+
+
+
 }

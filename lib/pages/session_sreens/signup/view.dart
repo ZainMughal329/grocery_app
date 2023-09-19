@@ -71,20 +71,24 @@ class SignInView extends GetView<SignInController> {
               SizedBox(
                 height: 10.h,
               ),
-              InputTextField(
-                contr: controller.state.passController,
-                descrip: AppConstants.enterPass,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.visiblePassword,
-                obsecure: true,
-                icon: Icons.lock_open_outlined,
-                suffixIcon: Icons.visibility_off_outlined,
-                onPressSufix: () {},
-                onChange: (value) {
-                  controller.passNotifier.value =
-                      PasswordStrength.calculate(text: value);
-                },
-              ),
+             Obx((){
+               return InputTextField(
+               contr: controller.state.passController,
+               descrip: AppConstants.enterPass,
+               textInputAction: TextInputAction.done,
+               keyboardType: TextInputType.visiblePassword,
+               obsecure: controller.state.obsText.value,
+               icon: Icons.lock_open_outlined,
+               suffixIcon: controller.state.obsText.value==true ? Icons.visibility_off_outlined : Icons.visibility,
+               onPressSufix: () {
+                 controller.state.obsText.value = !controller.state.obsText.value;
+               },
+               onChange: (value) {
+                 controller.passNotifier.value =
+                     PasswordStrength.calculate(text: value);
+               },
+               );
+             }),
               SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -155,7 +159,7 @@ class SignInView extends GetView<SignInController> {
                 ],
               ),
               SizedBox(
-                height: 20.h,
+                height: 40.h,
               ),
             ],
           ),

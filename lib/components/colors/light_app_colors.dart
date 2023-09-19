@@ -7,6 +7,8 @@ class LightAppColor {
 
   static const btnColor = Colors.orange;
 
+  static final snackBarbgColor = Colors.orange.shade50;
+
   static const textColor = Colors.black;
 
   static const borderColor = Colors.grey;

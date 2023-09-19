@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
         return GetMaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.logInScreen,
+          initialRoute: AppRoutes.splashScreen,
           getPages: AppPages.routes,
         );
       },
