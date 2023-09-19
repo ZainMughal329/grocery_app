@@ -6,6 +6,7 @@ class AppConstants{
   static const String enterUserName = 'Enter your userName';
   static const String enterPhoneNo = 'Enter your phoneNo';
 
+  static const String search = 'What are you looking for?';
   static const String forgot = 'Forgot Password?';
   static const String login = 'Login';
   static const String logout = 'LogOut';

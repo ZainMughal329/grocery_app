@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:grocery_app/components/models/user_model.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/session_sreens/signup/controller.dart';
+import 'package:password_strength_checker/password_strength_checker.dart';
 
 import '../../../components/colors/light_app_colors.dart';
 import '../../../components/constants/app_constants.dart';
@@ -79,20 +80,20 @@ class SignInView extends GetView<SignInController> {
                 icon: Icons.lock_open_outlined,
                 suffixIcon: Icons.visibility_off_outlined,
                 onPressSufix: () {},
+                onChange: (value) {
+                  controller.passNotifier.value =
+                      PasswordStrength.calculate(text: value);
+                },
               ),
-              // SizedBox(height: 10.h),
-              // Obx(
-              //   () {
-              //     return TextWidget(
-              //       title:
-              //           'Password Strength: ${controller.passwordStrengthLabel()}',
-              //       textColor: controller.state.strength.value < 0.3
-              //           ? Colors.orange
-              //           : Colors.green,
-              //     );
-              //
-              //   },
-              // ),
+              SizedBox(height: 20.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: PasswordStrengthChecker(
+                  strength: controller.passNotifier,
+                ),
+              ),
+
+
               SizedBox(
                 height: 20.h,
               ),
@@ -100,7 +101,9 @@ class SignInView extends GetView<SignInController> {
                 () => RoundButton(
                   title: AppConstants.signUp,
                   onPress: () async {
-                    if(controller.formIsValid()) {
+                    if (controller.formIsValid()) {
+                      print('value is :' +
+                          controller.passNotifier.value.toString());
                       UserModel userModel = UserModel(
                         userName: controller.state.userNameController.text
                             .trim()
@@ -115,14 +118,17 @@ class SignInView extends GetView<SignInController> {
                         photoUrl: '',
                       );
                       controller.registerUser(
-                          controller.state.emailController.text.trim().toString(),
-                          controller.state.passController.text.trim().toString(),
+                          controller.state.emailController.text
+                              .trim()
+                              .toString(),
+                          controller.state.passController.text
+                              .trim()
+                              .toString(),
                           userModel);
-                    }else {
+                    } else {
                       Get.defaultDialog(
-                        title: 'Error',
-                        middleText: 'All field must be filled.'
-                      );
+                          title: 'Error',
+                          middleText: 'All field must be filled.');
                     }
                   },
                   loading: controller.state.loading.value,
@@ -147,6 +153,9 @@ class SignInView extends GetView<SignInController> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 20.h,
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/routes/name.dart';
+import 'package:grocery_app/pages/session_sreens/forgot/controller.dart';
 import 'package:grocery_app/pages/session_sreens/login/controller.dart';
 import 'package:grocery_app/pages/session_sreens/signup/controller.dart';
 
@@ -11,8 +12,8 @@ import '../../../components/reuseable/round_button.dart';
 import '../../../components/reuseable/text_form_field.dart';
 import '../../../components/reuseable/text_widget.dart';
 
-class LogInView extends GetView<LogInController> {
-  const LogInView({super.key});
+class ForgotView extends GetView<ForgotController> {
+  const ForgotView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class LogInView extends GetView<LogInController> {
       backgroundColor: LightAppColor.bgColor,
       appBar: AppBar(
         title: TextWidget(
-          title: 'LogIn',
+          title: 'Forgot Password',
           fontSize: 18.sp,
         ),
         backgroundColor: LightAppColor.bgColor,
@@ -48,47 +49,11 @@ class LogInView extends GetView<LogInController> {
               SizedBox(
                 height: 10.h,
               ),
-              InputTextField(
-                contr: controller.state.passController,
-                descrip: AppConstants.enterPass,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.visiblePassword,
-                obsecure: true,
-                icon: Icons.lock_open_outlined,
-                suffixIcon: Icons.visibility_off_outlined,
-                onPressSufix: () {},
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: 15.w),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: InkWell(
-                    onTap: () {
-                      Get.offAndToNamed(AppRoutes.forgotScreen);
-                    },
-                    child: TextWidget(
-                      title: AppConstants.forgot,
-                      textColor: LightAppColor.btnColor,
-                      fontSize: 13.sp,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
               Obx(
                 () => RoundButton(
-                  title: AppConstants.login,
+                  title: AppConstants.forgot,
                   onPress: () {
-                    controller.loginUser(
-                      controller.state.emailController.text.trim().toString(),
-                      controller.state.passController.text.trim().toString(),
-                    );
+                    controller.forgotPasswordForUser(controller.state.emailController.text.trim().toString(),);
 
                   },
                   loading: controller.state.loading.value,

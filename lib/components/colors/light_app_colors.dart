@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LightAppColor {
   static const bgColor = Colors.white;
 
-  static const iconColor = Colors.grey;
+  static const textFieldIconColor = Colors.grey;
 
   static const btnColor = Colors.orange;
 
@@ -13,4 +13,6 @@ class LightAppColor {
 
   static const btnTextColor = Colors.white;
   static const decorationColor = Colors.orange;
+  static const iconColor = Colors.deepOrangeAccent;
+
 }

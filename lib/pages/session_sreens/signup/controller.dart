@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/models/user_model.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/session_sreens/signup/state.dart';
+import 'package:password_strength_checker/password_strength_checker.dart';
 
 class SignInController {
   SignInController();
@@ -12,6 +14,8 @@ class SignInController {
 
   final auth = FirebaseAuth.instance;
   final db = FirebaseFirestore.instance;
+
+  final passNotifier = ValueNotifier<PasswordStrength?>(null);
 
   setLoading(bool value) {
     state.loading.value = value;
@@ -30,6 +34,7 @@ class SignInController {
         state.userNameController.clear();
         state.emailController.clear();
         state.phoneController.clear();
+        passNotifier.value = null;
         setLoading(false);
       }).onError((error, stackTrace) {
         print('Error is : ' + error.toString());
@@ -63,27 +68,14 @@ class SignInController {
     });
   }
 
-  void validatePasswordStrength(String value) {
-    // state.strength.value = estimatePasswordStrength(value);
-  }
-
-  String passwordStrengthLabel() {
-    if (state.strength.value < 0.3) {
-      return "Weak";
-    } else if (state.strength.value < 0.7) {
-      return "Fair";
-    } else {
-      return "Strong";
-    }
-  }
-
   bool formIsValid() {
     return (state.emailController.text.trim().isNotEmpty &&
-            state.userNameController.text.trim().isNotEmpty &&
-            state.phoneController.text.trim().isNotEmpty &&
-            state.passController.text.trim().isNotEmpty
-        // &&
-        // state.strength.value >= 0.3
-        ); // Add other validation rules as needed
+        state.userNameController.text.trim().isNotEmpty &&
+        state.phoneController.text.trim().isNotEmpty &&
+        state.passController.text.trim().isNotEmpty &&
+        passNotifier.value != PasswordStrength.weak &&
+        passNotifier.value !=
+            PasswordStrength
+                .alreadyExposed); // Add other validation rules as needed
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../colors/light_app_colors.dart';
@@ -10,47 +11,40 @@ class TextFieldContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size * 0.9;
+    Size size = MediaQuery.of(context).size * 0.67.w;
+
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 2),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      margin: EdgeInsets.symmetric(vertical: 0),
+      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
       width: size.width,
+      // height: 30.h,
       decoration: BoxDecoration(
-        color: LightAppColor.bgColor,
-        borderRadius: BorderRadius.circular(9),
-        border: Border.all(
-          color: LightAppColor.borderColor,
-        )
-      ),
+          color: LightAppColor.bgColor,
+          borderRadius: BorderRadius.circular(29),
+          border: Border.all(
+            color: LightAppColor.borderColor,
+          )),
       child: child,
     );
   }
 }
 
-class InputTextField extends StatelessWidget {
+class SearchInputTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
-  final bool obsecure;
   IconData icon;
   TextEditingController contr;
   String descrip;
-  final IconData? suffixIcon;
   final void Function(String)? onChange;
-  final VoidCallback? onPressSufix;
 
-
-
-  InputTextField({
+  SearchInputTextField({
     super.key,
     required this.contr,
     required this.descrip,
     required this.textInputAction,
     required this.keyboardType,
-    required this.obsecure,
     required this.icon,
     this.onChange,
-    this.suffixIcon,
-    this.onPressSufix,
 
     //
   });
@@ -59,11 +53,10 @@ class InputTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
         child: TextField(
           controller: contr,
           textInputAction: textInputAction,
-          obscureText: obsecure,
           keyboardType: keyboardType,
           onChanged: onChange,
           style: GoogleFonts.poppins(fontSize: 16),
@@ -71,14 +64,11 @@ class InputTextField extends StatelessWidget {
             prefixIcon: Icon(
               icon,
               color: LightAppColor.textFieldIconColor,
+              size: 25.sp,
             ),
             border: InputBorder.none,
             hintText: descrip,
-            hintStyle: GoogleFonts.poppins(fontSize: 16),
-            suffixIcon: IconButton(
-              onPressed: onPressSufix,
-              icon: Icon(suffixIcon,color: LightAppColor.textFieldIconColor),
-            )
+            hintStyle: GoogleFonts.poppins(fontSize: 10.sp),
           ),
         ),
       ),

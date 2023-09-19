@@ -5,7 +5,6 @@ class SignInState {
 
   RxBool loading = false.obs;
 
-  RxDouble strength = 0.0.obs;
 
 
   final emailController = TextEditingController();

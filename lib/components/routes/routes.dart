@@ -1,6 +1,7 @@
 // import 'package:air_proj_comp/pages/Administration/login/index.dart';
 
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:grocery_app/pages/session_sreens/forgot/index.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/bindings.dart';
 import 'package:grocery_app/pages/session_sreens/signup/view.dart';
@@ -24,8 +25,14 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.homeScreen,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBindings(),
     ),
+    GetPage(
+      name: AppRoutes.forgotScreen,
+      page: () => const ForgotView(),
+      binding: ForgotBindings(),
+    ),
+
   ];
 }
