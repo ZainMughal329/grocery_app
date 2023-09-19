@@ -1,35 +1,62 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:grocery_app/components/colors/dark_app_color.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/list_tile_widet.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
+import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
+
+import '../../../components/reuseable/snackbar_widget.dart';
+import '../../../components/services/session_controller.dart';
 
 class BuildDrawer {
   static Drawer buildDrawer(BuildContext context) {
     var con = Get.put(HomeController());
     return Drawer(
       width: 300.w,
-      backgroundColor: LightAppColor.bgColor,
+      backgroundColor: con.state.isDarkMode.value
+          ? DarkAppColor.bgColor
+          : LightAppColor.bgColor,
       child: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextWidget(
-              title: 'Hey , Guest User',
-              fontSize: 16.sp,
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                TextWidget(
+                  title: 'Hey , ',
+                  fontSize: 16.sp,
+                ),
+                Obx(
+                  () => TextWidget(
+                    title: con.state.username.value.toString(),
+                    fontSize: 18.sp,
+                    textColor: LightAppColor.btnColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
-            height: 30.sp,
-            margin: EdgeInsets.symmetric(horizontal: 5.w),
+            // height: 30.sp,
+            padding: EdgeInsets.symmetric(vertical: 0.h),
+            margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0.h),
             width: MediaQuery.of(context).size.width * 0.8.w,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: LightAppColor.borderColor,
-                )),
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                color: LightAppColor.borderColor,
+              ),
+            ),
+            child: ListTileWidget(
+              iconData: Icons.location_pin,
+              title: 'My location',
+              onPress: () {},
+            ),
           ),
           SizedBox(
             height: 10.h,
@@ -39,6 +66,8 @@ class BuildDrawer {
             title: 'Categories',
             onPress: () {
               Navigator.pop(context);
+
+              Get.offAndToNamed(AppRoutes.categoryScreen);
             },
           ),
           SizedBox(
@@ -59,6 +88,7 @@ class BuildDrawer {
             title: 'My Profile',
             onPress: () {
               Navigator.pop(context);
+              Get.offAndToNamed(AppRoutes.profileScreen);
             },
           ),
           SizedBox(
@@ -107,10 +137,43 @@ class BuildDrawer {
           ListTileWidget(
             iconData: Icons.logout,
             title: 'Log Out',
-            onPress: () {
+            onPress: () async {
               Navigator.pop(context);
+
+              final auth = FirebaseAuth.instance;
+              await auth.signOut().then((value) {
+                SessionController().userId = '';
+                Snackbar.showSnackBar("Logout", "Successfully");
+                Get.toNamed(AppRoutes.logInScreen);
+              }).onError(
+                (error, stackTrace) {
+                  Snackbar.showSnackBar("Error", error.toString());
+                },
+              );
             },
           ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Divider(),
+          SizedBox(
+            height: 10.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextWidget(title: 'Light Theme'),
+              Obx(
+                () => Switch(
+                    activeColor: LightAppColor.btnColor,
+                    value: con.state.isDarkMode.value,
+                    onChanged: (value) {
+                      con.toggleTheme();
+                    }),
+              ),
+              TextWidget(title: 'Dark Theme'),
+            ],
+          )
         ],
       ),
     );

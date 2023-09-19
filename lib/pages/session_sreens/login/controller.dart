@@ -6,7 +6,7 @@ import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/state.dart';
 
-class LogInController {
+class LogInController extends GetxController{
   final state = LogInState();
 
   LogInController();

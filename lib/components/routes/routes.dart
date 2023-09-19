@@ -15,7 +15,9 @@ import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/bindings.dart';
 import 'package:grocery_app/pages/session_sreens/signup/view.dart';
 import 'package:grocery_app/pages/session_sreens/splash/bindings.dart';
+import 'package:grocery_app/pages/user_screens/category_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
+import 'package:grocery_app/pages/user_screens/profile/index.dart';
 
 import '../../pages/session_sreens/splash/view.dart';
 import 'name.dart';
@@ -52,6 +54,18 @@ class AppPages {
       binding: ForgotBindings(),
     ),
 
+
+    GetPage(
+      name: AppRoutes.categoryScreen,
+      page: () =>  CategoryView(),
+      binding: CategoryBindings(),
+    ),
+
+    GetPage(
+      name: AppRoutes.profileScreen,
+      page: () =>  ProfileView(),
+      binding: ProfileBindings(),
+    ),
     //AdminPages
     GetPage(
       name: AppRoutes.adminHomeScreen,

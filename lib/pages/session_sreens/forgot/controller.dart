@@ -4,7 +4,7 @@ import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/session_sreens/forgot/index.dart';
 
-class ForgotController {
+class ForgotController extends GetxController{
   final state = ForgotState();
 
   ForgotController();

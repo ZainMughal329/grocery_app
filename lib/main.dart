@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/routes/routes.dart';
+import 'package:grocery_app/pages/user_screens/profile/controller.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // Get.put(ProfileController());
   runApp(const MyApp());
 }
 

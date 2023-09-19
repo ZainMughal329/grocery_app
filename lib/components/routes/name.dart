@@ -4,6 +4,9 @@ class AppRoutes {
   static const logInScreen = '/log_in';
   static const forgotScreen = '/forgot';
   static const homeScreen = '/home';
+  static const categoryScreen = '/category';
+  static const profileScreen = '/profile';
+
 
   //AdminScreens
   static const adminHomeScreen = '/adminHomeScreen';

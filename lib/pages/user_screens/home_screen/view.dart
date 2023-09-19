@@ -90,23 +90,6 @@ class HomeView extends GetView<HomeController> {
             SizedBox(
               height: 100,
             ),
-            RoundButton(
-              title: 'LogOut',
-              onPress: () async {
-                final auth = FirebaseAuth.instance;
-                await auth.signOut().then((value) {
-                  SessionController().userId = '';
-                  Snackbar.showSnackBar("Logout", "Successfully");
-                  // Get.snackbar('SignOut success', 'message');
-                  Get.toNamed(AppRoutes.logInScreen);
-                }).onError(
-                  (error, stackTrace) {
-                    // Get.snackbar('Error', 'message');
-                    Snackbar.showSnackBar("Error", error.toString());
-                  },
-                );
-              },
-            ),
           ],
         ),
       ),

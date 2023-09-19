@@ -13,7 +13,7 @@ import '../../../components/reuseable/text_form_field.dart';
 import '../../../components/reuseable/text_widget.dart';
 
 class LogInView extends GetView<LogInController> {
-   LogInView({super.key});
+  LogInView({super.key});
 
   final controller = Get.put<LogInController>(LogInController());
 
@@ -51,7 +51,7 @@ class LogInView extends GetView<LogInController> {
               SizedBox(
                 height: 10.h,
               ),
-              Obx((){
+              Obx(() {
                 return InputTextField(
                   contr: controller.state.passController,
                   descrip: AppConstants.enterPass,
@@ -59,9 +59,12 @@ class LogInView extends GetView<LogInController> {
                   keyboardType: TextInputType.visiblePassword,
                   obsecure: controller.state.obsText.value,
                   icon: Icons.lock_open_outlined,
-                  suffixIcon: controller.state.obsText.value == true ?Icons.visibility_off_outlined : Icons.visibility,
+                  suffixIcon: controller.state.obsText.value == true
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility,
                   onPressSufix: () {
-                    controller.state.obsText.value = !controller.state.obsText.value;
+                    controller.state.obsText.value =
+                        !controller.state.obsText.value;
                   },
                 );
               }),
@@ -92,27 +95,23 @@ class LogInView extends GetView<LogInController> {
                 () => RoundButton(
                   title: AppConstants.login,
                   onPress: () {
-
-                    if(controller.state.emailController.text.trim().toString()=="grocezone452@gmail.com"
-                    &&
-                    controller.state.passController.text.trim().toString()=="aim75938"
-                    ){
-
-
+                    if (controller.state.emailController.text
+                                .trim()
+                                .toString() ==
+                            "grocezone452@gmail.com" &&
+                        controller.state.passController.text
+                                .trim()
+                                .toString() ==
+                            "aim75938") {
                       Get.offAndToNamed(AppRoutes.adminHomeScreen);
-                      Snackbar.showSnackBar("Success", "Admin Login Successfully");
-
-                    }
-                    else{
+                      Snackbar.showSnackBar(
+                          "Success", "Admin Login Successfully");
+                    } else {
                       controller.loginUser(
                         controller.state.emailController.text.trim().toString(),
                         controller.state.passController.text.trim().toString(),
                       );
                     }
-
-
-
-
                   },
                   loading: controller.state.loading.value,
                 ),

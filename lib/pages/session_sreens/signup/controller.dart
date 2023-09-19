@@ -10,7 +10,7 @@ import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/session_sreens/signup/state.dart';
 import 'package:password_strength_checker/password_strength_checker.dart';
 
-class SignInController {
+class SignInController extends GetxController {
   SignInController();
 
   final state = SignInState();
