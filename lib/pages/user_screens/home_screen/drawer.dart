@@ -169,6 +169,7 @@ class BuildDrawer {
                     value: con.state.isDarkMode.value,
                     onChanged: (value) {
                       con.toggleTheme();
+                      // Get.theme.
                     }),
               ),
               TextWidget(title: 'Dark Theme'),

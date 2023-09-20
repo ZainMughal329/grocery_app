@@ -22,6 +22,7 @@ class LogInView extends GetView<LogInController> {
     return Scaffold(
       backgroundColor: LightAppColor.bgColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: TextWidget(
           title: 'LogIn',
           fontSize: 18.sp,

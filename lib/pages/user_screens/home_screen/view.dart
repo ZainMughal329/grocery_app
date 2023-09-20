@@ -66,20 +66,21 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
                       onTap: () {
                         _scaffoldKey.currentState!.openDrawer();
                       },
                       child: IconWidget(iconData: Icons.menu)),
-                  SizedBox(width: 5.w),
+                  // SizedBox(width: 5.w),
                   SearchInputTextField(
                       contr: controller.state.searchController,
                       descrip: AppConstants.search,
                       textInputAction: TextInputAction.search,
                       keyboardType: TextInputType.text,
                       icon: Icons.search),
-                  SizedBox(width: 5.w),
+                  // SizedBox(width: 5.w),
                   InkWell(
                       onTap: () {},
                       child:

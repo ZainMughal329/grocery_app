@@ -22,15 +22,14 @@ class AdminHomeView extends GetView<AdminHomeController> {
           automaticallyImplyLeading: false,
           title: TextWidget(
             title: 'Administration',
-            textColor: Colors.white,
+            textColor: LightAppColor.btnColor,
             fontSize: 17.sp,
           ),
-          backgroundColor: LightAppColor.btnColor.shade400,
+          backgroundColor: LightAppColor.btnTextColor,
           bottom: TabBar(
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white.withOpacity(0.7),
-            // You can adjust the opacity or color as needed
-            indicatorColor: Colors.greenAccent,
+            labelColor: LightAppColor.btnColor,
+            unselectedLabelColor: LightAppColor.btnColor.withOpacity(0.5),
+            indicatorColor: LightAppColor.btnColor,
             labelStyle: GoogleFonts.poppins(
               fontSize: 14.sp,
             ),

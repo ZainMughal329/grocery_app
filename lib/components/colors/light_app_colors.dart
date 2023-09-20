@@ -17,4 +17,6 @@ class LightAppColor {
   static const decorationColor = Colors.orange;
   static const iconColor = Colors.deepOrangeAccent;
 
+
+
 }
