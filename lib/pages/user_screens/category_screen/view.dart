@@ -52,6 +52,7 @@ class CategoryView extends GetView<CategoryController> {
             title: controller.catInfo[index]['catText'],
             image: controller.catInfo[index]['imgPath'],
             color: controller.gridColors[index],
+            onPress: controller.pressButton[index],
           )),
         ),
       )

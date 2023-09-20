@@ -20,6 +20,7 @@ class SignInView extends GetView<SignInController> {
     return Scaffold(
       backgroundColor: LightAppColor.bgColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: TextWidget(
           title: 'SignUp',
           fontSize: 18.sp,

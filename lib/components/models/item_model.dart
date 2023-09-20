@@ -9,6 +9,7 @@ class ItemModel {
    final String priceQty;
    final int stock;
    final String imageUrl;
+   int? discount;
 
    ItemModel({
     this.itemId ='',
@@ -17,6 +18,7 @@ class ItemModel {
      required this.priceQty,
      required this.stock,
      this.imageUrl = '' ,
+     this.discount = 0,
 });
 
    toJson(){
@@ -27,6 +29,7 @@ class ItemModel {
        'priceQty' : priceQty,
        'stock' : stock,
        'imageUrl' : imageUrl,
+       'discount' :discount,
      };
    }
 
@@ -40,6 +43,7 @@ class ItemModel {
          priceQty: data['priceQty'],
          stock: data['stock'],
        imageUrl: data['imageUrl'],
+       discount: data['discount'],
      );
 
 

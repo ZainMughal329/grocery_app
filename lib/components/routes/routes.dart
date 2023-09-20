@@ -16,10 +16,13 @@ import 'package:grocery_app/pages/session_sreens/signup/bindings.dart';
 import 'package:grocery_app/pages/session_sreens/signup/view.dart';
 import 'package:grocery_app/pages/session_sreens/splash/bindings.dart';
 import 'package:grocery_app/pages/user_screens/category_screen/index.dart';
+import 'package:grocery_app/pages/user_screens/faqs/bindings.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/profile/index.dart';
 
 import '../../pages/session_sreens/splash/view.dart';
+import '../../pages/user_screens/faqs/view.dart';
+import '../../pages/user_screens/help_center/index.dart';
 import 'name.dart';
 
 class AppPages {
@@ -52,6 +55,19 @@ class AppPages {
       name: AppRoutes.forgotScreen,
       page: () =>  ForgotView(),
       binding: ForgotBindings(),
+    ),
+
+
+    GetPage(
+      name: AppRoutes.faqsScreen,
+      page: () =>  FAQScreen(),
+      binding: FAQSBindings(),
+    ),
+
+    GetPage(
+      name: AppRoutes.helpCenterScreen,
+      page: () =>  HelpCenterScreen(),
+      binding: HelpCenterBindings(),
     ),
 
 

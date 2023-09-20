@@ -7,6 +7,7 @@ import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/list_tile_widet.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
+import 'package:grocery_app/components/themes/dark_theme.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 
 import '../../../components/reuseable/snackbar_widget.dart';
@@ -14,10 +15,11 @@ import '../../../components/services/session_controller.dart';
 
 class BuildDrawer {
   static Drawer buildDrawer(BuildContext context) {
+    var themeController = Get.put(DarkThemeChanger());
     var con = Get.put(HomeController());
     return Drawer(
       width: 300.w,
-      backgroundColor: con.state.isDarkMode.value
+      backgroundColor: themeController.getDarkTheme
           ? DarkAppColor.bgColor
           : LightAppColor.bgColor,
       child: ListView(
@@ -109,6 +111,7 @@ class BuildDrawer {
             title: 'FAQs',
             onPress: () {
               Navigator.pop(context);
+              Get.offAndToNamed(AppRoutes.faqsScreen);
             },
           ),
           SizedBox(
@@ -129,6 +132,8 @@ class BuildDrawer {
             title: 'Help Center',
             onPress: () {
               Navigator.pop(context);
+              Get.offAndToNamed(AppRoutes.helpCenterScreen);
+
             },
           ),
           SizedBox(
@@ -163,15 +168,17 @@ class BuildDrawer {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextWidget(title: 'Light Theme'),
-              Obx(
-                () => Switch(
+              GetBuilder<DarkThemeChanger>(builder: (cont) {
+                return Switch(
                     activeColor: LightAppColor.btnColor,
-                    value: con.state.isDarkMode.value,
-                    onChanged: (value) {
-                      con.toggleTheme();
+                    value: cont.getDarkTheme,
+                    onChanged: (bool value) {
+                      cont.setDarkTheme = value;
+                      print('value is : ' + cont.getDarkTheme.toString().trim());
+
                       // Get.theme.
-                    }),
-              ),
+                    });
+              }),
               TextWidget(title: 'Dark Theme'),
             ],
           )

@@ -6,6 +6,8 @@ class AppRoutes {
   static const homeScreen = '/home';
   static const categoryScreen = '/category';
   static const profileScreen = '/profile';
+  static const faqsScreen = '/faqs';
+  static const helpCenterScreen = '/helpCenter';
 
 
   //AdminScreens

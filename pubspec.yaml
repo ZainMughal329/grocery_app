@@ -46,6 +46,8 @@ dependencies:
   image_picker:
   flutter_form_builder:
   password_strength_checker:
+  card_swiper:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

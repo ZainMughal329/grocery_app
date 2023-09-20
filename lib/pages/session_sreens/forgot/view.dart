@@ -20,6 +20,7 @@ class ForgotView extends GetView<ForgotController> {
     return Scaffold(
       backgroundColor: LightAppColor.bgColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: TextWidget(
           title: 'Forgot Password',
           fontSize: 18.sp,

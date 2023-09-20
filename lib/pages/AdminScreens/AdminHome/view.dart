@@ -22,7 +22,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                automaticallyImplyLeading: true,
+                automaticallyImplyLeading: false,
                 title: TextWidget(
                   title: 'Administration',
                   textColor: LightAppColor.btnColor,

@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +26,8 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final con = Get.put(HomeController());
+
     return Scaffold(
       backgroundColor: LightAppColor.bgColor,
       key: _scaffoldKey,
@@ -38,63 +41,80 @@ class HomeView extends GetView<HomeController> {
       //   backgroundColor: LightAppColor.bgColor,
       //   elevation: 0,
       // ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
-
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                boxShadow: [
-
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: const Offset(
-                      5.0,
-                      5.0,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
+          child: CustomScrollView(
+            // shrinkWrap: true,
+            slivers: <Widget>[
+              SliverAppBar(
+                elevation: 6,
+                backgroundColor: LightAppColor.bgColor,
+                pinned: true,
+                leading: IconButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState!.openDrawer();
+                  },
+                  icon: IconWidget(iconData: Icons.menu),
+                ),
+                actions: <Widget>[
+                  IconButton(
+                    icon: IconWidget(
+                      iconData: Icons.shopping_cart_outlined,
                     ),
-                    blurRadius: 5.0,
-                    spreadRadius: 1.0,
-                  ), //BoxShadow
-                  BoxShadow(
-                    color: Colors.white,
-                    offset: const Offset(0.0, 0.0),
-                    blurRadius: 0.0,
-                    spreadRadius: 0.0,
+                    onPressed: () {
+                      // Handle cart button press
+                    },
                   ),
                 ],
+                title: SearchInputTextField(
+                    contr: controller.state.searchController,
+                    descrip: AppConstants.search,
+                    textInputAction: TextInputAction.search,
+                    keyboardType: TextInputType.text,
+                    icon: Icons.search),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                      onTap: () {
-                        _scaffoldKey.currentState!.openDrawer();
-                      },
-                      child: IconWidget(iconData: Icons.menu)),
-                  // SizedBox(width: 5.w),
-                  SearchInputTextField(
-                      contr: controller.state.searchController,
-                      descrip: AppConstants.search,
-                      textInputAction: TextInputAction.search,
-                      keyboardType: TextInputType.text,
-                      icon: Icons.search),
-                  // SizedBox(width: 5.w),
-                  InkWell(
-                      onTap: () {},
-                      child:
-                          IconWidget(iconData: Icons.shopping_cart_outlined)),
-                ],
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.33.h,
+                      color: Colors.grey.withOpacity(0.3),
+                      padding: EdgeInsets.symmetric(vertical: 20.h),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.28.h,
+                        child: Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.asset(
+                              con.imagesList[index],
+                              fit: BoxFit.cover,
+                              height: 188.h,
+                              width: 288.w,
+                            );
+                          },
+                          autoplay: true,
+                          itemCount: con.imagesList.length,
+                          viewportFraction: 0.8,
+                          scale: 0.9,
+                          pagination: SwiperPagination(
+                              alignment: Alignment.bottomCenter,
+                              builder: DotSwiperPaginationBuilder(
+                                  color: Colors.grey,
+                                  activeColor: Colors.orange,
+                                  activeSize: 13.0.sp)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-      // resizeToAvoidBottomInset: false,
     );
   }
 }

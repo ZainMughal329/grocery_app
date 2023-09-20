@@ -13,8 +13,15 @@ class HomeController extends GetxController {
 
   HomeController();
 
-  void toggleTheme() {
-    state.isDarkMode.value = !state.isDarkMode.value;
+  void changeTheme(value) {
+    if(value == true ) {
+      state.isDarkMode.value = true;
+      Get.changeTheme(ThemeData.dark());
+    }else {
+
+      state.isDarkMode.value = false;
+      Get.changeTheme(ThemeData.light());
+    }
   }
 
   @override
@@ -23,6 +30,15 @@ class HomeController extends GetxController {
     super.onInit();
     fetchUsername();
   }
+
+  List<String> imagesList = [
+    'assets/pic1.jpeg',
+    'assets/pic2.jpeg',
+    'assets/pic3.jpeg',
+    'assets/pic4.jpeg',
+    'assets/pic5.jpeg',
+
+  ];
 
   // Function to fetch the username of a specific user.
   Future<void> fetchUsername() async {
