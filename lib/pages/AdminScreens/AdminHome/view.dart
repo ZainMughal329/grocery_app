@@ -18,41 +18,98 @@ class AdminHomeView extends GetView<AdminHomeController> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: TextWidget(
-            title: 'Administration',
-            textColor: LightAppColor.btnColor,
-            fontSize: 17.sp,
-          ),
-          backgroundColor: LightAppColor.btnTextColor,
-          bottom: TabBar(
-            labelColor: LightAppColor.btnColor,
-            unselectedLabelColor: LightAppColor.btnColor.withOpacity(0.5),
-            indicatorColor: LightAppColor.btnColor,
-            labelStyle: GoogleFonts.poppins(
-              fontSize: 14.sp,
-            ),
-            tabs: [
-              Tab(text: 'DASHBOARD'),
-              Tab(text: 'ORDERS'),
-              Tab(text: 'INVENTORY'),
-              // Tab(text: 'DISCOUNTS'),
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                automaticallyImplyLeading: true,
+                title: TextWidget(
+                  title: 'Administration',
+                  textColor: LightAppColor.btnColor,
+                  fontSize: 17.sp,
+                ),
+                backgroundColor: LightAppColor.btnTextColor,
+                pinned: true, // to ensure the AppBar remains visible at the top
+                floating: true, // to show/hide AppBar when scrolling up/down
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(50.0), // Set this appropriately
+                  child: TabBar(
+                    labelColor: LightAppColor.btnColor,
+                    unselectedLabelColor: LightAppColor.btnColor.withOpacity(0.5),
+                    indicatorColor: LightAppColor.btnColor,
+                    labelStyle: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                    ),
+                    tabs: [
+                      Tab(text: 'DASHBOARD'),
+                      Tab(text: 'ORDERS'),
+                      Tab(text: 'INVENTORY'),
+                    ],
+                  ),
+                ),
+              ),
+              SliverFillRemaining(
+                child: TabBarView(
+                  children: [
+                    DashBoardView(),
+                    OrdersView(),
+                    InventoryView(),
+                  ],
+                ),
+              ),
             ],
           ),
-        ),
-        body: TabBarView(
-          children: [
-            DashBoardView(),
-            OrdersView(),
-            InventoryView(),
-            // Center(child: Text('Chats Content')),   // content of CHATS tab
-            // Center(child: Text('Status Content')),  // content of STATUS tab
-            // Center(child: Text('Calls Content')),
-            // Center(child: Text('Orders Content')),
-          ],
         ),
       ),
     );
   }
 }
+
+
+
+// class AdminHomeView extends GetView<AdminHomeController> {
+//   const AdminHomeView({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return DefaultTabController(
+//       length: 3,
+//       child: Scaffold(
+//         appBar: AppBar(
+//           automaticallyImplyLeading: false,
+//           title: TextWidget(
+//             title: 'Administration',
+//             textColor: LightAppColor.btnColor,
+//             fontSize: 17.sp,
+//           ),
+//           backgroundColor: LightAppColor.btnTextColor,
+//           bottom: TabBar(
+//             labelColor: LightAppColor.btnColor,
+//             unselectedLabelColor: LightAppColor.btnColor.withOpacity(0.5),
+//             indicatorColor: LightAppColor.btnColor,
+//             labelStyle: GoogleFonts.poppins(
+//               fontSize: 14.sp,
+//             ),
+//             tabs: [
+//               Tab(text: 'DASHBOARD'),
+//               Tab(text: 'ORDERS'),
+//               Tab(text: 'INVENTORY'),
+//               // Tab(text: 'DISCOUNTS'),
+//             ],
+//           ),
+//         ),
+//         body: TabBarView(
+//           children: [
+//             DashBoardView(),
+//             OrdersView(),
+//             InventoryView(),
+//             // Center(child: Text('Chats Content')),   // content of CHATS tab
+//             // Center(child: Text('Status Content')),  // content of STATUS tab
+//             // Center(child: Text('Calls Content')),
+//             // Center(child: Text('Orders Content')),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
