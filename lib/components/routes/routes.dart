@@ -1,11 +1,14 @@
 // import 'package:air_proj_comp/pages/Administration/login/index.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:grocery_app/pages/AdminScreens/AdminHome/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/AdminHome/view.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/view.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/view.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/bindings.dart';
@@ -82,6 +85,8 @@ class AppPages {
       page: () =>  ProfileView(),
       binding: ProfileBindings(),
     ),
+
+
     //AdminPages
     GetPage(
       name: AppRoutes.adminHomeScreen,
@@ -108,5 +113,33 @@ class AppPages {
       page: () => OrdersView(),
       binding: OrdersBindings(),
     ),
+    // InventoryPages
+    GetPage(
+      name: AppRoutes.inventoryAddItem,
+      page: () => AddItemView(),
+      binding: AddItemBindings(),
+      transition: Transition.downToUp ,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    // GetPage(
+    //   name: AppRoutes.inventoryDeleteItem,
+    //   page: () => OrdersView(),
+    //   binding: OrdersBindings(),
+    // ),
+    // GetPage(
+    //   name: AppRoutes.inventoryEditItem,
+    //   page: () => OrdersView(),
+    //   binding: OrdersBindings(),
+    // ),
+    // GetPage(
+    //   name: AppRoutes.inventoryCheck,
+    //   page: () => OrdersView(),
+    //   binding: OrdersBindings(),
+    // ),
+
+
+
+
+
   ];
 }

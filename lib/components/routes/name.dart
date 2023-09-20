@@ -15,4 +15,12 @@ class AppRoutes {
   static const adminDashBoard = '/adminDashBoard';
   static const adminInventoryMng = '/adminInventoryMng';
   static const adminOrdersMng = '/adminOrdersMng';
+      //InventroyScreens
+static const inventoryAddItem = '/inventoryAddItem';
+  static const inventoryDeleteItem = '/inventoryDeleteItem';
+  static const inventoryEditItem = '/inventoryEditItem';
+  static const inventoryCheck = '/inventoryCheck';
+
+
+
 }

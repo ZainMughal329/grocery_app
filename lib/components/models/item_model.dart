@@ -2,21 +2,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grocery_app/components/models/user_model.dart';
 
 class ItemModel {
-  String? itemId;
-   final String title;
 
+   final String title;
    final int price;
    final String priceQty;
    final int stock;
    final String imageUrl;
+   String? itemId;
    int? discount;
 
    ItemModel({
-    this.itemId ='',
+
      required this.title,
      required this.price,
      required this.priceQty,
      required this.stock,
+     this.itemId ='',
      this.imageUrl = '' ,
      this.discount = 0,
 });
