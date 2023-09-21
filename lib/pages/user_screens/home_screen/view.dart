@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/search_text_field.dart';
 import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
+import 'package:grocery_app/components/reuseable/sub_category_container.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/session_sreens/login/controller.dart';
@@ -14,6 +15,7 @@ import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 
 import '../../../components/colors/light_app_colors.dart';
 import '../../../components/constants/app_constants.dart';
+import '../../../components/reuseable/on_sale_widget.dart';
 import '../../../components/reuseable/round_button.dart';
 import '../../../components/reuseable/text_form_field.dart';
 import '../../../components/reuseable/text_widget.dart';
@@ -32,15 +34,6 @@ class HomeView extends GetView<HomeController> {
       backgroundColor: LightAppColor.bgColor,
       key: _scaffoldKey,
       drawer: BuildDrawer.buildDrawer(context),
-
-      // appBar: AppBar(
-      //   title: TextWidget(
-      //     title: 'Home Screen',
-      //     fontSize: 18.sp,
-      //   ),
-      //   backgroundColor: LightAppColor.bgColor,
-      //   elevation: 0,
-      // ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
@@ -100,15 +93,126 @@ class HomeView extends GetView<HomeController> {
                           viewportFraction: 0.8,
                           scale: 0.9,
                           pagination: SwiperPagination(
-                              alignment: Alignment.bottomCenter,
-                              builder: DotSwiperPaginationBuilder(
-                                  color: Colors.grey,
-                                  activeColor: Colors.orange,
-                                  activeSize: 13.0.sp)),
+                            alignment: Alignment.bottomCenter,
+                            builder: DotSwiperPaginationBuilder(
+                                color: Colors.grey,
+                                activeColor: Colors.orange,
+                                activeSize: 13.0.sp),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 460.h,
+                      color: Colors.grey.withOpacity(0.3),
+                      child: Container(
+                        height: 410.h,
+                        padding: EdgeInsets.only(bottom: 30),
+                        width: MediaQuery.of(context).size.width * 0.8.w,
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextWidget(title: 'Trending Products'),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: Container(
+                                      height: 30.h,
+                                      width: 70.w,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          color: LightAppColor.borderColor,
+                                        ),
+                                      ),
+                                      child: Center(
+                                        child: TextWidget(
+                                          title: 'View all',
+                                          textColor: Colors.orange,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: 10,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 5.w, right: 5.w),
+                                    child: onSaleContainer(),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ],
+                ),
+              ),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  List.generate(10, (index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        children: [
+                          ExpansionTile(
+                            backgroundColor: Colors.yellow.withOpacity(0.2),
+
+                            iconColor: LightAppColor.btnColor,
+                            subtitle: TextWidget(
+                                title:
+                                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry."),
+                            leading: Container(
+                              height: 160,
+                              width: 110,
+                              child: Image.asset('assets/pic1.jpeg' , fit: BoxFit.cover,),
+
+                            ),
+                            title: TextWidget(
+                              title: 'Item : ' + index.toString(),
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 220.h, // Adjust the height as needed
+                                  child: GridView.count(
+                                    crossAxisCount: 3,
+                                    // Number of columns in the grid
+                                    children: List.generate(4, (index) {
+                                      return subCategoryWidget();
+                                    }),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
               ),
             ],
