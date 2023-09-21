@@ -65,7 +65,7 @@ class SignInController extends GetxController {
         .then((value) {
       // Get.snackbar('Success', 'Store data successfully');
       Snackbar.showSnackBar("Success", "User Created Successfully");
-      Get.toNamed(AppRoutes.homeScreen);
+      Get.offAndToNamed(AppRoutes.homeScreen);
       setLoading(false);
     }).onError((error, stackTrace) {
       // Get.snackbar('Error', 'Error while store data successfully');

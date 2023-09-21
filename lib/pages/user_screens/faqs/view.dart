@@ -33,6 +33,7 @@ class FAQScreen extends GetView<FAQSController> {
           return Column(
             children: [
               ExpansionTile(
+
                 title: TextWidget(
                   title: controller.faqs[index].question,
                   fontWeight: FontWeight.bold,

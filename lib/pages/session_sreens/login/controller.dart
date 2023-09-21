@@ -26,7 +26,7 @@ class LogInController extends GetxController{
         SessionController().userId = value.user!.uid.toString();
         Snackbar.showSnackBar("Login", "Successfully");
 
-        Get.toNamed(AppRoutes.homeScreen);
+        Get.offAndToNamed(AppRoutes.homeScreen);
 
         state.emailController.clear();
         state.passController.clear();
