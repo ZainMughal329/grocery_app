@@ -3,6 +3,9 @@ import 'package:grocery_app/components/services/dark_theme_prefs.dart';
 
 class DarkThemeChanger extends GetxController{
   DarkThemePrefs darkThemePrefs = DarkThemePrefs();
+
+
+
   bool _darkTheme = false;
   bool get getDarkTheme => _darkTheme;
 

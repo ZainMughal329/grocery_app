@@ -45,18 +45,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context, child) {
-        return GetBuilder<DarkThemeChanger>(
-          builder: (con) {
-            print('value of get Dark theme in main : ' + con.getDarkTheme.toString());
-            return GetMaterialApp(
-              title: 'Flutter Demo',
-              debugShowCheckedModeBanner: false,
-              theme: Styles.themeData(con.getDarkTheme, context),
-              initialRoute: AppRoutes.splashScreen,
-              getPages: AppPages.routes,
-            );
-          }
-        );
+        return GetBuilder<DarkThemeChanger>(builder: (con) {
+          print('value of get Dark theme in main : ' +
+              con.getDarkTheme.toString());
+          return GetMaterialApp(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            theme: Styles.themeData(con.getDarkTheme, context),
+            initialRoute: AppRoutes.splashScreen,
+            getPages: AppPages.routes,
+          );
+        });
       },
     );
   }

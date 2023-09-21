@@ -88,6 +88,7 @@ class AddItemView extends GetView<AddItemController> {
                     ],
                     onChanged: (value) {
                       controller.state.buttonValue.value = value!;
+                      // print(DateTime.now().day);
                     },
                   );
                 }),
