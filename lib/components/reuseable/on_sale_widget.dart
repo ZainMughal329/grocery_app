@@ -10,6 +10,8 @@ class onSaleContainer extends StatelessWidget {
   int itemPrice;
   int discountedPrice;
   String itemImg;
+  int discount;
+
 
   onSaleContainer(
       {super.key,
@@ -17,7 +19,9 @@ class onSaleContainer extends StatelessWidget {
       required this.itemQty,
       required this.itemPrice,
       required this.discountedPrice,
-      required this.itemImg});
+      required this.itemImg
+      ,required this.discount
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +54,36 @@ class onSaleContainer extends StatelessWidget {
                 decoration: BoxDecoration(
                     // border: Border.all(color: Colors.grey),
                     ),
-                child:itemImg == '' ? IconWidget(iconData: Icons.shopping_cart_outlined) : Image.network(itemImg),
+                child: itemImg == ''
+                    ? IconWidget(iconData: Icons.shopping_cart_outlined)
+                    : Image.network(itemImg),
               ),
             ),
             SizedBox(
               height: 10.h,
             ),
-            TextWidget(title: itemName),
-            TextWidget(title: itemQty),
+            TextWidget(
+              title: itemName,
+              fontSize: 17.sp,
+              fontWeight: FontWeight.w500,
+            ),
+            TextWidget(
+              title: itemQty,
+              fontSize: 13.sp,
+              textColor: Colors.grey,
+            ),
+            SizedBox(height: 10.h,),
+            Container(
+              height: 25.h,
+              width: 55.w,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20)
+              ),
+              child: Center(child: TextWidget(title: discount.toString()+'% OFF',fontWeight: FontWeight.bold,textColor: Colors.white,fontSize: 12.sp,)),
+            ),
+            SizedBox(height: 10.h,),
+
             Row(
               children: [
                 TextWidget(

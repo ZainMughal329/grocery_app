@@ -189,6 +189,9 @@ class HomeView extends GetView<HomeController> {
                                                       itemImg: snapshot
                                                           .data![index]
                                                           .imageUrl,
+                                                      discount: snapshot
+                                                          .data![index]
+                                                          .discount!.toInt(),
                                                     ),
                                                   );
                                                 }

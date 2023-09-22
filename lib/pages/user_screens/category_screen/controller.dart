@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/state.dart';
@@ -22,23 +23,23 @@ class CategoryController extends GetxController {
   List<Map<String , dynamic>> catInfo = [
     {
       'imgPath' : 'assets/pic1.jpeg',
-      'catText' : 'HouseHold Items',
+      'catText' : 'HouseHold',
     },
     {
       'imgPath' : 'assets/pic2.jpeg',
-      'catText' : 'Kitchen Items',
+      'catText' : 'Kitchen',
     },
     {
       'imgPath' : 'assets/pic3.jpeg',
-      'catText' : 'Bathroom Items',
+      'catText' : 'Bathroom',
     },
     {
       'imgPath' : 'assets/pic4.jpeg',
-      'catText' : 'Clothing Items',
+      'catText' : 'Clothing',
     },
     {
       'imgPath' : 'assets/pic5.jpeg',
-      'catText' : 'Beauty Items',
+      'catText' : 'Beauty',
     },
   ];
 
@@ -59,4 +60,7 @@ class CategoryController extends GetxController {
       print('5');
     },
   ];
+
+  final items =
+  FirebaseFirestore.instance.collection('Items').snapshots();
 }
