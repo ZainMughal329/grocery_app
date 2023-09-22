@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
+import 'package:grocery_app/components/details/details.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
@@ -37,119 +38,166 @@ class AllProductsScreen extends GetView<AllProductsController> {
           ),
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: IconWidget(iconData: Icons.share,),),
-          SizedBox(width: 5.w,),
-          IconButton(onPressed: (){}, icon: IconWidget(iconData: Icons.search,),),
-          SizedBox(width: 5.w,),
-
-          IconButton(onPressed: (){}, icon: IconWidget(iconData: Icons.shopping_cart,),),
-          SizedBox(width: 5.w,),
-
+          IconButton(
+            onPressed: () {},
+            icon: IconWidget(
+              iconData: Icons.share,
+            ),
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: IconWidget(
+              iconData: Icons.search,
+            ),
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: IconWidget(
+              iconData: Icons.shopping_cart,
+            ),
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
         ],
         backgroundColor: LightAppColor.bgColor,
       ),
       body: Container(
-          child: StreamBuilder<QuerySnapshot>(
-        stream: con.items,
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          child: FutureBuilder(
+        future: con.getAndShowALlItemsData(),
+        builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  if (snapshot.data!.docs[index]['category'] == category &&
-                      snapshot.data!.docs[index]['subCategory'] ==
-                          subCategory) {
+                  if (snapshot.data![index].category == category &&
+                      snapshot.data![index].subCategory == subCategory) {
                     return Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 15.w, vertical: 20.h),
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 20.h),
-                            height: 200,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  height: 150.h,
-                                  width: 100.w,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey.withOpacity(0.5),
-                                    )
-                                  ),
-                                  child:snapshot.data!.docs[index]['imageUrl'] != '' ? Image.network(
-                                    snapshot.data!.docs[index]['imageUrl'],fit: BoxFit.fill,
-                                  ) : IconWidget(iconData: Icons.shopping_cart_outlined),
-                                ),
-                                // SizedBox(
-                                //   width: 15.w,
-                                // ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        TextWidget(
-                                          title: snapshot.data!.docs[index]
-                                              ['title'],
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        TextWidget(
-                                          title: snapshot.data!.docs[index]
-                                              ['priceQty'],
-                                          fontSize: 12.sp,
-                                          textColor: Colors.grey,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        TextWidget(
-                                          title: 'Rs ' +
-                                              snapshot.data!.docs[index]['price']
-                                                  .toString(),
-                                          fontWeight: FontWeight.bold,
-                                        ),
-
-                                      ],
-                                    ),
-                                  ],
-                                ),
-
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Container(),
-                                    IconWidget(iconData: Icons.arrow_forward_ios),
-                                    Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Container(
-                                        height: 30.h,
-                                        width: 120.w,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(
+                            () => DetailsScreen(
+                              category: snapshot.data![index].title,
+                              itemImg: snapshot.data![index].imageUrl,
+                              price: snapshot.data![index].price,
+                              itemQty: snapshot.data![index].priceQty,
+                            ),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 20.h),
+                              height: 200,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        height: 150.h,
+                                        width: 100.w,
                                         decoration: BoxDecoration(
-                                          color: Colors.green,
-                                        ),
-                                        child: Center(
-                                          child: TextWidget(
-                                            title: 'Add to cart',
-                                            textColor: Colors.white,
+                                            border: Border.all(
+                                          color: Colors.grey.withOpacity(0.5),
+                                        )),
+                                        child: snapshot.data![index].imageUrl !=
+                                                ''
+                                            ? Image.network(
+                                                snapshot.data![index].imageUrl,
+                                                fit: BoxFit.fill,
+                                              )
+                                            : IconWidget(
+                                                iconData: Icons
+                                                    .shopping_cart_outlined),
+                                      ),
+                                      SizedBox(
+                                        width: 7.w,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TextWidget(
+                                                title:
+                                                    snapshot.data![index].title,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                              TextWidget(
+                                                title: snapshot
+                                                    .data![index].priceQty,
+                                                fontSize: 12.sp,
+                                                textColor: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              TextWidget(
+                                                title: 'Rs ' +
+                                                    snapshot.data![index].price
+                                                        .toString(),
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(),
+                                      IconWidget(
+                                          iconData: Icons.arrow_forward_ios),
+                                      Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: Container(
+                                          height: 30.h,
+                                          width: 120.w,
+                                          decoration: BoxDecoration(
+                                            color: Colors.green,
+                                          ),
+                                          child: Center(
+                                            child: TextWidget(
+                                              title: 'Add to cart',
+                                              textColor: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Divider(color: Colors.black,height: 4.0,),
-                        ],
+                            Divider(
+                              color: Colors.black,
+                              height: 4.0,
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   } else {

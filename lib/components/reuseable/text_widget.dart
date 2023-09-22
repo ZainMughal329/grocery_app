@@ -10,6 +10,7 @@ class TextWidget extends StatelessWidget {
   final FontWeight fontWeight;
   final TextDecoration decoration;
   final Color decorationColor;
+  final FontStyle fontStyle;
 
   const TextWidget(
       {super.key,
@@ -19,6 +20,7 @@ class TextWidget extends StatelessWidget {
       this.fontWeight = FontWeight.normal,
       this.decoration = TextDecoration.none,
       this.decorationColor = LightAppColor.decorationColor,
+        this.fontStyle = FontStyle.normal,
       });
 
   @override
@@ -31,6 +33,7 @@ class TextWidget extends StatelessWidget {
         color: textColor,
         fontSize: fontSize,
         fontWeight: fontWeight,
+        fontStyle: fontStyle,
       ),
     );
   }

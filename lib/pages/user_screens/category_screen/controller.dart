@@ -7,6 +7,8 @@ import 'package:grocery_app/pages/session_sreens/signup/state.dart';
 import 'package:grocery_app/pages/user_screens/category_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
 
+import '../../../components/models/item_model.dart';
+
 class CategoryController extends GetxController {
   final state = CategoryState();
 
@@ -63,4 +65,15 @@ class CategoryController extends GetxController {
 
   final items =
   FirebaseFirestore.instance.collection('Items').snapshots();
+
+  Future<List<ItemModel>> getAllItemsData() async {
+    final snapshot =
+    await FirebaseFirestore.instance.collection('Items').get();
+    final itemData = snapshot.docs.map((e) => ItemModel.fromJson(e)).toList();
+    return itemData;
+  }
+
+  Future<List<ItemModel>> getAndShowALlItemsData() async {
+    return await getAllItemsData();
+  }
 }
