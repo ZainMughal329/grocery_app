@@ -8,6 +8,8 @@ class ItemModel {
    final String priceQty;
    final int stock;
    final String imageUrl;
+   final String category;
+   final String subCategory;
    String? itemId;
    int? discount;
 
@@ -17,6 +19,8 @@ class ItemModel {
      required this.price,
      required this.priceQty,
      required this.stock,
+     required this.category,
+     required this.subCategory,
      this.itemId ='',
      this.imageUrl = '' ,
      this.discount = 0,
@@ -24,11 +28,13 @@ class ItemModel {
 
    toJson(){
      return {
-       'id' : itemId,
+       'itemId' : itemId,
        'title' : title,
        'price' : price,
        'priceQty' : priceQty,
        'stock' : stock,
+       'category' : category,
+       'subCategory' : subCategory,
        'imageUrl' : imageUrl,
        'discount' :discount,
      };
@@ -45,6 +51,8 @@ class ItemModel {
          stock: data['stock'],
        imageUrl: data['imageUrl'],
        discount: data['discount'],
+       category: data['category'],
+       subCategory: data['subCategory'],
      );
 
 

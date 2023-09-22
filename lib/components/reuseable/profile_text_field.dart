@@ -39,6 +39,7 @@ class ProfileInputTextField extends StatelessWidget {
         keyboardType: keyboardType,
         readOnly: readOnly,
 
+
         style: GoogleFonts.poppins(fontSize: 16),
 
         decoration: InputDecoration(
