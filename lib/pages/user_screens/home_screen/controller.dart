@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grocery_app/components/models/item_model.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/state.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
@@ -14,11 +15,10 @@ class HomeController extends GetxController {
   HomeController();
 
   void changeTheme(value) {
-    if(value == true ) {
+    if (value == true) {
       state.isDarkMode.value = true;
       Get.changeTheme(ThemeData.dark());
-    }else {
-
+    } else {
       state.isDarkMode.value = false;
       Get.changeTheme(ThemeData.light());
     }
@@ -37,8 +37,83 @@ class HomeController extends GetxController {
     'assets/pic3.jpeg',
     'assets/pic4.jpeg',
     'assets/pic5.jpeg',
-
   ];
+
+  final List<CategoryItem> category = [
+    CategoryItem(
+      category: 'HouseHold',
+      subTitle:
+          "Furniture. Appliances such as a microwave or toaster oven. Electronic equipment such as TVs and computers. Rugs. Tools for cooking and utensils for eating",
+      subCategory: [
+        'Furniture',
+        'Microwave',
+        'Tv\'s&Computer\'s',
+        'Rugs',
+        'Tables',
+      ],
+    ),
+    CategoryItem(
+      category: 'Kitchen',
+      subTitle:
+          ' the tools, utensils, appliances, dishes, and cookware used in food preparation, or the serving of food.',
+      subCategory: [
+        'Beware',
+        'TableWares',
+        'Food Storage',
+        'Cookwares',
+        'Kitchen Appliances',
+      ],
+    ),
+    CategoryItem(
+      category: 'Bathroom',
+      subTitle:
+          'Common bathroom organization categories include hair items, makeup, medicine, towels, nail supplies, and toiletries',
+      subCategory: [
+        'Cleaners',
+        'Bathroom Bins',
+        'Bathroom Stools',
+        'Clothes Line',
+        'Door stops',
+      ],
+    ),
+    CategoryItem(
+      category: 'Clothing',
+      subTitle:
+          'Casual wear – worn as standard clothing. Formal wear – worn for events such as weddings. Lingerie – undergarments worn for support and / or decoration. Sportswear – worn for athletic activities like running.',
+      subCategory: [
+        'Casual',
+        'Formal',
+        'Lingerie',
+        'SportsWare',
+        'Gloves',
+      ],
+    ),
+    CategoryItem(
+      category: 'Beauty',
+      subTitle:
+          ' oral care, skin care, sun care, hair care, decorative cosmetics, body care and perfumes.',
+      subCategory: [
+        'Serums',
+        'Moisturizers',
+        'Exfoliators',
+        'Body lotions',
+        'Eye creams',
+      ],
+    ),
+  ];
+
+  final discontedItems =
+      FirebaseFirestore.instance.collection('Items').snapshots();
+
+  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
+    // Calculate the discount amount
+    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
+
+    // Calculate the discounted price
+    int discountedPrice = originalPrice - discountAmount;
+
+    return discountedPrice;
+  }
 
   // Function to fetch the username of a specific user.
   Future<void> fetchUsername() async {
@@ -61,4 +136,17 @@ class HomeController extends GetxController {
       print('Error fetching username: $error');
     }
   }
+
+
+  Future<List<ItemModel>> getAllItemsData() async {
+    final snapshot =
+    await FirebaseFirestore.instance.collection('Items').get();
+    final itemData = snapshot.docs.map((e) => ItemModel.fromJson(e)).toList();
+    return itemData;
+  }
+
+  Future<List<ItemModel>> getAndShowALlItemsData() async {
+    return await getAllItemsData();
+  }
+
 }

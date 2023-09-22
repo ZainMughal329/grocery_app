@@ -7,12 +7,15 @@ import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/routes/routes.dart';
 import 'package:grocery_app/components/themes/dark_theme.dart';
 import 'package:grocery_app/components/themes/theme_data.dart';
+import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 import 'package:grocery_app/pages/user_screens/profile/controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Get.put(DarkThemeChanger());
+  Get.put(HomeController());
+
   runApp(const MyApp());
 }
 

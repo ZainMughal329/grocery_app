@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -109,7 +110,8 @@ class HomeView extends GetView<HomeController> {
                         height: 410.h,
                         padding: EdgeInsets.only(bottom: 30),
                         width: MediaQuery.of(context).size.width * 0.8.w,
-                        margin: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(
+                            left: 10.w, top: 10.h, bottom: 10.h),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
@@ -122,7 +124,7 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  TextWidget(title: 'Trending Products'),
+                                  TextWidget(title: 'On Sale Products'),
                                   TextButton(
                                     onPressed: () {},
                                     child: Container(
@@ -148,19 +150,64 @@ class HomeView extends GetView<HomeController> {
                             SizedBox(
                               height: 10.h,
                             ),
-                            Expanded(
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: 10,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 5.w, right: 5.w),
-                                    child: onSaleContainer(),
+                            FutureBuilder(
+                              future: con.getAndShowALlItemsData(),
+                              builder: (BuildContext context, snapshot) {
+                                try {
+                                  if (snapshot.hasData) {
+                                    return snapshot.data!.length != 0
+                                        ? Expanded(
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              shrinkWrap: true,
+                                              itemCount: snapshot.data!.length,
+                                              itemBuilder: (context, index) {
+                                                if (snapshot.data![index]
+                                                        .discount ==
+                                                    0) {
+                                                  return Container();
+                                                } else {
+                                                  return Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 5.w, right: 5.w),
+                                                    child: onSaleContainer(
+                                                      itemName: snapshot
+                                                          .data![index].title,
+                                                      itemQty: snapshot
+                                                          .data![index]
+                                                          .priceQty,
+                                                      itemPrice: snapshot
+                                                          .data![index].price,
+                                                      discountedPrice: controller
+                                                          .calculateDiscountedPrice(
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .price,
+                                                              snapshot
+                                                                  .data![index]
+                                                                  .discount),
+                                                      itemImg: snapshot
+                                                          .data![index]
+                                                          .imageUrl,
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                          )
+                                        : Container();
+                                  } else if (snapshot.hasError) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  } else {
+                                    return SizedBox();
+                                  }
+                                } catch (e) {
+                                  return Text(
+                                    'data : ' + e.toString(),
                                   );
-                                },
-                              ),
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -171,26 +218,31 @@ class HomeView extends GetView<HomeController> {
               ),
               SliverList(
                 delegate: SliverChildListDelegate(
-                  List.generate(10, (index) {
+                  List.generate(controller.category.length, (index) {
                     return Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: Column(
                         children: [
                           ExpansionTile(
                             backgroundColor: Colors.yellow.withOpacity(0.2),
-
                             iconColor: LightAppColor.btnColor,
                             subtitle: TextWidget(
-                                title:
-                                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry."),
+                              title: controller.category[index].subTitle,
+                              fontSize: 10.sp,
+                              textColor: Colors.grey,
+                            ),
                             leading: Container(
                               height: 160,
                               width: 110,
-                              child: Image.asset('assets/pic1.jpeg' , fit: BoxFit.cover,),
-
+                              child: Image.asset(
+                                'assets/pic1.jpeg',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             title: TextWidget(
-                              title: 'Item : ' + index.toString(),
+                              title: controller.category[index].category,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
                             ),
                             children: [
                               Padding(
@@ -200,8 +252,15 @@ class HomeView extends GetView<HomeController> {
                                   child: GridView.count(
                                     crossAxisCount: 3,
                                     // Number of columns in the grid
-                                    children: List.generate(4, (index) {
-                                      return subCategoryWidget();
+                                    children: List.generate(5, (ind) {
+                                      return subCategoryWidget(
+                                        title: controller
+                                            .category[index].subCategory[ind],
+                                        category:
+                                            controller.category[index].category,
+                                        subCategory: controller
+                                            .category[index].subCategory[ind],
+                                      );
                                     }),
                                   ),
                                 ),
@@ -221,4 +280,16 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+}
+
+class CategoryItem {
+  final String category;
+  final String subTitle;
+  final List<String> subCategory;
+
+  CategoryItem({
+    required this.category,
+    required this.subTitle,
+    required this.subCategory,
+  });
 }
