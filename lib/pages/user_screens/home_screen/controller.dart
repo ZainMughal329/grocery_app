@@ -45,11 +45,11 @@ class HomeController extends GetxController {
       subTitle:
           "Furniture. Appliances such as a microwave or toaster oven. Electronic equipment such as TVs and computers. Rugs. Tools for cooking and utensils for eating",
       subCategory: [
+        'Cleaning',
         'Furniture',
-        'Microwave',
-        'Tv\'s&Computer\'s',
-        'Rugs',
-        'Tables',
+        'Decor',
+        'Laundry',
+        'Dishwashing',
       ],
     ),
     CategoryItem(
@@ -57,11 +57,11 @@ class HomeController extends GetxController {
       subTitle:
           ' the tools, utensils, appliances, dishes, and cookware used in food preparation, or the serving of food.',
       subCategory: [
-        'Beware',
-        'TableWares',
-        'Food Storage',
+        'Appliances',
         'Cookwares',
-        'Kitchen Appliances',
+        'Gadgets',
+        'Storage',
+        'Cleaning',
       ],
     ),
     CategoryItem(
@@ -69,11 +69,11 @@ class HomeController extends GetxController {
       subTitle:
           'Common bathroom organization categories include hair items, makeup, medicine, towels, nail supplies, and toiletries',
       subCategory: [
+        'Hygiene',
+        'Soaps',
+        'Shampoos',
+        'Conditioners',
         'Cleaners',
-        'Bathroom Bins',
-        'Bathroom Stools',
-        'Clothes Line',
-        'Door stops',
       ],
     ),
     CategoryItem(
@@ -81,23 +81,23 @@ class HomeController extends GetxController {
       subTitle:
           'Casual wear – worn as standard clothing. Formal wear – worn for events such as weddings. Lingerie – undergarments worn for support and / or decoration. Sportswear – worn for athletic activities like running.',
       subCategory: [
-        'Casual',
-        'Formal',
-        'Lingerie',
-        'SportsWare',
-        'Gloves',
+        'Men',
+        'Women',
+        'Kids',
+        'Undergarments',
+        'Specialty',
       ],
     ),
     CategoryItem(
-      category: 'Beauty',
+      category: 'Grocery',
       subTitle:
-          ' oral care, skin care, sun care, hair care, decorative cosmetics, body care and perfumes.',
+          ' Fruits, vegetables , meat , sea food and freshly baked bakery items.',
       subCategory: [
-        'Serums',
-        'Moisturizers',
-        'Exfoliators',
-        'Body lotions',
-        'Eye creams',
+        'Vegetables',
+        'Fruits',
+        'Meat',
+        'Bakery',
+        'Beverages',
       ],
     ),
   ];

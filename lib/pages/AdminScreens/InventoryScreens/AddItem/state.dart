@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 class AddItemState {
   final titleController = TextEditingController();
   final priceController = TextEditingController();
-  // final priceQtyController = TextEditingController();
+  final descriptionController = TextEditingController();
   final stockController = TextEditingController();
   final discountController = TextEditingController();
 
@@ -50,22 +50,22 @@ class AddItemState {
       ),
       value: 'Storage',
     ),
+    DropdownMenuItem(
+      child: TextWidget(
+        title: 'Cleaning',
+        fontSize: 14,
+      ),
+      value: 'Cleaning',
+    ),
   ];
 
   final BathroomSubCatList = <DropdownMenuItem>[
     DropdownMenuItem(
       child: TextWidget(
-        title: 'Towels',
+        title: 'Hygiene',
         fontSize: 14,
       ),
-      value: 'Towels',
-    ),
-    DropdownMenuItem(
-      child: TextWidget(
-        title: 'Body Wash',
-        fontSize: 14,
-      ),
-      value: 'Body Wash',
+      value: 'Hygiene',
     ),
     DropdownMenuItem(
       child: TextWidget(
@@ -112,13 +112,7 @@ class AddItemState {
       ),
       value: 'Fruits',
     ),
-    DropdownMenuItem(
-      child: TextWidget(
-        title: 'Milk',
-        fontSize: 14,
-      ),
-      value: 'Milk',
-    ),
+
     DropdownMenuItem(
       child: TextWidget(
         title: 'Meat',
@@ -126,13 +120,7 @@ class AddItemState {
       ),
       value: 'Meat',
     ),
-    DropdownMenuItem(
-      child: TextWidget(
-        title: 'Seafood',
-        fontSize: 14,
-      ),
-      value: 'Seafood',
-    ),
+
     DropdownMenuItem(
       child: TextWidget(
         title: 'Bakery',
@@ -171,13 +159,7 @@ class AddItemState {
       ),
       value: 'Decor',
     ),
-    DropdownMenuItem(
-      child: TextWidget(
-        title: 'Storage',
-        fontSize: 14,
-      ),
-      value: 'Storage',
-    ),
+
     DropdownMenuItem(
       child: TextWidget(
         title: 'Laundry',
@@ -216,13 +198,6 @@ class AddItemState {
         fontSize: 14,
       ),
       value: 'Kids',
-    ),
-    DropdownMenuItem(
-      child: TextWidget(
-        title: 'Babies',
-        fontSize: 14,
-      ),
-      value: 'Babies',
     ),
     DropdownMenuItem(
       child: TextWidget(

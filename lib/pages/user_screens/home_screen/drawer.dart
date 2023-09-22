@@ -69,7 +69,7 @@ class BuildDrawer {
             onPress: () {
               Navigator.pop(context);
 
-              Get.offAndToNamed(AppRoutes.categoryScreen);
+              Get.toNamed(AppRoutes.categoryScreen);
             },
           ),
           SizedBox(
@@ -90,7 +90,7 @@ class BuildDrawer {
             title: 'My Profile',
             onPress: () {
               Navigator.pop(context);
-              Get.offAndToNamed(AppRoutes.profileScreen);
+              Get.toNamed(AppRoutes.profileScreen);
             },
           ),
           SizedBox(
@@ -111,7 +111,7 @@ class BuildDrawer {
             title: 'FAQs',
             onPress: () {
               Navigator.pop(context);
-              Get.offAndToNamed(AppRoutes.faqsScreen);
+              Get.toNamed(AppRoutes.faqsScreen);
             },
           ),
           SizedBox(
@@ -132,7 +132,7 @@ class BuildDrawer {
             title: 'Help Center',
             onPress: () {
               Navigator.pop(context);
-              Get.offAndToNamed(AppRoutes.helpCenterScreen);
+              Get.toNamed(AppRoutes.helpCenterScreen);
 
             },
           ),
@@ -149,7 +149,7 @@ class BuildDrawer {
               await auth.signOut().then((value) {
                 SessionController().userId = '';
                 Snackbar.showSnackBar("Logout", "Successfully");
-                Get.toNamed(AppRoutes.logInScreen);
+                Get.offNamed(AppRoutes.logInScreen);
               }).onError(
                 (error, stackTrace) {
                   Snackbar.showSnackBar("Error", error.toString());

@@ -10,6 +10,7 @@ class ItemModel {
    final String imageUrl;
    final String category;
    final String subCategory;
+   final String description;
    String? itemId;
    int? discount;
 
@@ -21,6 +22,7 @@ class ItemModel {
      required this.stock,
      required this.category,
      required this.subCategory,
+     required this.description,
      this.itemId ='',
      this.imageUrl = '' ,
      this.discount = 0,
@@ -30,6 +32,7 @@ class ItemModel {
      return {
        'itemId' : itemId,
        'title' : title,
+       'description' : description,
        'price' : price,
        'priceQty' : priceQty,
        'stock' : stock,
@@ -46,6 +49,7 @@ class ItemModel {
      return ItemModel(
        itemId:  data['itemId'],
          title: data['title'],
+         description: data['description'],
          price: data['price'],
          priceQty: data['priceQty'],
          stock: data['stock'],

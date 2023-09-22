@@ -13,6 +13,7 @@ import 'package:grocery_app/components/reuseable/search_text_field.dart';
 import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_form_field.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
+import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/controller.dart';
 
 class AddItemView extends GetView<AddItemController> {
@@ -35,6 +36,14 @@ class AddItemView extends GetView<AddItemController> {
             readOnly: false,
           ),
           ProfileInputTextField(
+            contr: controller.state.descriptionController,
+            descrip: 'Description',
+            obsecure: false,
+            icon: Icons.insert_drive_file_outlined,
+            labelText: 'Description',
+            readOnly: false,
+          ),
+          ProfileInputTextField(
             contr: controller.state.stockController,
             descrip: 'Stock',
             obsecure: false,
@@ -54,10 +63,10 @@ class AddItemView extends GetView<AddItemController> {
           ),
           ProfileInputTextField(
             contr: controller.state.discountController,
-            descrip: 'Discount',
+            descrip: 'Discount %',
             obsecure: false,
-            icon: Icons.price_check,
-            labelText: 'Discount',
+            icon: Icons.percent,
+            labelText: 'Discount %',
             readOnly: false,
             keyboardType: TextInputType.number,
           ),
@@ -70,7 +79,8 @@ class AddItemView extends GetView<AddItemController> {
 
                 if(
                 controller.Image!=null &&
-                    controller.state.titleController.text!=''&&controller.state.stockController.text!=''&&
+                    controller.state.titleController.text!=''&&controller.state.descriptionController.text!=''
+                    &&controller.state.stockController.text!=''&&
                     controller.state.priceController.text!=''&&controller.state.discountController.text!=''
                     &&controller.state.priceQtyValue.value!='Select'&&
                     controller.state.categoryValue.value!='Select'&&controller.state.subCategoryValue.value!='Select'
@@ -78,6 +88,7 @@ class AddItemView extends GetView<AddItemController> {
 
                   ItemModel item = ItemModel(
                     title: controller.state.titleController.text.trim().toString(),
+                    description: controller.state.titleController.text.trim().toString(),
                     price: int.parse(controller.state.priceController.text.trim().toString()),
                     priceQty: controller.state.priceQtyValue.value.toString(),
                     stock: int.parse(controller.state.stockController.text.trim().toString()),
@@ -351,6 +362,7 @@ class AddItemView extends GetView<AddItemController> {
       appBar: AppBar(
         title: Text("Add Inventory"),
         backgroundColor: LightAppColor.btnColor,
+
       ),
       body: SingleChildScrollView(
         child: SafeArea(

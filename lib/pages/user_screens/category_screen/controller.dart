@@ -41,7 +41,7 @@ class CategoryController extends GetxController {
     },
     {
       'imgPath' : 'assets/pic5.jpeg',
-      'catText' : 'Beauty',
+      'catText' : 'Grocery',
     },
   ];
 

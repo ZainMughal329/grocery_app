@@ -32,7 +32,9 @@ class InventoryView extends GetView<InventoryController> {
                   title: 'Edit',
                   icon: Icons.edit,
                   color: LightAppColor.btnColor,
-                  onPress: () {},
+                  onPress: () {
+                    Get.toNamed(AppRoutes.inventoryEditItem);
+                  },
                 ),
 
                 InventoryWidget(

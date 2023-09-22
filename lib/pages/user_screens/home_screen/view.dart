@@ -228,8 +228,12 @@ class HomeView extends GetView<HomeController> {
                                           )
                                         : Container();
                                   } else if (snapshot.hasError) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
+                                    return Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Center(child: CircularProgressIndicator(color: LightAppColor.btnColor,)),
+                                      ],
+                                    );
                                   } else {
                                     return SizedBox();
                                   }
@@ -266,7 +270,8 @@ class HomeView extends GetView<HomeController> {
                               height: 160,
                               width: 110,
                               child: Image.asset(
-                                'assets/pic1.jpeg',
+                                // 'assets/pic'+index.toString()+'.jpeg',
+                                controller.imagesList[index].toString(),
                                 fit: BoxFit.cover,
                               ),
                             ),

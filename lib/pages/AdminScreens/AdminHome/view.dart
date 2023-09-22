@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/constants/app_constants.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
+import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/AdminScreens/AdminHome/controller.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/view.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
@@ -28,6 +29,9 @@ class AdminHomeView extends GetView<AdminHomeController> {
                   textColor: LightAppColor.btnColor,
                   fontSize: 17.sp,
                 ),
+                actions: [IconButton(onPressed: (){
+                  Get.offAllNamed(AppRoutes.logInScreen);
+                }, icon: Icon(Icons.logout_outlined,color: LightAppColor.btnColor,))],
                 backgroundColor: LightAppColor.btnTextColor,
                 pinned: true, // to ensure the AppBar remains visible at the top
                 floating: true, // to show/hide AppBar when scrolling up/down

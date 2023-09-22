@@ -9,6 +9,8 @@ import 'package:grocery_app/pages/AdminScreens/InventoryManagement/bindings.dart
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/view.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/view.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/view.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/bindings.dart';
@@ -135,11 +137,13 @@ class AppPages {
     //   page: () => OrdersView(),
     //   binding: OrdersBindings(),
     // ),
-    // GetPage(
-    //   name: AppRoutes.inventoryEditItem,
-    //   page: () => OrdersView(),
-    //   binding: OrdersBindings(),
-    // ),
+    GetPage(
+      name: AppRoutes.inventoryEditItem,
+      page: () => EditItemView(),
+      binding: EditItemBindings(),
+      transition: Transition.downToUp ,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
     // GetPage(
     //   name: AppRoutes.inventoryCheck,
     //   page: () => OrdersView(),

@@ -102,6 +102,7 @@ class AddItemController extends GetxController {
 
   void clearControllers() {
     state.titleController.clear();
+    state.descriptionController.clear();
     state.stockController.clear();
     state.priceController.clear();
     state.discountController.clear();
