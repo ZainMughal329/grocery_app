@@ -12,8 +12,8 @@ import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/contro
 class EditItemView extends GetView<EditItemController> {
   const EditItemView({Key? key}) : super(key: key);
 
-  Widget _buildlistTile (AsyncSnapshot<QuerySnapshot> snapshot, index,String value){
-    return  Card(
+  Widget _buildlistTile (BuildContext context , AsyncSnapshot<QuerySnapshot> snapshot, index,String value){
+    return  controller.state.dropDownValue.value=='All' ? Card(
       elevation: 5.0,
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: Container(
@@ -69,18 +69,129 @@ class EditItemView extends GetView<EditItemController> {
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              IconButton(
-                icon: Icon(Icons.edit, color: Colors.blue,size: 30.sp,),
-                onPressed: () {
-                  // Handle your edit action here
+              InkWell(
+                onLongPress: (){
+                  showDialog(context: context, builder: (BuildContext context ){
+                    return AlertDialog(title: Text('Simple Dialog'),
+                      content: Text('Delete Item.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Delete'),
+                          onPressed: () {
+                            controller.deleteItem(snapshot.data!.docs[index]['itemId'].toString());
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],);
+                  });
                 },
-              ),
+                onTap: (){
+
+                },
+                child: Icon(Icons.edit, color: Colors.blue,size: 30.sp,),
+              )
 
             ],
           ),
         ),
       ),
-    );
+    ) :
+    snapshot.data!.docs[index]['category'].toString()==value ? Card(
+      elevation: 5.0,
+      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white),
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: BoxDecoration(
+                border: Border(
+                    right: BorderSide(width: 1.0, color: Colors.grey[200]!))),
+            child: Image.network(snapshot.data!.docs[index]['imageUrl'], fit: BoxFit.cover, width: 50, height: 50,),  // assuming you store image URLs in firestore
+          ),
+          title: Text(
+            snapshot.data!.docs[index]['title'],
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 5.0),
+              Text(
+                snapshot.data!.docs[index]['category'],
+                style: TextStyle(fontSize: 14),
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                snapshot.data!.docs[index]['subCategory'],
+                style: TextStyle(fontSize: 14),
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: [
+                  Text(
+                    'RS${snapshot.data!.docs[index]['price']}',
+                    style: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
+                  if (snapshot.data!.docs[index]['discount'] != null &&
+                      snapshot.data!.docs[index]['discount'] > 0)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        '${snapshot.data!.docs[index]['discount']}% OFF',
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.red),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InkWell(
+                onTap: (){
+
+                },
+                onLongPress: (){
+                  showDialog(context: context, builder: (BuildContext context ){
+                    return AlertDialog(title: Text('Simple Dialog'),
+                      content: Text('Delete Item.'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          child: Text('Delete'),
+                          onPressed: () {
+                            controller.deleteItem(snapshot.data!.docs[index]['itemId'].toString());
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],);
+                  });
+                },
+                child: Icon(Icons.edit, color: Colors.blue,size: 30.sp,),
+              )
+
+            ],
+          ),
+        ),
+      ),
+    ) : Container()
+    ;
 
   }
 
@@ -121,6 +232,7 @@ class EditItemView extends GetView<EditItemController> {
                         ], onChanged: (value){
                           controller.state.dropDownValue.value = value!;
 
+
                     });
                   }),
                 ],
@@ -150,7 +262,7 @@ class EditItemView extends GetView<EditItemController> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return _buildlistTile(snapshot,index,controller.state.dropDownValue.value.toString());
+                return Obx(() => _buildlistTile(context,snapshot,index,controller.state.dropDownValue.value.toString()));
               },
             );
 
