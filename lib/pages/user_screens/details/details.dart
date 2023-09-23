@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,12 +11,14 @@ import '../../../components/reuseable/icon_widget.dart';
 import '../../../components/reuseable/text_widget.dart';
 import '../../../components/routes/name.dart';
 
-class DetailsScreen extends StatefulWidget {
+class DetailsScreen extends StatelessWidget {
   String category;
   String itemImg;
   int price;
   String itemQty;
   String userName;
+  String itemId;
+
 
   DetailsScreen(
       {super.key,
@@ -22,15 +26,12 @@ class DetailsScreen extends StatefulWidget {
       required this.itemImg,
       required this.price,
       required this.itemQty,
-      required this.userName
+      required this.userName,
+        required this.itemId,
       });
 
-  @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
-}
-
-class _DetailsScreenState extends State<DetailsScreen> {
   int count = 1;
+
   bool isTrue = false;
 
   final con = Get.put(DetailsController());
@@ -72,7 +73,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   forceElevated: true,
                   pinned: true,
                   title: TextWidget(
-                    title: widget.category,
+                    title: category,
                     fontSize: 18.sp,
                   ),
                   leading: IconButton(
@@ -124,14 +125,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
-                              title: widget.category,
+                              title: category,
                               fontSize: 17.sp,
                               fontWeight: FontWeight.bold,
                             ),
                             Container(
                               height: 200.h,
                               width: double.infinity,
-                              child: Image.network(widget.itemImg),
+                              child: Image.network(itemImg),
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -140,7 +141,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   TextWidget(
-                                    title: "Rs " + widget.price.toString(),
+                                    title: "Rs " + price.toString(),
                                     fontWeight: FontWeight.bold,
                                     textColor: Colors.red,
                                     fontSize: 17.sp,
@@ -155,7 +156,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         width: 15.w,
                                       ),
                                       TextWidget(
-                                        title: widget.itemQty,
+                                        title: itemQty,
                                         textColor: Colors.grey,
                                       ),
                                     ],
@@ -191,7 +192,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
               ],
             ),
-            Align(
+      Obx(() => Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 70.h,
@@ -206,69 +207,39 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   width: 200.w,
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: isTrue == true ? Colors.transparent : Colors.green,
-                    border: isTrue == true
-                        ? Border.all(color: Colors.green)
-                        : Border.all(
-                            color: Colors.transparent,
-                          ),
+                    color: Colors.green,
+
                   ),
                   padding: EdgeInsets.all(16.0),
-                  child: isTrue == true
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  // count++;
-                                  if (count == 1) {
-                                    setState(() {
-                                      isTrue = false;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      count--;
-                                    });
-                                  }
-                                },
-                                child: IconWidget(
-                                  iconData: Icons.remove,
-                                )),
-                            TextWidget(
-                              title: count.toString(),
-                            ),
-                            GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    count++;
-                                  });
-                                },
-                                child: IconWidget(
-                                  iconData: Icons.add,
-                                )),
-                          ],
-                        )
+                  child: con.itemIds.contains(itemId) && con.isInCart(itemId)
+                      ? Center(
+                    child: TextWidget(
+                      title: 'Already in cart',
+                      textColor: Colors.white,
+                    ),
+                  )
                       : GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              isTrue = true;
-                            });
-                            DateTime currentDate = DateTime.now();
-                            DateTime dateTime = DateTime(currentDate.year,
-                                currentDate.month, currentDate.day);
-                            con.addDataToFirebase(widget.userName,
-                                widget.price, widget.category, dateTime, count);
-                          },
-                          child: Center(
-                            child: TextWidget(
-                              title: 'Add to cart',
-                              textColor: Colors.white,
-                            ),
-                          ),
-                        ),
+                    onTap: () {
+                      print(con.itemIds.contains(itemId).toString());
+                      print(con.isInCart(itemId).toString());
+                      // con.setIsTrue(true);
+                      DateTime currentDate = DateTime.now();
+                      DateTime dateTime = DateTime(currentDate.year,
+                          currentDate.month, currentDate.day);
+                      con.addDataToFirebase(userName,
+                          price, category, dateTime, count , itemId , itemImg);
+                    },
+                    child: Center(
+                      child: TextWidget(
+                        title: 'Add to cart',
+                        textColor: Colors.white,
+                      ),
+                    ),
+                  ),
+
                 ),
               ),
-            ),
+            ),),
           ],
         ),
       ),

@@ -9,9 +9,11 @@ import 'package:grocery_app/components/reuseable/search_text_field.dart';
 import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/sub_category_container.dart';
 import 'package:grocery_app/components/routes/name.dart';
+import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/session_sreens/login/controller.dart';
 import 'package:grocery_app/pages/session_sreens/signup/controller.dart';
+import 'package:grocery_app/pages/user_screens/details/controller.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 
 import '../../../components/colors/light_app_colors.dart';
@@ -27,9 +29,42 @@ class HomeView extends GetView<HomeController> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  Widget ShoppingCartIcon() {
+    return InkWell(
+      onTap: () {},
+      child: Stack(
+        children: [
+          IconButton(
+            icon: IconWidget(iconData: Icons.shopping_cart),
+            onPressed: () {
+              print('length is : ' + controller.collectionLength.toString());
+              Get.toNamed(AppRoutes.cartScreen);
+            },
+          ),Positioned(
+            right: 0,
+            child: CircleAvatar(
+              backgroundColor: Colors.red,
+              radius: 10,
+              child: Obx(() =>Text(
+                controller.collectionLength.toString(),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white,
+                ),
+              )),
+            ),
+          )
+
+
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final con = Get.put(HomeController());
+    Get.put(DetailsController());
 
     return Scaffold(
       backgroundColor: LightAppColor.bgColor,
@@ -53,14 +88,7 @@ class HomeView extends GetView<HomeController> {
                   icon: IconWidget(iconData: Icons.menu),
                 ),
                 actions: <Widget>[
-                  IconButton(
-                    icon: IconWidget(
-                      iconData: Icons.shopping_cart_outlined,
-                    ),
-                    onPressed: () {
-                      // Handle cart button press
-                    },
-                  ),
+                  ShoppingCartIcon(),
                 ],
                 title: Padding(
                   padding: EdgeInsets.only(bottom: 5.h),
@@ -185,12 +213,10 @@ class HomeView extends GetView<HomeController> {
                                                       discountedPrice: controller
                                                           .calculateDiscountedPrice(
                                                               snapshot
-                                                                  .data![
-                                                                      index]
+                                                                  .data![index]
                                                                   .price,
                                                               snapshot
-                                                                  .data![
-                                                                      index]
+                                                                  .data![index]
                                                                   .discount),
                                                       itemImg: snapshot
                                                           .data![index]
@@ -198,7 +224,12 @@ class HomeView extends GetView<HomeController> {
                                                       discount: snapshot
                                                           .data![index]
                                                           .discount!
-                                                          .toInt(), userName: con.state.username.value,
+                                                          .toInt(),
+                                                      userName: con
+                                                          .state.username.value,
+                                                      itemId: snapshot
+                                                          .data![index].itemId
+                                                          .toString(),
                                                     ),
                                                   );
                                                 }
@@ -208,9 +239,13 @@ class HomeView extends GetView<HomeController> {
                                         : Container();
                                   } else if (snapshot.hasError) {
                                     return Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Center(child: CircularProgressIndicator(color: LightAppColor.btnColor,)),
+                                        Center(
+                                            child: CircularProgressIndicator(
+                                          color: LightAppColor.btnColor,
+                                        )),
                                       ],
                                     );
                                   } else {

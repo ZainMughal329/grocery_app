@@ -5,9 +5,11 @@ class OrderModel {
   final String customerId;
   final String customerName;
   final int totalPrice;
+  final String itemId;
   final String itemName;
   final DateTime dateTime;
   final int itemQty;
+  final String itemImg;
 
 
   OrderModel({
@@ -15,9 +17,11 @@ class OrderModel {
     required this.customerId,
     required this.customerName,
     required this.totalPrice,
+    required this.itemId,
     required this.dateTime,
     required this.itemName,
     required this.itemQty,
+    required this.itemImg,
 });
 
   toJson(){
@@ -26,9 +30,11 @@ class OrderModel {
       'customerId' : customerId,
       'customerName' : customerName,
       'totalPrice' : totalPrice,
+      'itemId' :itemId,
       'dateTime' : dateTime,
       'items' : itemName,
       'itemQty' : itemQty,
+      'itemImg' : itemImg,
     };
   }
 
@@ -39,9 +45,11 @@ class OrderModel {
       customerId: data['customerId'],
       customerName: data['customerName'],
       totalPrice: data['totalPrice'],
+      itemId : data['itemId'],
       dateTime: data['dateTime'],
       itemName: data['items'],
       itemQty: data['itemQty'],
+        itemImg : data['itemImg'],
     );
 
 

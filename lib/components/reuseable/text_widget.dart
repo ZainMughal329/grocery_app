@@ -11,6 +11,7 @@ class TextWidget extends StatelessWidget {
   final TextDecoration decoration;
   final Color decorationColor;
   final FontStyle fontStyle;
+  final TextAlign? textAlign;
 
   const TextWidget(
       {super.key,
@@ -21,12 +22,14 @@ class TextWidget extends StatelessWidget {
       this.decoration = TextDecoration.none,
       this.decorationColor = LightAppColor.decorationColor,
         this.fontStyle = FontStyle.normal,
+        this.textAlign,
       });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       title,
+      textAlign: textAlign,
       style: GoogleFonts.poppins(
         decoration: decoration,
         decorationColor: decorationColor,

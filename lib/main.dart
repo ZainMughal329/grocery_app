@@ -5,16 +5,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/routes/routes.dart';
+import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/components/themes/dark_theme.dart';
 import 'package:grocery_app/components/themes/theme_data.dart';
+import 'package:grocery_app/pages/user_screens/details/controller.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 import 'package:grocery_app/pages/user_screens/profile/controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Get.put(DarkThemeChanger());
+  // Get.put(DetailsController());
   Get.put(HomeController());
+
+  Get.put(CartControllerReuseAble());
 
   runApp(const MyApp());
 }
@@ -48,18 +52,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context, child) {
-        return GetBuilder<DarkThemeChanger>(builder: (con) {
-          print('value of get Dark theme in main : ' +
-              con.getDarkTheme.toString());
           return GetMaterialApp(
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
-            theme: Styles.themeData(con.getDarkTheme, context),
-            initialRoute: AppRoutes.logInScreen,
+            // theme: Styles.themeData(con.getDarkTheme, context),
+            initialRoute: AppRoutes.splashScreen,
             getPages: AppPages.routes,
           );
-        });
-      },
+        },
+
     );
   }
 }

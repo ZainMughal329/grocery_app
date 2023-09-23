@@ -22,6 +22,7 @@ import 'package:grocery_app/pages/session_sreens/signup/view.dart';
 import 'package:grocery_app/pages/session_sreens/splash/bindings.dart';
 import 'package:grocery_app/pages/user_screens/all_products_view/bindings.dart';
 import 'package:grocery_app/pages/user_screens/all_products_view/view.dart';
+import 'package:grocery_app/pages/user_screens/cart_directory/index.dart';
 import 'package:grocery_app/pages/user_screens/category_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/details/bindings.dart';
 import 'package:grocery_app/pages/user_screens/details/details.dart';
@@ -93,8 +94,14 @@ class AppPages {
     ),
 
     GetPage(
+      name: AppRoutes.cartScreen,
+      page: () =>  MyCartScreen(),
+      binding: MyCartBindings(),
+    ),
+
+    GetPage(
       name: AppRoutes.detailsScreen,
-      page: () =>  DetailsScreen(category: '', itemImg: '', price: 0, itemQty: '', userName: '',),
+      page: () =>  DetailsScreen(category: '', itemImg: '', price: 0, itemQty: '', userName: '', itemId: '',),
       binding: DetailsBinding(),
     ),
 

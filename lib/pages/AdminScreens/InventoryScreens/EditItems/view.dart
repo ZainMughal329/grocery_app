@@ -221,6 +221,7 @@ class EditItemView extends GetView<EditItemController> {
                   TextWidget( title: "Apply Filter",textColor: LightAppColor.bgColor,fontSize: 16,), // This was TextWidget(title: "Apply Filter") in your code
                   Obx((){
                     return DropdownButton(
+                      iconEnabledColor: Colors.white,
                         hint: TextWidget(title: controller.state.dropDownValue.value.toString(),textColor: LightAppColor.bgColor,fontSize: 16,),
                         items: [
                           DropdownMenuItem(child: TextWidget(title: 'All',),value: 'All',),
@@ -265,7 +266,6 @@ class EditItemView extends GetView<EditItemController> {
                 return Obx(() => _buildlistTile(context,snapshot,index,controller.state.dropDownValue.value.toString()));
               },
             );
-
 
 
           },

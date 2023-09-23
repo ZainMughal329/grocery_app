@@ -9,6 +9,7 @@ import 'package:grocery_app/pages/user_screens/category_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
 
 import '../../../components/models/item_model.dart';
+import '../../../components/models/order_model.dart';
 
 class CategoryController extends GetxController {
   final state = CategoryState();
@@ -97,6 +98,96 @@ class CategoryController extends GetxController {
     } catch (error) {
       // Handle any potential errors here.
       print('Error fetching username: $error');
+    }
+  }
+
+  final RxList<String> itemIds = <String>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      final collectionReference = FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('orderList');
+      final QuerySnapshot querySnapshot = await collectionReference.get();
+
+      for (final QueryDocumentSnapshot document in querySnapshot.docs) {
+        final data = document.data() as Map<String, dynamic>;
+        final itemId = data["itemId"]
+        as String; // Replace 'itemId' with the actual field name
+
+
+        itemIds.add(itemId);
+
+      }
+      print('Items are : ' + itemIds.toString());
+    } catch (e) {
+      print('Error fetching itemIds: $e');
+    }
+  }
+
+  final db = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+
+  addDataToFirebase(
+      final String userName,
+      final int totalPrice,
+      final String itemName,
+      final DateTime dateTime,
+      final int itemQty,
+      final String itemId,
+      String itemImg,
+      ) async {
+    try {
+      String timeStamp = DateTime.now().microsecondsSinceEpoch.toString();
+      await db
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .collection('orderList')
+          .doc(timeStamp)
+          .set(
+        OrderModel(
+            orderId: timeStamp,
+            customerId: auth.currentUser!.uid.toString(),
+            customerName: userName,
+            totalPrice: totalPrice,
+            dateTime: dateTime,
+            itemName: itemName,
+            itemQty: itemQty,
+            itemId: itemId, itemImg: itemImg,)
+            .toJson(),
+      )
+          .then((value) async {
+        await db
+            .collection('allOrdersList')
+            .doc(timeStamp)
+            .set(
+          OrderModel(
+              orderId: timeStamp,
+              customerId: auth.currentUser!.uid.toString(),
+              customerName: userName,
+              totalPrice: totalPrice,
+              dateTime: dateTime,
+              itemName: itemName,
+              itemQty: itemQty,
+              itemId: itemId, itemImg: itemImg,)
+              .toJson(),
+        )
+            .then((value) {
+          print('Added to cart successfully');
+        });
+      });
+    } catch (e) {
+      print(
+        'Error is : ' + e.toString(),
+      );
     }
   }
 }

@@ -89,7 +89,9 @@ class AllProductsScreen extends GetView<AllProductsController> {
                               category: snapshot.data![index].title,
                               itemImg: snapshot.data![index].imageUrl,
                               price: snapshot.data![index].price,
-                              itemQty: snapshot.data![index].priceQty, userName: con.state.username.value,
+                              itemQty: snapshot.data![index].priceQty,
+                              userName: con.state.username.value,
+                              itemId: snapshot.data![index].itemId.toString(),
                             ),
                           );
                         },

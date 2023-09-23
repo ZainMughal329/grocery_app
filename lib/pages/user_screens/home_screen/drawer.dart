@@ -15,12 +15,10 @@ import '../../../components/services/session_controller.dart';
 
 class BuildDrawer {
   static Drawer buildDrawer(BuildContext context) {
-    var themeController = Get.put(DarkThemeChanger());
     var con = Get.put(HomeController());
     return Drawer(
       width: 300.w,
-      backgroundColor: themeController.getDarkTheme
-          ? DarkAppColor.bgColor
+      backgroundColor
           : LightAppColor.bgColor,
       child: ListView(
         children: [
@@ -164,24 +162,24 @@ class BuildDrawer {
           SizedBox(
             height: 10.h,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextWidget(title: 'Light Theme'),
-              GetBuilder<DarkThemeChanger>(builder: (cont) {
-                return Switch(
-                    activeColor: LightAppColor.btnColor,
-                    value: cont.getDarkTheme,
-                    onChanged: (bool value) {
-                      cont.setDarkTheme = value;
-                      print('value is : ' + cont.getDarkTheme.toString().trim());
-
-                      // Get.theme.
-                    });
-              }),
-              TextWidget(title: 'Dark Theme'),
-            ],
-          )
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     TextWidget(title: 'Light Theme'),
+          //     GetBuilder<DarkThemeChanger>(builder: (cont) {
+          //       return Switch(
+          //           activeColor: LightAppColor.btnColor,
+          //           value: cont.getDarkTheme,
+          //           onChanged: (bool value) {
+          //             cont.setDarkTheme = value;
+          //             print('value is : ' + cont.getDarkTheme.toString().trim());
+          //
+          //             // Get.theme.
+          //           });
+          //     }),
+          //     TextWidget(title: 'Dark Theme'),
+          //   ],
+          // )
         ],
       ),
     );

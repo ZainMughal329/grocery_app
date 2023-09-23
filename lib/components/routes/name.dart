@@ -10,6 +10,7 @@ class AppRoutes {
   static const helpCenterScreen = '/helpCenter';
   static const allProductsScreen = '/allProducts';
   static const detailsScreen = '/details';
+  static const cartScreen = '/cart';
 
 
   //AdminScreens

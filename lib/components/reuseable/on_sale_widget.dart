@@ -5,10 +5,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
+import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/components/services/cart_open.dart';
+import 'package:grocery_app/pages/user_screens/details/controller.dart';
 
 import '../../pages/user_screens/details/details.dart';
-
 
 class onSaleContainer extends StatefulWidget {
   String itemName;
@@ -18,17 +19,19 @@ class onSaleContainer extends StatefulWidget {
   String itemImg;
   int discount;
   String userName;
+  String itemId;
 
-  onSaleContainer(
-      {super.key,
-      required this.itemName,
-      required this.itemQty,
-      required this.itemPrice,
-      required this.discountedPrice,
-      required this.itemImg,
-      required this.discount
-      ,required this.userName,
-      });
+  onSaleContainer({
+    super.key,
+    required this.itemName,
+    required this.itemQty,
+    required this.itemPrice,
+    required this.discountedPrice,
+    required this.itemImg,
+    required this.discount,
+    required this.userName,
+    required this.itemId,
+  });
 
   @override
   State<onSaleContainer> createState() => _onSaleContainerState();
@@ -38,6 +41,7 @@ class _onSaleContainerState extends State<onSaleContainer> {
   int count = 1;
   bool isTrue = false;
   StorePrefrences sp = StorePrefrences();
+  final detailsCon = Get.put(DetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +70,13 @@ class _onSaleContainerState extends State<onSaleContainer> {
             GestureDetector(
               onTap: () {
                 Get.to(
-                      () => DetailsScreen(
+                  () => DetailsScreen(
                     category: widget.itemName,
                     itemImg: widget.itemImg,
                     itemQty: widget.itemQty,
                     price: widget.itemPrice,
-                        userName: widget.userName,
+                    userName: widget.userName,
+                    itemId: widget.itemId,
                   ),
                 );
               },
@@ -146,32 +151,43 @@ class _onSaleContainerState extends State<onSaleContainer> {
               height: 50.h,
               width: 200.w,
               color: Colors.green,
-              child: isTrue == true
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconWidget(iconData: Icons.remove),
-                        TextWidget(title: count.toString()),
-                        IconWidget(iconData: Icons.add),
-                      ],
-                    )
-                  : GestureDetector(
-
-                      onTap: () async {
-                        StorePrefrences sp =StorePrefrences();
-                        setState(() {
-                          isTrue = true;
-                        });
-                        await sp.setIsFirstOpen(true);
-                        print('object :' + sp.getIsFirstOpen().toString());
-                      },
-                      child: Center(
+              child: Obx(
+                () => detailsCon.itemIds.contains(widget.itemId)
+                    ? Center(
                         child: TextWidget(
-                          title: 'Add to cart',
+                          title: 'Already in cart',
                           textColor: Colors.white,
                         ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          final CartControllerReuseAble cartController = Get.find<CartControllerReuseAble>();
+                          cartController.addToCart();
+                          print(detailsCon.itemIds.contains(widget.itemId).toString());
+                          setState(() {
+                            isTrue = true;
+                          });
+                          DateTime currentDate = DateTime.now();
+                          DateTime dateTime = DateTime(currentDate.year,
+                              currentDate.month, currentDate.day);
+                          detailsCon.addDataToFirebase(
+                              widget.userName,
+                              widget.itemPrice,
+                              widget.itemName,
+                              dateTime,
+                              count,
+                              widget.itemId ,
+                          widget.itemImg,
+                          );
+                        },
+                        child: Center(
+                          child: TextWidget(
+                            title: 'Add to cart',
+                            textColor: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
+              ),
             ),
           ],
         ),
