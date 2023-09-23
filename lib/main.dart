@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             theme: Styles.themeData(con.getDarkTheme, context),
-            initialRoute: AppRoutes.logInScreen,
+            initialRoute: AppRoutes.splashScreen,
             getPages: AppPages.routes,
           );
         });

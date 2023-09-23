@@ -11,7 +11,8 @@ import 'package:grocery_app/pages/user_screens/cart_directory/controller.dart';
 import 'package:grocery_app/pages/user_screens/category_screen/controller.dart';
 import 'package:grocery_app/pages/user_screens/faqs/controller.dart';
 
-import '../../../../components/details/details.dart';
+import '../../details/details.dart';
+
 
 class ShowAllCategoriesProductsScreen extends GetView<CategoryController> {
   String category;
@@ -79,7 +80,7 @@ class ShowAllCategoriesProductsScreen extends GetView<CategoryController> {
                                           category: snapshot.data![index].title,
                                           itemImg: snapshot.data![index].imageUrl,
                                           price: snapshot.data![index].price,
-                                          itemQty: snapshot.data![index].priceQty,),);
+                                          itemQty: snapshot.data![index].priceQty, userName: con.state.username.value,),);
                                       },
                                       child: Column(
                                         children: [

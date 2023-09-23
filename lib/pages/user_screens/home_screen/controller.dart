@@ -149,4 +149,9 @@ class HomeController extends GetxController {
     return await getAllItemsData();
   }
 
+  isTrue(bool value) {
+    state.isTrue.value = value;
+    update();
+  }
+
 }

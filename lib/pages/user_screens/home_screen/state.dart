@@ -6,4 +6,7 @@ class HomeState {
   RxBool isDarkMode = false.obs;
   RxString username = RxString('');
 
+  RxInt count = 1.obs;
+  RxBool isTrue = false.obs;
+
 }

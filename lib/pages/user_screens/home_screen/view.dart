@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:grocery_app/components/details/details.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/search_text_field.dart';
 import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
@@ -175,51 +174,31 @@ class HomeView extends GetView<HomeController> {
                                                   return Padding(
                                                     padding: EdgeInsets.only(
                                                         left: 5.w, right: 5.w),
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        Get.to(
-                                                          () => DetailsScreen(
-                                                            category: snapshot
-                                                                .data![index]
-                                                                .title,
-                                                            itemImg: snapshot
-                                                                .data![index]
-                                                                .imageUrl,
-                                                            itemQty: snapshot
-                                                                .data![index]
-                                                                .priceQty,
-                                                            price: snapshot
-                                                                .data![index]
-                                                                .price,
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: onSaleContainer(
-                                                        itemName: snapshot
-                                                            .data![index].title,
-                                                        itemQty: snapshot
-                                                            .data![index]
-                                                            .priceQty,
-                                                        itemPrice: snapshot
-                                                            .data![index].price,
-                                                        discountedPrice: controller
-                                                            .calculateDiscountedPrice(
-                                                                snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .price,
-                                                                snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .discount),
-                                                        itemImg: snapshot
-                                                            .data![index]
-                                                            .imageUrl,
-                                                        discount: snapshot
-                                                            .data![index]
-                                                            .discount!
-                                                            .toInt(),
-                                                      ),
+                                                    child: onSaleContainer(
+                                                      itemName: snapshot
+                                                          .data![index].title,
+                                                      itemQty: snapshot
+                                                          .data![index]
+                                                          .priceQty,
+                                                      itemPrice: snapshot
+                                                          .data![index].price,
+                                                      discountedPrice: controller
+                                                          .calculateDiscountedPrice(
+                                                              snapshot
+                                                                  .data![
+                                                                      index]
+                                                                  .price,
+                                                              snapshot
+                                                                  .data![
+                                                                      index]
+                                                                  .discount),
+                                                      itemImg: snapshot
+                                                          .data![index]
+                                                          .imageUrl,
+                                                      discount: snapshot
+                                                          .data![index]
+                                                          .discount!
+                                                          .toInt(), userName: con.state.username.value,
                                                     ),
                                                   );
                                                 }

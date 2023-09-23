@@ -23,6 +23,8 @@ import 'package:grocery_app/pages/session_sreens/splash/bindings.dart';
 import 'package:grocery_app/pages/user_screens/all_products_view/bindings.dart';
 import 'package:grocery_app/pages/user_screens/all_products_view/view.dart';
 import 'package:grocery_app/pages/user_screens/category_screen/index.dart';
+import 'package:grocery_app/pages/user_screens/details/bindings.dart';
+import 'package:grocery_app/pages/user_screens/details/details.dart';
 import 'package:grocery_app/pages/user_screens/faqs/bindings.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/profile/index.dart';
@@ -88,6 +90,12 @@ class AppPages {
       name: AppRoutes.categoryScreen,
       page: () =>  CategoryView(),
       binding: CategoryBindings(),
+    ),
+
+    GetPage(
+      name: AppRoutes.detailsScreen,
+      page: () =>  DetailsScreen(category: '', itemImg: '', price: 0, itemQty: '', userName: '',),
+      binding: DetailsBinding(),
     ),
 
 

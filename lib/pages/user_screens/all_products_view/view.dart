@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
-import 'package:grocery_app/components/details/details.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/user_screens/all_products_view/controller.dart';
 import 'package:grocery_app/pages/user_screens/cart_directory/controller.dart';
 import 'package:grocery_app/pages/user_screens/faqs/controller.dart';
+
+import '../details/details.dart';
 
 class AllProductsScreen extends GetView<AllProductsController> {
   String category;
@@ -88,7 +89,7 @@ class AllProductsScreen extends GetView<AllProductsController> {
                               category: snapshot.data![index].title,
                               itemImg: snapshot.data![index].imageUrl,
                               price: snapshot.data![index].price,
-                              itemQty: snapshot.data![index].priceQty,
+                              itemQty: snapshot.data![index].priceQty, userName: con.state.username.value,
                             ),
                           );
                         },

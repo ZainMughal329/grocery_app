@@ -5,9 +5,9 @@ class OrderModel {
   final String customerId;
   final String customerName;
   final int totalPrice;
-  final List<String> items;
+  final String itemName;
   final DateTime dateTime;
-  final List<int> itemQty;
+  final int itemQty;
 
 
   OrderModel({
@@ -16,7 +16,7 @@ class OrderModel {
     required this.customerName,
     required this.totalPrice,
     required this.dateTime,
-    required this.items,
+    required this.itemName,
     required this.itemQty,
 });
 
@@ -27,7 +27,7 @@ class OrderModel {
       'customerName' : customerName,
       'totalPrice' : totalPrice,
       'dateTime' : dateTime,
-      'items' : items,
+      'items' : itemName,
       'itemQty' : itemQty,
     };
   }
@@ -40,7 +40,7 @@ class OrderModel {
       customerName: data['customerName'],
       totalPrice: data['totalPrice'],
       dateTime: data['dateTime'],
-      items: data['items'],
+      itemName: data['items'],
       itemQty: data['itemQty'],
     );
 
