@@ -149,8 +149,7 @@ class AppPages {
       name: AppRoutes.inventoryEditItem,
       page: () => EditItemView(),
       binding: EditItemBindings(),
-      transition: Transition.downToUp ,
-      transitionDuration: Duration(milliseconds: 600),
+
     ),
     // GetPage(
     //   name: AppRoutes.inventoryCheck,
