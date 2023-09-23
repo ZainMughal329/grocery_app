@@ -23,6 +23,7 @@ static const inventoryAddItem = '/inventoryAddItem';
   static const inventoryDeleteItem = '/inventoryDeleteItem';
   static const inventoryEditItem = '/inventoryEditItem';
   static const inventoryCheck = '/inventoryCheck';
+  static const inventoryEdit = '/inventoryEdit';
 
 
 

@@ -5,6 +5,7 @@ import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/inventory_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/controller.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/view.dart';
 
 class InventoryView extends GetView<InventoryController> {
   const InventoryView({Key? key}) : super(key: key);
@@ -34,6 +35,7 @@ class InventoryView extends GetView<InventoryController> {
                   color: LightAppColor.btnColor,
                   onPress: () {
                     Get.toNamed(AppRoutes.inventoryEditItem);
+                    // Get.to(()=>EditItemView());
                   },
                 ),
 

@@ -7,10 +7,17 @@ import 'package:get/get.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
+import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/controller.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditScreen/view.dart';
 
 class EditItemView extends GetView<EditItemController> {
-  const EditItemView({Key? key}) : super(key: key);
+   EditItemView({Key? key}) : super(key: key);
+
+  final controller = Get.put<EditItemController>(EditItemController(),permanent: true);
+  // final cont = Get.find<EditItemController>();
+
+
 
   Widget _buildlistTile (BuildContext context , AsyncSnapshot<QuerySnapshot> snapshot, index,String value){
     return  controller.state.dropDownValue.value=='All' ? Card(
@@ -92,6 +99,8 @@ class EditItemView extends GetView<EditItemController> {
                   });
                 },
                 onTap: (){
+                  Get.to(()=>EditScreenView(id: snapshot.data!.docs[index]['itemId']));
+
 
                 },
                 child: Icon(Icons.edit, color: Colors.blue,size: 30.sp,),
@@ -160,6 +169,8 @@ class EditItemView extends GetView<EditItemController> {
             children: [
               InkWell(
                 onTap: (){
+                  // Get.toNamed(AppRoutes.inventoryEdit);
+                  Get.to(()=>EditScreenView(id: snapshot.data!.docs[index]['itemId']));
 
                 },
                 onLongPress: (){
@@ -199,6 +210,7 @@ class EditItemView extends GetView<EditItemController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(EditItemController());
     return Scaffold(
       appBar: AppBar(
         backgroundColor: LightAppColor.btnColor,
