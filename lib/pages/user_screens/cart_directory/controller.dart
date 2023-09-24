@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/pages/user_screens/cart_directory/index.dart';
+import 'package:grocery_app/pages/user_screens/checkOut_screen/view.dart';
 import 'package:grocery_app/pages/user_screens/details/controller.dart';
 
 import '../../../components/models/order_model.dart';
@@ -121,6 +122,7 @@ class MyCartController extends GetxController {
       ) async {
     try {
       String timeStamp = DateTime.now().microsecondsSinceEpoch.toString();
+      int tprice=totalPrice;
       await db
           .collection('users')
           .doc(auth.currentUser!.uid)
@@ -139,6 +141,10 @@ class MyCartController extends GetxController {
             .toJson(),
       )
           .then((value) async {
+        Get.to(CheckOutView(
+            totalPrice: tprice,
+        timeStamp: timeStamp,
+        ));
         Snackbar.showSnackBar('Success', 'Added data to cart successfully');
         // cartCon.addTotalPrice(totalPrice);
       });

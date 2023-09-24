@@ -216,11 +216,14 @@ class MyCartScreen extends GetView<MyCartController> {
                   ),
                 ),
                 actions: [
-                  IconButton(onPressed: (){
-                    controller.deleteCartList();
-                  }, icon: IconWidget(
-                    iconData: Icons.delete_forever_outlined,
-                  ),),
+                  IconButton(
+                    onPressed: () {
+                      controller.deleteCartList();
+                    },
+                    icon: IconWidget(
+                      iconData: Icons.delete_forever_outlined,
+                    ),
+                  ),
                 ],
                 backgroundColor: LightAppColor.bgColor,
               ),
@@ -228,151 +231,137 @@ class MyCartScreen extends GetView<MyCartController> {
                   delegate: SliverChildListDelegate([
                 // Container(),
 
-                Container(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: controller.orderList,
-                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data!.docs.length != 0) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                final now =
-                                    snapshot.data!.docs[index]['dateTime'];
-                                print(now.toString());
-                                List<Map<String, dynamic>> items = [];
+                Stack(
+                  children: [
+                    Container(
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: controller.orderList,
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data!.docs.length != 0) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final now =
+                                      snapshot.data!.docs[index]['dateTime'];
+                                  print(now.toString());
+                                  List<Map<String, dynamic>> items = [];
 
-                                for (var doc in snapshot.data!.docs) {
-                                  items.add(doc.data() as Map<String, dynamic>);
-                                }
+                                  for (var doc in snapshot.data!.docs) {
+                                    items.add(
+                                        doc.data() as Map<String, dynamic>);
+                                  }
 
-                                print(
-                                    'Total Price: \$${controller.totalPrice.value.toStringAsFixed(2)}');
-                                controller.calculateTotalPrice(items,
-                                    snapshot.data!.docs[index]['totalPrice']);
-                                return index == snapshot.data!.docs.length - 1
-                                    ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          _buildlistTile(
-                                              context,
+                                  print(
+                                      'Total Price: \$${controller.totalPrice.value.toStringAsFixed(2)}');
+                                  controller.calculateTotalPrice(items,
+                                      snapshot.data!.docs[index]['totalPrice']);
+                                  return Column(
+                                    children: [
+                                      _buildlistTile(
+                                          context,
+                                          snapshot.data!.docs[index]['itemImg'],
+                                          snapshot.data!.docs[index]['items'],
+                                          snapshot.data!.docs[index]['category'],
+                                          snapshot.data!.docs[index]['subCategory'],
+                                          snapshot.data!.docs[index]['totalPrice'],
+                                          snapshot.data!.docs[index]['discount'],
+                                          snapshot.data!.docs[index]['orderId'],
+                                          snapshot.data!.docs[index]['itemQty']),
+                                      index == snapshot.data!.docs.length - 1 ? 
+                                      Obx(() => RoundButton(
+                                          title: 'CheckOut Rs:'+controller.totalPrice.toString(),
+                                          onPress: (){
+                                            controller.addDataToFirebase(
                                               snapshot.data!.docs[index]
-                                                  ['itemImg'],
+                                              ['customerName'],
                                               snapshot.data!.docs[index]
-                                                  ['items'],
+                                              ['totalPrice'],
                                               snapshot.data!.docs[index]
-                                                  ['category'],
+                                              ['items'],
+                                              DateTime.now(),
                                               snapshot.data!.docs[index]
-                                                  ['subCategory'],
+                                              ['itemQty'],
                                               snapshot.data!.docs[index]
-                                                  ['totalPrice'],
+                                              ['itemId'],
                                               snapshot.data!.docs[index]
-                                                  ['discount'],
+                                              ['itemImg'],
                                               snapshot.data!.docs[index]
-                                                  ['orderId'],
+                                              ['category'],
                                               snapshot.data!.docs[index]
-                                                  ['itemQty']),
-                                          Obx(() {
-                                            return RoundButton(
-                                                title: "CheckOut Rs: " +
-                                                    cartController
-                                                        .totalPrice.value
-                                                        .toString(),
-                                                onPress: () {
-                                                  // Get.toNamed(AppRoutes.checkOutScreen);
-                                                  Get.to(CheckOutView(
-                                                      totalPrice: controller
-                                                          .totalPrice.value));
-                                                  controller.addDataToFirebase(
-                                                    snapshot.data!.docs[index]
-                                                        ['customerName'],
-                                                    snapshot.data!.docs[index]
-                                                        ['totalPrice'],
-                                                    snapshot.data!.docs[index]
-                                                        ['items'],
-                                                    DateTime.now(),
-                                                    snapshot.data!.docs[index]
-                                                        ['itemQty'],
-                                                    snapshot.data!.docs[index]
-                                                        ['itemId'],
-                                                    snapshot.data!.docs[index]
-                                                        ['itemImg'],
-                                                    snapshot.data!.docs[index]
-                                                        ['category'],
-                                                    snapshot.data!.docs[index]
-                                                        ['subCategory'],
-                                                    snapshot.data!.docs[index]
-                                                        ['discount'],
-                                                  );
-                                                });
-                                          })
-                                        ],
-                                      )
-                                    : _buildlistTile(
-                                        context,
-                                        snapshot.data!.docs[index]['itemImg'],
-                                        snapshot.data!.docs[index]['items'],
-                                        snapshot.data!.docs[index]['category'],
-                                        snapshot.data!.docs[index]
-                                            ['subCategory'],
-                                        snapshot.data!.docs[index]
-                                            ['totalPrice'],
-                                        snapshot.data!.docs[index]['discount'],
-                                        snapshot.data!.docs[index]['orderId'],
-                                        snapshot.data!.docs[index]['itemQty']);
-                              });
-                        } else {
-                          return Center(
-                            child: Column(
+                                              ['subCategory'],
+                                              snapshot.data!.docs[index]
+                                              ['discount'],
+                                            );
+
+                                          })) : Container(),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      height: 100.h,
+                                    ),
+                                    Image.asset('assets/cart1.png'),
+                                    Center(
+                                        child: TextWidget(
+                                      title:
+                                          'Your cart is empty\n Let\'s fill it up by adding some items!',
+                                      textColor: Colors.grey,
+                                      textAlign: TextAlign.center,
+                                    )),
+                                    Container(
+                                        height: 50.h,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8.w,
+                                        margin: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                          color: Colors.orange,
+                                        ),
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Center(
+                                          child: TextWidget(
+                                            title: 'Start Shopping',
+                                            textColor: Colors.white,
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              );
+                            }
+                          } else if (snapshot.hasError) {
+                            return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  height: 100.h,
-                                ),
-                                Image.asset('assets/cart1.png'),
-                                Center(
-                                    child: TextWidget(
-                                  title:
-                                      'Your cart is empty\n Let\'s fill it up by adding some items!',
-                                  textColor: Colors.grey,
-                                  textAlign: TextAlign.center,
-                                )),
-                                Container(
-                                    height: 50.h,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.8.w,
-                                    margin: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.orange,
-                                    ),
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Center(
-                                      child: TextWidget(
-                                        title: 'Start Shopping',
-                                        textColor: Colors.white,
-                                      ),
-                                    )),
+                                CircularProgressIndicator(),
                               ],
-                            ),
-                          );
-                        }
-                      } else if (snapshot.hasError) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircularProgressIndicator(),
-                          ],
-                        );
-                      } else {
-                        return Container();
-                      }
-                    },
-                  ),
-                ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //       top: MediaQuery.of(context).size.height - 150),
+                    //   child: RoundButton(
+                    //     title: "new button",
+                    //     onPress: () {},
+                    //   ),
+                    // )
+                  ],
+                )
               ]))
             ],
           ),

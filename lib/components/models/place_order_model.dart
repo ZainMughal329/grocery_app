@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PlaceOrderModel {
+  final String orderId;
   final String customerId;
   final String name;
   final String number;
@@ -10,6 +11,7 @@ class PlaceOrderModel {
   final int orderPrice;
 
   PlaceOrderModel({
+    required this.orderId,
     required this.customerId,
     required this.name,
     required this.number,
@@ -21,6 +23,7 @@ class PlaceOrderModel {
 
   toJson() {
     return {
+      'orderId' : orderId,
       'customerId' : customerId,
       'name' : name ,
       'number' : number ,
@@ -34,6 +37,7 @@ class PlaceOrderModel {
   factory PlaceOrderModel.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot){
     final data = snapshot.data()!;
     return PlaceOrderModel(
+      orderId: data['orderId'],
       customerId: data['customerId'],
       name: data['name'],
       number: data['number'],

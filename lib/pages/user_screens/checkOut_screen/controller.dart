@@ -17,11 +17,11 @@ class CheckOutController extends GetxController {
     state.loading.value = value;
   }
 
-  Future<void> addOrder(PlaceOrderModel orderData) async {
+  Future<void> addOrder(PlaceOrderModel orderData,String timeStamp) async {
     setLoading(true);
-    final id = DateTime.timestamp().microsecondsSinceEpoch.toString();
+    // final id = DateTime.timestamp().microsecondsSinceEpoch.toString();
     try {
-      await allOrdersRef.doc(id).set(orderData.toJson()).then((value) async {
+      await allOrdersRef.doc(timeStamp).set(orderData.toJson()).then((value) async {
         setLoading(false);
         Snackbar.showSnackBar("Order Placed", "Successfully");
         // Get.offNamed(AppRoutes.homeScreen);

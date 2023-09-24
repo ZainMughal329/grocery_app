@@ -102,7 +102,7 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.checkOutScreen,
-      page: () => CheckOutView(totalPrice: 0,),
+      page: () => CheckOutView(totalPrice: 0,timeStamp: '',),
       binding: CheckOutBindings(),
     ),
 

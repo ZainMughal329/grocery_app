@@ -11,7 +11,8 @@ import 'package:grocery_app/pages/user_screens/checkOut_screen/controller.dart';
 
 class CheckOutView extends GetView<CheckOutController> {
   int totalPrice ;
-  CheckOutView({Key? key,required this.totalPrice}) : super(key: key);
+  String timeStamp;
+  CheckOutView({Key? key,required this.totalPrice,required this.timeStamp}) : super(key: key);
   final controller  = Get.put<CheckOutController>(CheckOutController());
 
   final _formKey = GlobalKey<FormState>();
@@ -154,6 +155,7 @@ class CheckOutView extends GetView<CheckOutController> {
                      if(controller.state.addressLabel.value!='Select'&&controller.state.paymentMethod.value!='Select'){
                        final id = SessionController().userId.toString();
                        final orderData = PlaceOrderModel(
+                         orderId: timeStamp,
                          customerId: id,
                          name: controller.state.nameController.text.trim().toString(),
                          number: controller.state.phoneController.text.trim().toString(),
@@ -163,7 +165,7 @@ class CheckOutView extends GetView<CheckOutController> {
                          orderPrice: totalPrice,
                        );
 
-                       controller.addOrder(orderData);
+                       controller.addOrder(orderData,timeStamp);
 
 
 
