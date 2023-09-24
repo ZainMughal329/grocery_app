@@ -9,6 +9,13 @@ class EditItemController extends GetxController {
   final allItemRef = FirebaseFirestore.instance.collection('Items').snapshots();
 
 
+  bool val = true;
+
+  setval(bool value){
+    val = value;
+  }
+
+
 
   Future<void> deleteItem (String id)async{
     await FirebaseFirestore.instance.collection('Items').doc(id).delete().then((value){

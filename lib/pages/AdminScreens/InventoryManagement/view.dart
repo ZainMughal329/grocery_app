@@ -40,17 +40,12 @@ class InventoryView extends GetView<InventoryController> {
                 ),
 
                 InventoryWidget(
-                  title: 'Delete',
-                  icon: Icons.delete_forever,
+                  title: 'Discounted Items',
+                  icon: Icons.discount_outlined,
                   color: LightAppColor.btnColor,
                   onPress: () {},
                 ),
-                InventoryWidget(
-                  title: 'Stock',
-                  icon: Icons.inventory_outlined,
-                  color: LightAppColor.btnColor,
-                  onPress: () {},
-                ),
+
 
               ],
             ),

@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
+import 'package:grocery_app/components/reuseable/round_button.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/pages/user_screens/cart_directory/controller.dart';
+import 'package:grocery_app/pages/user_screens/checkOut_screen/view.dart';
 import 'package:grocery_app/pages/user_screens/faqs/controller.dart';
 
 class MyCartScreen extends GetView<MyCartController> {
@@ -18,8 +20,9 @@ class MyCartScreen extends GetView<MyCartController> {
       String category, String subCategory, int price, int discount , String orderId , int itemQty) {
     return Card(
       elevation: 5.0,
-      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: Container(
+        // height: 00.h,
         decoration: BoxDecoration(color: Colors.white),
         child: ListTile(
           contentPadding:
@@ -262,7 +265,40 @@ class MyCartScreen extends GetView<MyCartController> {
                                 controller.calculateTotalPrice(items,snapshot.data!
                                     .docs[index]
                                 ['totalPrice']);
-                                return _buildlistTile(
+                                return index==snapshot.data!.docs.length-1 ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _buildlistTile(
+                                        context, snapshot.data!
+                                        .docs[index]
+                                    ['itemImg'], snapshot.data!
+                                        .docs[index]
+                                    ['items'], snapshot.data!
+                                        .docs[index]
+                                    ['category'], snapshot.data!
+                                        .docs[index]
+                                    ['subCategory'], snapshot.data!
+                                        .docs[index]
+                                    ['totalPrice'], snapshot.data!
+                                        .docs[index]
+                                    ['discount'],
+                                        snapshot.data!
+                                            .docs[index]
+                                        ['orderId'],
+                                        snapshot.data!
+                                            .docs[index]
+                                        ['itemQty']
+                                    ),
+                                    Obx((){
+                                      return RoundButton(title: "CheckOut Rs: "+controller.totalPrice.value.toString(), onPress: (){
+
+                                        // Get.toNamed(AppRoutes.checkOutScreen);
+                                        Get.to(CheckOutView(totalPrice: controller.totalPrice.value));
+
+                                      });
+                                    })
+                                  ],
+                                ): _buildlistTile(
                                     context, snapshot.data!
                                     .docs[index]
                                 ['itemImg'], snapshot.data!

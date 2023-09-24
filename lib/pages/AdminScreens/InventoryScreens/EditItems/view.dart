@@ -20,6 +20,7 @@ class EditItemView extends GetView<EditItemController> {
 
 
   Widget _buildlistTile (BuildContext context , AsyncSnapshot<QuerySnapshot> snapshot, index,String value){
+
     return  controller.state.dropDownValue.value=='All' ? Card(
       elevation: 5.0,
       margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
@@ -46,12 +47,17 @@ class EditItemView extends GetView<EditItemController> {
                 snapshot.data!.docs[index]['category'],
                 style: TextStyle(fontSize: 14),
               ),
+
               SizedBox(height: 5.0),
               Text(
                 snapshot.data!.docs[index]['subCategory'],
                 style: TextStyle(fontSize: 14),
               ),
               SizedBox(height: 5.0),
+              Text(
+                "stock:"+snapshot.data!.docs[index]['stock'].toString(),
+                style: TextStyle(fontSize: 14),
+              ),
               Row(
                 children: [
                   Text(
@@ -140,6 +146,11 @@ class EditItemView extends GetView<EditItemController> {
               SizedBox(height: 5.0),
               Text(
                 snapshot.data!.docs[index]['subCategory'],
+                style: TextStyle(fontSize: 14),
+              ),
+              SizedBox(height: 5.0),
+              Text(
+                "stock:"+snapshot.data!.docs[index]['stock'].toString(),
                 style: TextStyle(fontSize: 14),
               ),
               SizedBox(height: 5.0),

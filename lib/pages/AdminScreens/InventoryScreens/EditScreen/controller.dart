@@ -69,7 +69,7 @@ class EditScreenController extends GetxController {
         } else {
           Snackbar.showSnackBar("Item", "Updated Successfully");
           setLoading(false);
-          Get.toNamed(AppRoutes.inventoryEditItem);
+          // Get.toNamed(AppRoutes.inventoryEditItem);
         }
       }).onError((error, stackTrace) {
         setLoading(false);
@@ -101,9 +101,9 @@ class EditScreenController extends GetxController {
         // Get.toNamed(AppRoutes.adminInventoryMng);
 
         // clearControllers();
-        final controller = Get.find<EditItemController>();
-        Get.put(controller);
-        Get.toNamed(AppRoutes.inventoryEditItem);
+        // final controller = Get.find<EditItemController>();
+        // Get.put(controller);
+        // Get.toNamed(AppRoutes.inventoryEditItem);
       }).onError((error, stackTrace) {
         setLoading(false);
         Snackbar.showSnackBar("Error", error.toString());
@@ -117,15 +117,5 @@ class EditScreenController extends GetxController {
     state.loading.value = value;
   }
 
-  void clearControllers() {
-    state.titleController.clear();
-    state.descriptionController.clear();
-    state.stockController.clear();
-    state.priceController.clear();
-    state.discountController.clear();
-    state.priceQtyValue.value = 'Select';
-    _image = null;
-    state.imageUrl = '';
-    update();
-  }
+
 }
