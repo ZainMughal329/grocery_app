@@ -32,6 +32,7 @@ class CheckOutView extends GetView<CheckOutController> {
             child: Column(
               children: [
                 TextFormField(
+                  controller: controller.state.nameController,
                   decoration: InputDecoration(
                     labelText: 'Name',
                     border: UnderlineInputBorder(
@@ -50,6 +51,8 @@ class CheckOutView extends GetView<CheckOutController> {
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
+                  controller: controller.state.phoneController,
+
                   decoration: InputDecoration(
                     labelText: 'Phone Number',
                     border: UnderlineInputBorder(
@@ -69,6 +72,8 @@ class CheckOutView extends GetView<CheckOutController> {
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
+                  controller: controller.state.addressController,
+
                   decoration: InputDecoration(
                     labelText: 'Address',
                     border: UnderlineInputBorder(

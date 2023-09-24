@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:grocery_app/components/themes/dark_theme.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 
 import '../../../components/reuseable/snackbar_widget.dart';
+import '../../../components/services/cart_controller_reuseable.dart';
 import '../../../components/services/session_controller.dart';
 
 class BuildDrawer {
@@ -142,12 +144,38 @@ class BuildDrawer {
             title: 'Log Out',
             onPress: () async {
               Navigator.pop(context);
+              final cartCon = Get.find<CartControllerReuseAble>();
+              cartCon.totalPrice.value = 0;
+              final CollectionReference collectionReference = FirebaseFirestore
+                  .instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection('cartList');
+
+
+              final QuerySnapshot querySnapshot = await collectionReference.get();
+              for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+                await documentSnapshot.reference.delete().then((value) {
+                  print('Deleted success');
+
+
+
+                }).onError((error, stackTrace) {
+                  print('Error is : '+ error.toString());
+                });
+              }
 
               final auth = FirebaseAuth.instance;
-              await auth.signOut().then((value) {
+              await auth.signOut().then((value) async {
+
                 SessionController().userId = '';
                 Snackbar.showSnackBar("Logout", "Successfully");
+
+
                 Get.offNamed(AppRoutes.logInScreen);
+
+
+
               }).onError(
                 (error, stackTrace) {
                   Snackbar.showSnackBar("Error", error.toString());

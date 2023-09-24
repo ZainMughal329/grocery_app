@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
+import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/components/services/cart_open.dart';
@@ -164,18 +165,28 @@ class _onSaleContainerState extends State<onSaleContainer> {
             Container(
               height: 50.h,
               width: 200.w,
-              color: Colors.green,
+              decoration: BoxDecoration(
+                color: Colors.orange,
+               borderRadius: BorderRadius.circular(10),
+
+              ),
               child: Obx(
-                () => detailsCon.itemIds.contains(widget.itemId)
-                    ? Center(
-                        child: TextWidget(
-                          title: 'Already in cart',
-                          textColor: Colors.white,
+                () => isTrue == true || detailsCon.itemIds.contains(widget.itemId)
+                    ? GestureDetector(
+                  onTap: (){
+                    Snackbar.showSnackBar('Note', 'Already in the cart');
+                  },
+                      child: Center(
+                          child: TextWidget(
+                            title: 'In Cart',
+                            textColor: Colors.white,
+                          ),
                         ),
-                      )
+                    )
                     : GestureDetector(
                         onTap: () {
                           widget.onClick(widget.widgetKey);
+                          detailsCon.fetchData();
                           final CartControllerReuseAble cartController =
                               Get.find<CartControllerReuseAble>();
                           cartController.addToCart();
@@ -200,6 +211,10 @@ class _onSaleContainerState extends State<onSaleContainer> {
                               widget.subCat,
                               widget.dis
                           );
+                          cartController.addTotalPrice(widget.discountedPrice);
+                          setState(() {
+                            isTrue = true;
+                          });
                         },
                         child: Center(
                           child: TextWidget(

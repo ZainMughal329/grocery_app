@@ -2,6 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/pages/user_screens/cart_directory/index.dart';
+import 'package:grocery_app/pages/user_screens/details/controller.dart';
+
+import '../../../components/models/order_model.dart';
+import '../../../components/reuseable/snackbar_widget.dart';
+import '../../../components/services/cart_controller_reuseable.dart';
 
 class MyCartController extends GetxController {
   final state = MyCartState();
@@ -24,27 +29,19 @@ class MyCartController extends GetxController {
   final orderList = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('orderList')
+      .collection('cartList')
       .snapshots();
 
   updateQuantityToOne(String id, int itemQty) async {
     await db
         .collection('users')
         .doc(auth.currentUser!.uid)
-        .collection('orderList')
+        .collection('cartList')
         .doc(id)
         .update({
       'itemQty': itemQty + 1,
-    }).then((value) async {
-     await db
-
-          .collection('allOrdersList')
-          .doc(id)
-          .update({
-        'itemQty': itemQty + 1,
-      }).then((value) {
-        print('success');
-      });
+    }).then((value)  {
+    print('success');
     });
   }
 
@@ -52,20 +49,12 @@ class MyCartController extends GetxController {
     await db
         .collection('users')
         .doc(auth.currentUser!.uid)
-        .collection('orderList')
+        .collection('cartList')
         .doc(id)
         .update({
       'itemQty': itemQty - 1,
-    }).then((value) async{
-      await db
-
-          .collection('allOrdersList')
-          .doc(id)
-          .update({
-        'itemQty': itemQty + 1,
-      }).then((value) {
-        print('success');
-      });
+    }).then((value) {
+     print('success');
     });
   }
 
@@ -74,16 +63,35 @@ class MyCartController extends GetxController {
     await db
         .collection('users')
         .doc(auth.currentUser!.uid)
-        .collection('orderList')
+        .collection('cartList')
         .doc(id).delete().then((value) async {
-      await db
-
-          .collection('allOrdersList')
-          .doc(id)
-          .delete().then((value) {
-        print('deleted!');
-      });
+     print('deleted!');
     });
+  }
+
+  deleteCartList() async {
+    final cartCon = Get.find<CartControllerReuseAble>();
+    cartCon.totalPrice.value = 0;
+    final CollectionReference collectionReference = FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('cartList');
+
+
+    final QuerySnapshot querySnapshot = await collectionReference.get();
+    for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+      await documentSnapshot.reference.delete().then((value) {
+        print('Deleted success');
+
+
+        final detailsCon = Get.put(DetailsController());
+        detailsCon.fetchData();
+
+      }).onError((error, stackTrace) {
+        print('Error is : '+ error.toString());
+      });
+    }
   }
 
   RxInt totalPrice = 0.obs;
@@ -98,5 +106,47 @@ class MyCartController extends GetxController {
     totalPrice.value = total;
   }
 
+
+  addDataToFirebase(
+      final String userName,
+      final int totalPrice,
+      final String itemName,
+      final DateTime dateTime,
+      final int itemQty,
+      final String itemId,
+      final String itemImg,
+      final String category,
+      final String subCategory,
+      final int discount,
+      ) async {
+    try {
+      String timeStamp = DateTime.now().microsecondsSinceEpoch.toString();
+      await db
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .collection('orderList')
+          .doc(timeStamp)
+          .set(
+        OrderModel(
+          orderId: timeStamp,
+          customerId: auth.currentUser!.uid.toString(),
+          customerName: userName,
+          totalPrice: totalPrice,
+          dateTime: dateTime,
+          itemName: itemName,
+          itemQty: itemQty,
+          itemId: itemId, itemImg: itemImg, category: category, subCategory: subCategory, discount: discount,)
+            .toJson(),
+      )
+          .then((value) async {
+        Snackbar.showSnackBar('Success', 'Added data to cart successfully');
+        // cartCon.addTotalPrice(totalPrice);
+      });
+    } catch (e) {
+      print(
+        'Error is : ' + e.toString(),
+      );
+    }
+  }
 
 }

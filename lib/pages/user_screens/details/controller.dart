@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/models/order_model.dart';
+import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
+import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/pages/user_screens/details/state.dart';
 
 class DetailsController extends GetxController {
   final state = DetailsState();
+  final cartCon = Get.find<CartControllerReuseAble>();
 
   DetailsController();
 
@@ -34,7 +38,7 @@ class DetailsController extends GetxController {
       await db
           .collection('users')
           .doc(auth.currentUser!.uid)
-          .collection('orderList')
+          .collection('cartList')
           .doc(timeStamp)
           .set(
             OrderModel(
@@ -49,25 +53,7 @@ class DetailsController extends GetxController {
                 .toJson(),
           )
           .then((value) async {
-        await db
-            .collection('allOrdersList')
-            .doc(timeStamp)
-            .set(
-              OrderModel(
-                      orderId: timeStamp,
-                      customerId: auth.currentUser!.uid.toString(),
-                      customerName: userName,
-                      totalPrice: totalPrice,
-                      dateTime: dateTime,
-                      itemName: itemName,
-                      itemQty: itemQty,
-                      itemId: itemId, itemImg: itemImg,category: category, subCategory: subCategory, discount: discount)
-                  .toJson(),
-            )
-            .then((value) {
-          print('Added to cart successfully');
-          Get.toNamed(AppRoutes.homeScreen);
-        });
+        Snackbar.showSnackBar('Success', 'Added data to cart successfully');
       });
     } catch (e) {
       print(
@@ -103,9 +89,9 @@ class DetailsController extends GetxController {
       final collectionReference = FirebaseFirestore.instance
           .collection('users')
           .doc(auth.currentUser!.uid)
-          .collection('orderList');
+          .collection('cartList');
       final QuerySnapshot querySnapshot = await collectionReference.get();
-
+      itemIds.clear();
       for (final QueryDocumentSnapshot document in querySnapshot.docs) {
         final data = document.data() as Map<String, dynamic>;
         final itemId = data["itemId"]
@@ -123,5 +109,15 @@ class DetailsController extends GetxController {
 
   bool isInCart(String itemId) {
     return itemIds.contains(itemId);
+  }
+
+  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
+    // Calculate the discount amount
+    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
+
+    // Calculate the discounted price
+    int discountedPrice = originalPrice - discountAmount;
+
+    return discountedPrice;
   }
 }

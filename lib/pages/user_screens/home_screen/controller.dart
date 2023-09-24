@@ -29,7 +29,6 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     fetchUsername();
-    _fetchCollectionData();
   }
 
   List<String> imagesList = [
@@ -112,14 +111,6 @@ class HomeController extends GetxController {
 
 
 
-  Future<void> _fetchCollectionData() async {
-    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('orderList').get();
-    documents.assignAll(querySnapshot.docs);
-    print('Fetched ${documents.length} documents');
-  }
 
   int get collectionLength => documents.length;
 

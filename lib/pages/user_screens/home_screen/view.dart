@@ -33,39 +33,7 @@ class HomeView extends GetView<HomeController> {
   late Function(GlobalKey) runAddToCartAnimation;
   var cartQuantity = 0;
 
-  // Widget ShoppingCartIcon() {
-  //   return InkWell(
-  //     onTap: () {},
-  //     child: Stack(
-  //       children: [
-  //         IconButton(
-  //           icon: IconWidget(iconData: Icons.shopping_cart),
-  //           onPressed: () {
-  //             print('length is : ' + controller.collectionLength.toString());
-  //             Get.toNamed(AppRoutes.cartScreen);
-  //           },
-  //         ),
-  //         cartQuantity == null ? Container() :
-  //         Positioned(
-  //           right: 0,
-  //           child: CircleAvatar(
-  //             backgroundColor: Colors.red,
-  //             radius: 10,
-  //             child: Text(
-  //               cartQuantity.toString(),
-  //               style: TextStyle(
-  //                 fontSize: 12,
-  //                 color: Colors.white,
-  //               ),
-  //             ),
-  //           ),
-  //         )
-  //
-  //
-  //       ],
-  //     ),
-  //   );
-  // }
+
 
   void listClick(GlobalKey widgetKey) async {
     await runAddToCartAnimation(widgetKey);
@@ -119,7 +87,7 @@ class HomeView extends GetView<HomeController> {
                         key: cartKey,
                         icon: IconWidget(iconData: Icons.shopping_cart),
                         badgeOptions: const BadgeOptions(
-                          active: true,
+                          active: false,
                           backgroundColor: Colors.red,
                         ),
                       ),
