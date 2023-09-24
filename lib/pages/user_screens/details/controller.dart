@@ -25,6 +25,9 @@ class DetailsController extends GetxController {
     final int itemQty,
     final String itemId,
       final String itemImg,
+      final String category,
+      final String subCategory,
+      final int discount,
   ) async {
     try {
       String timeStamp = DateTime.now().microsecondsSinceEpoch.toString();
@@ -42,7 +45,7 @@ class DetailsController extends GetxController {
                     dateTime: dateTime,
                     itemName: itemName,
                     itemQty: itemQty,
-                    itemId: itemId, itemImg: itemImg,)
+                    itemId: itemId, itemImg: itemImg, category: category, subCategory: subCategory, discount: discount,)
                 .toJson(),
           )
           .then((value) async {
@@ -58,7 +61,7 @@ class DetailsController extends GetxController {
                       dateTime: dateTime,
                       itemName: itemName,
                       itemQty: itemQty,
-                      itemId: itemId, itemImg: itemImg,)
+                      itemId: itemId, itemImg: itemImg,category: category, subCategory: subCategory, discount: discount)
                   .toJson(),
             )
             .then((value) {

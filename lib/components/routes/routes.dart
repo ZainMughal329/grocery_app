@@ -40,22 +40,21 @@ import 'name.dart';
 class AppPages {
   // static List<String> history = [];
   static final List<GetPage> routes = [
-
     GetPage(
       name: AppRoutes.splashScreen,
-      page: () =>  const SplashView(),
+      page: () => const SplashView(),
       binding: SplashScreenBindings(),
     ),
 
     GetPage(
       name: AppRoutes.signUpScreen,
-      page: () =>  SignInView(),
+      page: () => SignInView(),
       binding: SignInBindings(),
     ),
 
     GetPage(
       name: AppRoutes.logInScreen,
-      page: () =>  LogInView(),
+      page: () => LogInView(),
       binding: LogInBindings(),
     ),
     GetPage(
@@ -65,55 +64,61 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.forgotScreen,
-      page: () =>  ForgotView(),
+      page: () => ForgotView(),
       binding: ForgotBindings(),
     ),
 
-
     GetPage(
       name: AppRoutes.faqsScreen,
-      page: () =>  FAQScreen(),
+      page: () => FAQScreen(),
       binding: FAQSBindings(),
     ),
 
     GetPage(
       name: AppRoutes.helpCenterScreen,
-      page: () =>  HelpCenterScreen(),
+      page: () => HelpCenterScreen(),
       binding: HelpCenterBindings(),
     ),
 
-
     GetPage(
       name: AppRoutes.categoryScreen,
-      page: () =>  CategoryView(),
+      page: () => CategoryView(),
       binding: CategoryBindings(),
     ),
 
     GetPage(
       name: AppRoutes.categoryScreen,
-      page: () =>  CategoryView(),
+      page: () => CategoryView(),
       binding: CategoryBindings(),
     ),
 
     GetPage(
       name: AppRoutes.cartScreen,
-      page: () =>  MyCartScreen(),
+      page: () => MyCartScreen(),
       binding: MyCartBindings(),
     ),
 
     GetPage(
       name: AppRoutes.detailsScreen,
-      page: () =>  DetailsScreen(category: '', itemImg: '', price: 0, itemQty: '', userName: '', itemId: '',),
+      page: () => DetailsScreen(
+        title: '',
+        itemImg: '',
+        price: 0,
+        itemQty: '',
+        userName: '',
+        itemId: '',
+        category: '',
+        subCategory: '',
+        discount: 0,
+      ),
       binding: DetailsBinding(),
     ),
 
-
     GetPage(
       name: AppRoutes.allProductsScreen,
-      page: () =>  AllProductsScreen(category: '', subCategory: ''),
+      page: () => AllProductsScreen(category: '', subCategory: ''),
       binding: AllProuctsBindings(),
     ),
-
 
     //AdminPages
     GetPage(
@@ -146,7 +151,7 @@ class AppPages {
       name: AppRoutes.inventoryAddItem,
       page: () => AddItemView(),
       binding: AddItemBindings(),
-      transition: Transition.downToUp ,
+      transition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 600),
     ),
     // GetPage(
@@ -158,14 +163,14 @@ class AppPages {
       name: AppRoutes.inventoryEditItem,
       page: () => EditItemView(),
       binding: EditItemBindings(),
-      transition: Transition.downToUp ,
+      transition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 600),
     ),
     GetPage(
       name: AppRoutes.inventoryEdit,
       page: () => EditScreenView(id: ''),
       binding: EditScreenBindings(),
-      transition: Transition.downToUp ,
+      transition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 600),
     ),
     // GetPage(
@@ -173,10 +178,5 @@ class AppPages {
     //   page: () => OrdersView(),
     //   binding: OrdersBindings(),
     // ),
-
-
-
-
-
   ];
 }

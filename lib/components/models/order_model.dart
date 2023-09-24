@@ -10,6 +10,9 @@ class OrderModel {
   final DateTime dateTime;
   final int itemQty;
   final String itemImg;
+  final String category;
+  final String subCategory;
+  final int discount;
 
 
   OrderModel({
@@ -22,6 +25,9 @@ class OrderModel {
     required this.itemName,
     required this.itemQty,
     required this.itemImg,
+    required this.category,
+    required this.subCategory,
+    required this.discount,
 });
 
   toJson(){
@@ -35,6 +41,9 @@ class OrderModel {
       'items' : itemName,
       'itemQty' : itemQty,
       'itemImg' : itemImg,
+      'category' : category,
+      'subCategory' : subCategory,
+      'discount' : discount
     };
   }
 
@@ -50,6 +59,9 @@ class OrderModel {
       itemName: data['items'],
       itemQty: data['itemQty'],
         itemImg : data['itemImg'],
+      category: data['category'],
+      subCategory: data['subCategory'],
+      discount: data['discount'],
     );
 
 

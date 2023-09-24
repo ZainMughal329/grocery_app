@@ -12,22 +12,28 @@ import '../../../components/reuseable/text_widget.dart';
 import '../../../components/routes/name.dart';
 
 class DetailsScreen extends StatelessWidget {
-  String category;
+  String title;
   String itemImg;
   int price;
   String itemQty;
   String userName;
   String itemId;
+  String category;
+  String subCategory;
+  int discount;
 
 
   DetailsScreen(
       {super.key,
-      required this.category,
+      required this.title,
       required this.itemImg,
       required this.price,
       required this.itemQty,
       required this.userName,
         required this.itemId,
+        required this.category,
+        required this.subCategory,
+        required this.discount,
       });
 
   int count = 1;
@@ -73,7 +79,7 @@ class DetailsScreen extends StatelessWidget {
                   forceElevated: true,
                   pinned: true,
                   title: TextWidget(
-                    title: category,
+                    title: title,
                     fontSize: 18.sp,
                   ),
                   leading: IconButton(
@@ -125,7 +131,7 @@ class DetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextWidget(
-                              title: category,
+                              title: title,
                               fontSize: 17.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -227,7 +233,7 @@ class DetailsScreen extends StatelessWidget {
                       DateTime dateTime = DateTime(currentDate.year,
                           currentDate.month, currentDate.day);
                       con.addDataToFirebase(userName,
-                          price, category, dateTime, count , itemId , itemImg);
+                          price, title, dateTime, count , itemId , itemImg,category,subCategory,discount);
                     },
                     child: Center(
                       child: TextWidget(

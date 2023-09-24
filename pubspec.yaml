@@ -48,6 +48,7 @@ dependencies:
   password_strength_checker:
   card_swiper:
   shared_preferences:
+  add_to_cart_animation:
 
 dev_dependencies:
   flutter_test:

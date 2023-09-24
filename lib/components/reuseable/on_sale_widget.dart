@@ -20,6 +20,13 @@ class onSaleContainer extends StatefulWidget {
   int discount;
   String userName;
   String itemId;
+  String cat;
+  String subCat;
+  int dis;
+
+  final GlobalKey widgetKey = GlobalKey();
+  final int index;
+  final void Function(GlobalKey) onClick;
 
   onSaleContainer({
     super.key,
@@ -31,6 +38,11 @@ class onSaleContainer extends StatefulWidget {
     required this.discount,
     required this.userName,
     required this.itemId,
+    required this.index,
+    required this.onClick,
+    required this.cat,
+    required this.subCat,
+    required this.dis,
   });
 
   @override
@@ -71,17 +83,19 @@ class _onSaleContainerState extends State<onSaleContainer> {
               onTap: () {
                 Get.to(
                   () => DetailsScreen(
-                    category: widget.itemName,
+                    title: widget.itemName,
                     itemImg: widget.itemImg,
                     itemQty: widget.itemQty,
                     price: widget.itemPrice,
                     userName: widget.userName,
-                    itemId: widget.itemId,
+                    itemId: widget.itemId, category: widget.cat, subCategory: widget.subCat, discount: widget.dis,
                   ),
                 );
               },
               child: Center(
                 child: Container(
+                  key: widget.widgetKey,
+
                   height: 130.h,
                   width: 100.w,
                   decoration: BoxDecoration(
@@ -161,9 +175,13 @@ class _onSaleContainerState extends State<onSaleContainer> {
                       )
                     : GestureDetector(
                         onTap: () {
-                          final CartControllerReuseAble cartController = Get.find<CartControllerReuseAble>();
+                          widget.onClick(widget.widgetKey);
+                          final CartControllerReuseAble cartController =
+                              Get.find<CartControllerReuseAble>();
                           cartController.addToCart();
-                          print(detailsCon.itemIds.contains(widget.itemId).toString());
+                          print(detailsCon.itemIds
+                              .contains(widget.itemId)
+                              .toString());
                           setState(() {
                             isTrue = true;
                           });
@@ -171,13 +189,16 @@ class _onSaleContainerState extends State<onSaleContainer> {
                           DateTime dateTime = DateTime(currentDate.year,
                               currentDate.month, currentDate.day);
                           detailsCon.addDataToFirebase(
-                              widget.userName,
-                              widget.itemPrice,
-                              widget.itemName,
-                              dateTime,
-                              count,
-                              widget.itemId ,
-                          widget.itemImg,
+                            widget.userName,
+                            widget.itemPrice,
+                            widget.itemName,
+                            dateTime,
+                            count,
+                            widget.itemId,
+                            widget.itemImg,
+                              widget.cat,
+                              widget.subCat,
+                              widget.dis
                           );
                         },
                         child: Center(

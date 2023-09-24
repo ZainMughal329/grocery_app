@@ -48,4 +48,14 @@ class AllProductsController extends GetxController {
   }
 
 
+  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
+    // Calculate the discount amount
+    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
+
+    // Calculate the discounted price
+    int discountedPrice = originalPrice - discountAmount;
+
+    return discountedPrice;
+  }
+
 }

@@ -11,6 +11,16 @@ class MyCartController extends GetxController {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
+  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
+    // Calculate the discount amount
+    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
+
+    // Calculate the discounted price
+    int discountedPrice = originalPrice - discountAmount;
+
+    return discountedPrice;
+  }
+
   final orderList = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -75,4 +85,18 @@ class MyCartController extends GetxController {
       });
     });
   }
+
+  RxInt totalPrice = 0.obs;
+
+  void calculateTotalPrice(List<Map<String, dynamic>> items , int initialPrice) {
+    int total = initialPrice;
+    for (var item in items) {
+      int price = item['totalPrice'].toInt();
+      int quantity = item['itemQty'].toInt();
+      total += (price * quantity);
+    }
+    totalPrice.value = total;
+  }
+
+
 }

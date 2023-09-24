@@ -105,6 +105,9 @@ class HomeController extends GetxController {
 
 
 
+
+
+
   final RxList<DocumentSnapshot> documents = <DocumentSnapshot>[].obs;
 
 
