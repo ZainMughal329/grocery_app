@@ -1,13 +1,10 @@
 import 'package:get/get.dart';
-import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/controller.dart';
-import 'package:grocery_app/pages/AdminScreens/orders/controller.dart';
 
-class OrdersBindings implements Bindings {
+class OrderDetailsBindings implements Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.lazyPut<OrdersController>(() => OrdersController());
     Get.lazyPut<OrderDetailController>(() => OrderDetailController());
   }
 

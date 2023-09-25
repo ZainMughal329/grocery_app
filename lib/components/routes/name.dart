@@ -26,6 +26,9 @@ static const inventoryAddItem = '/inventoryAddItem';
   static const inventoryCheck = '/inventoryCheck';
   static const inventoryEdit = '/inventoryEdit';
 
+  // orders screen
+  static const orderDetail = '/orderDetail';
+
 
 
 }

@@ -15,6 +15,8 @@ import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditScreen/bindi
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditScreen/view.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
 import 'package:grocery_app/pages/session_sreens/forgot/index.dart';
@@ -181,6 +183,14 @@ class AppPages {
       transition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 600),
     ),
+    GetPage(
+      name: AppRoutes.orderDetail,
+      page: () => OrderDetailView(orderId: ''),
+      binding: OrderDetailsBindings(),
+      transition: Transition.leftToRight,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+
     // GetPage(
     //   name: AppRoutes.inventoryCheck,
     //   page: () => OrdersView(),
