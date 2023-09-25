@@ -35,11 +35,11 @@ class CartControllerReuseAble extends GetxController {
   }
 
   removeFromTotalPrice(int price) {
-    if (cartItemCount.value > 0) {
+
       totalPrice.value = totalPrice.value - price;
       saveCartItemCount();
 
-    }
+
   }
 
   Future<void> loadCartItemCount() async {
