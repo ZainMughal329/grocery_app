@@ -265,7 +265,7 @@ class OrderScreen extends GetView<OrderController> {
                       return Container();
                     }
                   },
-                )),
+                ),),
               ]),
             ),
           ],

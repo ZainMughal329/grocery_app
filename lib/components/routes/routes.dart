@@ -17,8 +17,12 @@ import 'package:grocery_app/pages/AdminScreens/dashboard/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/view.dart';
-import 'package:grocery_app/pages/AdminScreens/orders/bindings.dart';
-import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/OrderHome/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/OrderItems/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/OrderItems/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/allOrders/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/allOrders/view.dart';
+// import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
 import 'package:grocery_app/pages/session_sreens/forgot/index.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
 import 'package:grocery_app/pages/session_sreens/signup/bindings.dart';
@@ -152,7 +156,7 @@ class AppPages {
         AdminHomeBindings(),
         DashBoardBindings(),
         InventoryBindings(),
-        OrdersBindings(),
+        OrderHomeBindings(),
       ],
     ),
     GetPage(
@@ -197,10 +201,26 @@ class AppPages {
       transition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 600),
     ),
+
+    GetPage(
+      name: AppRoutes.allOrders,
+      page: () => OrdersView(),
+      binding: OrdersBindings(),
+      transition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 500),
+    ),
+
     GetPage(
       name: AppRoutes.orderDetail,
       page: () => OrderDetailView(orderId: ''),
       binding: OrderDetailsBindings(),
+      transition: Transition.leftToRight,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    GetPage(
+      name: AppRoutes.orderItems,
+      page: () => OrderItemsView(customerId: '',orderId: ''),
+      binding: OrderItemsBindings(),
       transition: Transition.leftToRight,
       transitionDuration: Duration(milliseconds: 600),
     ),

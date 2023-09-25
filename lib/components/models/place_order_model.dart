@@ -9,6 +9,7 @@ class PlaceOrderModel {
   final String addressLabel;
   final String paymentMethod;
   final int orderPrice;
+  final String ?status;
 
   PlaceOrderModel({
     required this.orderId,
@@ -19,6 +20,7 @@ class PlaceOrderModel {
     required this.addressLabel,
     required this.paymentMethod,
     required this.orderPrice,
+    this.status,
 });
 
   toJson() {
@@ -31,6 +33,7 @@ class PlaceOrderModel {
       'addressLabel' : addressLabel ,
       'paymentMethod' : paymentMethod,
       'orderPrice' : orderPrice,
+      'status':'pending',
     };
   }
 
@@ -45,6 +48,7 @@ class PlaceOrderModel {
       addressLabel: data['addressLabel'],
       paymentMethod: data['paymentMethod'],
       orderPrice: data['orderPrice'],
+      status: data['pending']
     );
 
 

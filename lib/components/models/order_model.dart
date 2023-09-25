@@ -46,7 +46,7 @@ class OrderModel {
       'category' : category,
       'subCategory' : subCategory,
       'discount' : discount,
-      'status' : 'Pending'
+      'status' : 'pending'
     };
   }
 

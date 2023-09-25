@@ -9,7 +9,9 @@ import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/pages/AdminScreens/AdminHome/controller.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/view.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
-import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/OrderHome/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/allOrders/view.dart';
+// import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
 
 class AdminHomeView extends GetView<AdminHomeController> {
   const AdminHomeView({Key? key}) : super(key: key);
@@ -56,7 +58,7 @@ class AdminHomeView extends GetView<AdminHomeController> {
                 child: TabBarView(
                   children: [
                     DashBoardView(),
-                    OrdersView(),
+                    OrderHomeView(),
                     InventoryView(),
                   ],
                 ),

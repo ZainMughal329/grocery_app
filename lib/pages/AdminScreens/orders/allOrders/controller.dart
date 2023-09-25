@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:grocery_app/pages/AdminScreens/orders/state.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/allOrders/state.dart';
+// import 'package:grocery_app/pages/AdminScreens/orders/state.dart';
 
 class OrdersController extends GetxController{
   final state = OrdersState();
