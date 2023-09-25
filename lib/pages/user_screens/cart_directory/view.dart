@@ -26,6 +26,8 @@ class MyCartScreen extends GetView<MyCartController> {
       int price,
       int discount,
       String orderId,
+      String itemId,
+      // int stock,
       int itemQty) {
     return Card(
       elevation: 5.0,
@@ -112,14 +114,16 @@ class MyCartScreen extends GetView<MyCartController> {
                   itemQty == 1
                       ? GestureDetector(
                           onTap: () {
-
+                            controller.fetchStockForItem(itemId);
                             controller.deleteItem(
                               orderId,
                             );
                             cartController.removeFromTotalPrice(controller
                                 .calculateDiscountedPrice(price, discount));
+                            cartController.updateStockValue(itemId, controller.stock.value);
                             final detailCon = Get.put(DetailsController());
                             detailCon.fetchData();
+
                           },
                           child: Center(
                             child: IconWidget(
@@ -130,12 +134,15 @@ class MyCartScreen extends GetView<MyCartController> {
                         )
                       : GestureDetector(
                           onTap: () {
+                            controller.fetchStockForItem(itemId);
                             controller.removeQuantityToOne(
                               orderId,
                               itemQty,
                             );
                             cartController.removeFromTotalPrice(controller
                                 .calculateDiscountedPrice(price, discount));
+                            cartController.updateStockValue(itemId, controller.stock.value);
+
                           },
                           child: Container(
                             height: 20.w,
@@ -158,12 +165,15 @@ class MyCartScreen extends GetView<MyCartController> {
                   TextWidget(title: itemQty.toString()),
                   GestureDetector(
                     onTap: () {
+                      controller.fetchStockForItem(itemId);
                       controller.updateQuantityToOne(
                         orderId,
                         itemQty,
                       );
                       cartController.addTotalPrice(
                           controller.calculateDiscountedPrice(price, discount));
+                      cartController.reduceStockValue(itemId, controller.stock.value);
+
                       // print('price is:' +
                       //     cartController
                       //         .addTotalPrice(controller
@@ -274,10 +284,15 @@ class MyCartScreen extends GetView<MyCartController> {
                                           snapshot.data!.docs[index]['totalPrice'],
                                           snapshot.data!.docs[index]['discount'],
                                           snapshot.data!.docs[index]['orderId'],
-                                          snapshot.data!.docs[index]['itemQty']),
+                                          snapshot.data!.docs[index]['itemId'],
+                                        // snapshot.data!.docs[index]['itemQty'],
+                                        snapshot.data!.docs[index]['itemQty'],
+
+
+                                      ),
                                       index == snapshot.data!.docs.length - 1 ? 
                                       Obx(() => RoundButton(
-                                          title: 'CheckOut Rs:'+controller.totalPrice.toString(),
+                                          title: 'CheckOut Rs:'+cartController.totalPrice.toString(),
                                           onPress: (){
                                             final timeStamp = DateTime.timestamp().microsecondsSinceEpoch.toString();
                                             for(int i=0;i<snapshot.data!.docs.length ;i++){
@@ -308,7 +323,7 @@ class MyCartScreen extends GetView<MyCartController> {
                                               );
                                               Snackbar.showSnackBar('Success', 'Added data to cart successfully');
                                               Get.to(CheckOutView(
-                                                totalPrice: controller.totalPrice.value,
+                                                totalPrice: cartController.totalPrice.value,
                                                 timeStamp: controller.timeId,
                                               ));
 
@@ -338,22 +353,27 @@ class MyCartScreen extends GetView<MyCartController> {
                                       textColor: Colors.grey,
                                       textAlign: TextAlign.center,
                                     )),
-                                    Container(
-                                        height: 50.h,
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.8.w,
-                                        margin: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          color: Colors.orange,
-                                        ),
-                                        padding: EdgeInsets.all(16.0),
-                                        child: Center(
-                                          child: TextWidget(
-                                            title: 'Start Shopping',
-                                            textColor: Colors.white,
+                                    GestureDetector(
+                                      onTap: (){
+                                        // Get.toNamed(AppRoutes.homeScreen);
+                                      },
+                                      child: Container(
+                                          height: 50.h,
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.8.w,
+                                          margin: EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                            color: Colors.orange,
                                           ),
-                                        )),
+                                          padding: EdgeInsets.all(16.0),
+                                          child: Center(
+                                            child: TextWidget(
+                                              title: 'Start Shopping',
+                                              textColor: Colors.white,
+                                            ),
+                                          )),
+                                    ),
                                   ],
                                 ),
                               );

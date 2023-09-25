@@ -24,6 +24,7 @@ class onSaleContainer extends StatefulWidget {
   String cat;
   String subCat;
   int dis;
+  int stock;
 
   final GlobalKey widgetKey = GlobalKey();
   final int index;
@@ -44,6 +45,7 @@ class onSaleContainer extends StatefulWidget {
     required this.cat,
     required this.subCat,
     required this.dis,
+    required this.stock,
   });
 
   @override
@@ -53,7 +55,6 @@ class onSaleContainer extends StatefulWidget {
 class _onSaleContainerState extends State<onSaleContainer> {
   int count = 1;
   bool isTrue = false;
-  StorePrefrences sp = StorePrefrences();
   final detailsCon = Get.put(DetailsController());
 
   @override
@@ -89,14 +90,16 @@ class _onSaleContainerState extends State<onSaleContainer> {
                     itemQty: widget.itemQty,
                     price: widget.itemPrice,
                     userName: widget.userName,
-                    itemId: widget.itemId, category: widget.cat, subCategory: widget.subCat, discount: widget.dis,
+                    itemId: widget.itemId,
+                    category: widget.cat,
+                    subCategory: widget.subCat,
+                    discount: widget.dis,
                   ),
                 );
               },
               child: Center(
                 child: Container(
                   key: widget.widgetKey,
-
                   height: 130.h,
                   width: 100.w,
                   decoration: BoxDecoration(
@@ -167,28 +170,31 @@ class _onSaleContainerState extends State<onSaleContainer> {
               width: 200.w,
               decoration: BoxDecoration(
                 color: Colors.orange,
-               borderRadius: BorderRadius.circular(10),
-
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Obx(
-                () => isTrue == true || detailsCon.itemIds.contains(widget.itemId)
+                () => isTrue == true ||
+                        detailsCon.itemIds.contains(widget.itemId)
                     ? GestureDetector(
-                  onTap: (){
-                    Snackbar.showSnackBar('Note', 'Already in the cart');
-                  },
-                      child: Center(
+                        onTap: () {
+                          Snackbar.showSnackBar('Note', 'Already in the cart');
+                        },
+                        child: Center(
                           child: TextWidget(
                             title: 'In Cart',
                             textColor: Colors.white,
                           ),
                         ),
-                    )
+                      )
                     : GestureDetector(
                         onTap: () {
                           widget.onClick(widget.widgetKey);
                           detailsCon.fetchData();
                           final CartControllerReuseAble cartController =
                               Get.find<CartControllerReuseAble>();
+                          print('Price before : ' +
+                              cartController.totalPrice.toString());
+
                           print(detailsCon.itemIds
                               .contains(widget.itemId)
                               .toString());
@@ -199,21 +205,23 @@ class _onSaleContainerState extends State<onSaleContainer> {
                           DateTime dateTime = DateTime(currentDate.year,
                               currentDate.month, currentDate.day);
                           detailsCon.addDataToFirebase(
-                            widget.userName,
-                            widget.itemPrice,
-                            widget.itemName,
-                            dateTime,
-                            count,
-                            widget.itemId,
-                            widget.itemImg,
+                              widget.userName,
+                              widget.itemPrice,
+                              widget.itemName,
+                              dateTime,
+                              count,
+                              widget.itemId,
+                              widget.itemImg,
                               widget.cat,
                               widget.subCat,
-                              widget.dis
-                          );
+                              widget.dis);
                           cartController.addTotalPrice(widget.discountedPrice);
                           setState(() {
                             isTrue = true;
                           });
+                          print('Price after : ' +
+                              cartController.totalPrice.toString());
+                          cartController.reduceStockValue(widget.itemId, widget.stock);
                         },
                         child: Center(
                           child: TextWidget(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,6 +57,24 @@ class CartControllerReuseAble extends GetxController {
     await prefs.setInt('totalPrice', totalPrice.value);
     await prefs.setBool('isTrue', isTrue.value);
 
+  }
+
+
+
+  updateStockValue(String itemId , int stock) async {
+    await FirebaseFirestore.instance.collection('Items').doc(itemId).update({
+      'stock' : stock+1
+    }).then((value) {
+      print('New stock value is : ' + stock.toString());
+    });
+  }
+
+  reduceStockValue(String itemId , int stock) async {
+    await FirebaseFirestore.instance.collection('Items').doc(itemId).update({
+      'stock' : stock-1
+    }).then((value) {
+      print('New stock value is : ' + stock.toString());
+    });
   }
 
 

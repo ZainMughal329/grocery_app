@@ -247,7 +247,8 @@ class HomeView extends GetView<HomeController> {
                                                             .data![index].subCategory,
                                                         dis: snapshot
                                                             .data![index].discount!
-                                                            .toInt(),
+                                                            .toInt(), stock: snapshot
+                                                          .data![index].stock,
                                                       ),
                                                     );
                                                   }

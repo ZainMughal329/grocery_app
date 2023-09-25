@@ -103,8 +103,10 @@ class MyCartController extends GetxController {
     }
     totalPrice.value = total;
   }
-  String timeId='';
-  void createTimeStamp(){
+
+  String timeId = '';
+
+  void createTimeStamp() {
     timeId = DateTime.timestamp().microsecondsSinceEpoch.toString();
   }
 
@@ -153,6 +155,32 @@ class MyCartController extends GetxController {
       print(
         'Error is : ' + e.toString(),
       );
+    }
+  }
+
+  var stock = 0.obs; // Observable for the stock field
+
+  // Function to fetch the stock value for a specific item document
+  Future<void> fetchStockForItem(String itemId) async {
+    try {
+      final documentSnapshot = await FirebaseFirestore.instance
+          .collection('Items')
+          .doc(itemId)
+          .get();
+
+      // Check if the document exists
+      if (documentSnapshot.exists) {
+        final data = documentSnapshot.data() as Map<String, dynamic>;
+        final stockValue =
+            data['stock'] ?? 0; // Default to 0 if 'stock' is not found
+        stock.value = stockValue;
+        print(stock.value.toString());
+      } else {
+        // Document doesn't exist
+        stock.value = 0; // or any other default value
+      }
+    } catch (e) {
+      print('Error fetching stock: $e');
     }
   }
 }
