@@ -9,6 +9,8 @@ import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/user_screens/checkOut_screen/controller.dart';
 
+import '../details/controller.dart';
+
 class CheckOutView extends GetView<CheckOutController> {
   int totalPrice ;
   String timeStamp;
@@ -164,7 +166,6 @@ class CheckOutView extends GetView<CheckOutController> {
                          paymentMethod: controller.state.paymentMethod.value.toString(),
                          orderPrice: totalPrice,
                        );
-
                        controller.addOrder(orderData,timeStamp);
 
 
@@ -173,8 +174,10 @@ class CheckOutView extends GetView<CheckOutController> {
                        Snackbar.showSnackBar("No", "Not validated");
                      }
 
-                   }else{
-                     Snackbar.showSnackBar("No", "Not validated");
+                   }
+
+                   else{
+                     Snackbar.showSnackBar("Error", "Enter all fields");
                    }
                  });
                }),

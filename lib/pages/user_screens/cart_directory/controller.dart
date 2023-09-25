@@ -41,8 +41,8 @@ class MyCartController extends GetxController {
         .doc(id)
         .update({
       'itemQty': itemQty + 1,
-    }).then((value)  {
-    print('success');
+    }).then((value) {
+      print('success');
     });
   }
 
@@ -55,49 +55,46 @@ class MyCartController extends GetxController {
         .update({
       'itemQty': itemQty - 1,
     }).then((value) {
-     print('success');
+      print('success');
     });
   }
-
 
   deleteItem(String id) async {
     await db
         .collection('users')
         .doc(auth.currentUser!.uid)
         .collection('cartList')
-        .doc(id).delete().then((value) async {
-     print('deleted!');
+        .doc(id)
+        .delete()
+        .then((value) async {
+      print('deleted!');
     });
   }
 
   deleteCartList() async {
     final cartCon = Get.find<CartControllerReuseAble>();
     cartCon.totalPrice.value = 0;
-    final CollectionReference collectionReference = FirebaseFirestore
-        .instance
+    final CollectionReference collectionReference = FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('cartList');
-
 
     final QuerySnapshot querySnapshot = await collectionReference.get();
     for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
       await documentSnapshot.reference.delete().then((value) {
         print('Deleted success');
 
-
         final detailsCon = Get.put(DetailsController());
         detailsCon.fetchData();
-
       }).onError((error, stackTrace) {
-        print('Error is : '+ error.toString());
+        print('Error is : ' + error.toString());
       });
     }
   }
 
   RxInt totalPrice = 0.obs;
 
-  void calculateTotalPrice(List<Map<String, dynamic>> items , int initialPrice) {
+  void calculateTotalPrice(List<Map<String, dynamic>> items, int initialPrice) {
     int total = initialPrice;
     for (var item in items) {
       int price = item['totalPrice'].toInt();
@@ -106,46 +103,50 @@ class MyCartController extends GetxController {
     }
     totalPrice.value = total;
   }
-
+  String timeId='';
+  void createTimeStamp(){
+    timeId = DateTime.timestamp().microsecondsSinceEpoch.toString();
+  }
 
   addDataToFirebase(
-      final String userName,
-      final int totalPrice,
-      final String itemName,
-      final DateTime dateTime,
-      final int itemQty,
-      final String itemId,
-      final String itemImg,
-      final String category,
-      final String subCategory,
-      final int discount,
-      ) async {
+    final String userName,
+    final int totalPrice,
+    final String itemName,
+    final DateTime dateTime,
+    final int itemQty,
+    final String itemId,
+    final String itemImg,
+    final String category,
+    final String subCategory,
+    final int discount,
+    final String timeStamp,
+  ) async {
     try {
-      String timeStamp = DateTime.now().microsecondsSinceEpoch.toString();
-      int tprice=totalPrice;
+      String docId = DateTime.timestamp().microsecondsSinceEpoch.toString();
+
+      int tprice = totalPrice;
       await db
           .collection('users')
           .doc(auth.currentUser!.uid)
           .collection('orderList')
-          .doc(timeStamp)
+          .doc(docId)
           .set(
-        OrderModel(
-          orderId: timeStamp,
-          customerId: auth.currentUser!.uid.toString(),
-          customerName: userName,
-          totalPrice: totalPrice,
-          dateTime: dateTime,
-          itemName: itemName,
-          itemQty: itemQty,
-          itemId: itemId, itemImg: itemImg, category: category, subCategory: subCategory, discount: discount,)
-            .toJson(),
-      )
+            OrderModel(
+              orderId: timeStamp,
+              customerId: auth.currentUser!.uid.toString(),
+              customerName: userName,
+              totalPrice: totalPrice,
+              dateTime: dateTime,
+              itemName: itemName,
+              itemQty: itemQty,
+              itemId: itemId,
+              itemImg: itemImg,
+              category: category,
+              subCategory: subCategory,
+              discount: discount,
+            ).toJson(),
+          )
           .then((value) async {
-        Get.to(CheckOutView(
-            totalPrice: tprice,
-        timeStamp: timeStamp,
-        ));
-        Snackbar.showSnackBar('Success', 'Added data to cart successfully');
         // cartCon.addTotalPrice(totalPrice);
       });
     } catch (e) {
@@ -154,5 +155,4 @@ class MyCartController extends GetxController {
       );
     }
   }
-
 }

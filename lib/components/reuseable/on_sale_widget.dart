@@ -189,7 +189,6 @@ class _onSaleContainerState extends State<onSaleContainer> {
                           detailsCon.fetchData();
                           final CartControllerReuseAble cartController =
                               Get.find<CartControllerReuseAble>();
-                          cartController.addToCart();
                           print(detailsCon.itemIds
                               .contains(widget.itemId)
                               .toString());

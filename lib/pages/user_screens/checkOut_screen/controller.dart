@@ -8,6 +8,8 @@ import 'package:grocery_app/components/routes/routes.dart';
 import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/pages/user_screens/checkOut_screen/state.dart';
 
+import '../details/controller.dart';
+
 class CheckOutController extends GetxController {
   final state = CheckOutState();
   final allOrdersRef = FirebaseFirestore.instance.collection('allOrders');
@@ -38,6 +40,9 @@ class CheckOutController extends GetxController {
         for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
           await documentSnapshot.reference.delete().then((value) {
             print('Deleted success');
+
+            final detailCon = Get.put(DetailsController());
+            detailCon.fetchData();
 
             final cartCon = Get.find<CartControllerReuseAble>();
             cartCon.totalPrice.value = 0;

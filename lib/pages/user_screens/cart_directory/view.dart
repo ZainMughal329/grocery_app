@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/icon_widget.dart';
 import 'package:grocery_app/components/reuseable/round_button.dart';
+import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/pages/user_screens/cart_directory/controller.dart';
 import 'package:grocery_app/pages/user_screens/checkOut_screen/view.dart';
+import 'package:grocery_app/pages/user_screens/details/controller.dart';
 import 'package:grocery_app/pages/user_screens/faqs/controller.dart';
 
 class MyCartScreen extends GetView<MyCartController> {
@@ -110,12 +112,14 @@ class MyCartScreen extends GetView<MyCartController> {
                   itemQty == 1
                       ? GestureDetector(
                           onTap: () {
+
                             controller.deleteItem(
                               orderId,
                             );
                             cartController.removeFromTotalPrice(controller
                                 .calculateDiscountedPrice(price, discount));
-                            cartController.isTrue.value = false;
+                            final detailCon = Get.put(DetailsController());
+                            detailCon.fetchData();
                           },
                           child: Center(
                             child: IconWidget(
@@ -195,6 +199,7 @@ class MyCartScreen extends GetView<MyCartController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.createTimeStamp();
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -274,27 +279,42 @@ class MyCartScreen extends GetView<MyCartController> {
                                       Obx(() => RoundButton(
                                           title: 'CheckOut Rs:'+controller.totalPrice.toString(),
                                           onPress: (){
-                                            controller.addDataToFirebase(
-                                              snapshot.data!.docs[index]
-                                              ['customerName'],
-                                              snapshot.data!.docs[index]
-                                              ['totalPrice'],
-                                              snapshot.data!.docs[index]
-                                              ['items'],
-                                              DateTime.now(),
-                                              snapshot.data!.docs[index]
-                                              ['itemQty'],
-                                              snapshot.data!.docs[index]
-                                              ['itemId'],
-                                              snapshot.data!.docs[index]
-                                              ['itemImg'],
-                                              snapshot.data!.docs[index]
-                                              ['category'],
-                                              snapshot.data!.docs[index]
-                                              ['subCategory'],
-                                              snapshot.data!.docs[index]
-                                              ['discount'],
-                                            );
+                                            final timeStamp = DateTime.timestamp().microsecondsSinceEpoch.toString();
+                                            for(int i=0;i<snapshot.data!.docs.length ;i++){
+                                              print(i);
+                                              print(snapshot.data!.docs.length.toString());
+
+                                              controller.addDataToFirebase(
+                                                snapshot.data!.docs[i]
+                                                ['customerName'],
+                                                snapshot.data!.docs[i]
+                                                ['totalPrice'],
+                                                snapshot.data!.docs[i]
+                                                ['items'],
+                                                DateTime.now(),
+                                                snapshot.data!.docs[i]
+                                                ['itemQty'],
+                                                snapshot.data!.docs[i]
+                                                ['itemId'],
+                                                snapshot.data!.docs[i]
+                                                ['itemImg'],
+                                                snapshot.data!.docs[i]
+                                                ['category'],
+                                                snapshot.data!.docs[i]
+                                                ['subCategory'],
+                                                snapshot.data!.docs[i]
+                                                ['discount'],
+                                                controller.timeId,
+                                              );
+                                              Snackbar.showSnackBar('Success', 'Added data to cart successfully');
+                                              Get.to(CheckOutView(
+                                                totalPrice: controller.totalPrice.value,
+                                                timeStamp: controller.timeId,
+                                              ));
+
+                                            }
+
+
 
                                           })) : Container(),
                                     ],
