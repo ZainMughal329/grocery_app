@@ -101,6 +101,7 @@ class BuildDrawer {
             title: 'My Orders',
             onPress: () {
               Navigator.pop(context);
+              Get.toNamed(AppRoutes.orderScreen);
             },
           ),
           SizedBox(
@@ -122,6 +123,8 @@ class BuildDrawer {
             title: 'Wish List',
             onPress: () {
               Navigator.pop(context);
+              Get.toNamed(AppRoutes.wishListScreen);
+
             },
           ),
           SizedBox(

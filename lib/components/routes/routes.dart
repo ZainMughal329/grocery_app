@@ -34,7 +34,9 @@ import 'package:grocery_app/pages/user_screens/details/bindings.dart';
 import 'package:grocery_app/pages/user_screens/details/details.dart';
 import 'package:grocery_app/pages/user_screens/faqs/bindings.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
+import 'package:grocery_app/pages/user_screens/order_view/index.dart';
 import 'package:grocery_app/pages/user_screens/profile/index.dart';
+import 'package:grocery_app/pages/user_screens/wishList_screen/index.dart';
 
 import '../../pages/session_sreens/splash/view.dart';
 import '../../pages/user_screens/faqs/view.dart';
@@ -100,6 +102,18 @@ class AppPages {
       name: AppRoutes.cartScreen,
       page: () => MyCartScreen(),
       binding: MyCartBindings(),
+    ),
+
+    GetPage(
+      name: AppRoutes.wishListScreen,
+      page: () => WishListScreen(),
+      binding: WishListBindings(),
+    ),
+
+    GetPage(
+      name: AppRoutes.orderScreen,
+      page: () => OrderScreen(),
+      binding: OrderBindings(),
     ),
 
     GetPage(

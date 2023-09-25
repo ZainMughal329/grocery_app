@@ -12,7 +12,6 @@ class DetailsController extends GetxController {
   final state = DetailsState();
   final cartCon = Get.find<CartControllerReuseAble>();
 
-  DetailsController();
 
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
@@ -28,10 +27,10 @@ class DetailsController extends GetxController {
     final DateTime dateTime,
     final int itemQty,
     final String itemId,
-      final String itemImg,
-      final String category,
-      final String subCategory,
-      final int discount,
+    final String itemImg,
+    final String category,
+    final String subCategory,
+    final int discount,
   ) async {
     try {
       String timeStamp = DateTime.now().microsecondsSinceEpoch.toString();
@@ -42,15 +41,19 @@ class DetailsController extends GetxController {
           .doc(timeStamp)
           .set(
             OrderModel(
-                    orderId: timeStamp,
-                    customerId: auth.currentUser!.uid.toString(),
-                    customerName: userName,
-                    totalPrice: totalPrice,
-                    dateTime: dateTime,
-                    itemName: itemName,
-                    itemQty: itemQty,
-                    itemId: itemId, itemImg: itemImg, category: category, subCategory: subCategory, discount: discount,)
-                .toJson(),
+              orderId: timeStamp,
+              customerId: auth.currentUser!.uid.toString(),
+              customerName: userName,
+              totalPrice: totalPrice,
+              dateTime: dateTime,
+              itemName: itemName,
+              itemQty: itemQty,
+              itemId: itemId,
+              itemImg: itemImg,
+              category: category,
+              subCategory: subCategory,
+              discount: discount,
+            ).toJson(),
           )
           .then((value) async {
         Snackbar.showSnackBar('Success', 'Added data to cart successfully');
@@ -62,19 +65,6 @@ class DetailsController extends GetxController {
     }
   }
 
-  // Future<void> updateDocument() async {
-  //   try {
-  //     await documentReference.update({
-  //       'fieldName': 'updatedValue',
-  //     });
-  //     print('Document updated successfully.');
-  //   } catch (e) {
-  //     print('Error updating document: $e');
-  //   }
-  // }
-
-  // updateCountValue()
-
   final RxList<String> itemIds = <String>[].obs;
 
   @override
@@ -82,6 +72,7 @@ class DetailsController extends GetxController {
     super.onInit();
 
     fetchData();
+    fetchWishListData();
   }
 
   Future<void> fetchData() async {
@@ -97,9 +88,7 @@ class DetailsController extends GetxController {
         final itemId = data["itemId"]
             as String; // Replace 'itemId' with the actual field name
 
-
-          itemIds.add(itemId);
-
+        itemIds.add(itemId);
       }
       print('Items are : ' + itemIds.toString());
     } catch (e) {
@@ -119,5 +108,91 @@ class DetailsController extends GetxController {
     int discountedPrice = originalPrice - discountAmount;
 
     return discountedPrice;
+  }
+
+  final RxList<String> itemIdsForWishList = <String>[].obs;
+
+  @override
+  Future<void> fetchWishListData() async {
+    try {
+      final collectionReference = FirebaseFirestore.instance
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .collection('wishList');
+      final QuerySnapshot querySnapshot = await collectionReference.get();
+      itemIdsForWishList.clear();
+      for (final QueryDocumentSnapshot document in querySnapshot.docs) {
+        final data = document.data() as Map<String, dynamic>;
+        final itemId = data["itemId"]
+            as String; // Replace 'itemId' with the actual field name
+
+        itemIdsForWishList.add(itemId);
+      }
+      print('Items of wishlist are : ' + itemIdsForWishList.toString());
+    } catch (e) {
+      print('Error fetching itemIds: $e');
+    }
+  }
+
+  String timeStampForWishList = '' ;
+
+  addDataToFirebaseInWishList(
+    final String userName,
+    final int totalPrice,
+    final String itemName,
+    // final DateTime dateTime,
+    final int itemQty,
+    final String itemId,
+    final String itemImg,
+    final String category,
+    final String subCategory,
+    final int discount,
+  ) async {
+    try {
+      timeStampForWishList=  DateTime.now().millisecondsSinceEpoch.toString();
+      await db
+          .collection('users')
+          .doc(auth.currentUser!.uid)
+          .collection('wishList')
+          .doc(timeStampForWishList)
+          .set(
+            OrderModel(
+              orderId: timeStampForWishList,
+              customerId: auth.currentUser!.uid.toString(),
+              customerName: userName,
+              totalPrice: totalPrice,
+              // dateTime: dateTime,
+              itemName: itemName,
+              itemQty: itemQty,
+              itemId: itemId,
+              itemImg: itemImg,
+              category: category,
+              subCategory: subCategory,
+              discount: discount,
+            ).toJson(),
+          )
+          .then((value) async {
+        // Snackbar.showSnackBar('Success', 'Added data to cart successfully');
+        print('Added in wishList');
+        fetchWishListData();
+      });
+    } catch (e) {
+      print(
+        'Error is : ' + e.toString(),
+      );
+    }
+  }
+
+  deleteDataFromWishList(String orderId) async {
+    await db
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('wishList')
+        .doc(orderId)
+        .delete()
+        .then((value) {
+      print('Remove from wishList');
+      // fetchWishListData();
+    });
   }
 }

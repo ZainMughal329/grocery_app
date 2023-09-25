@@ -191,10 +191,46 @@ class DetailsScreen extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
-                                        IconWidget(
-                                          iconData: Icons.favorite_outline,
-                                          iconColor: Colors.orange,
+                                        // IconButton(onPressed: () {}, icon: AnimatedIcon(icon: AnimatedIcons., progress: progress)),
+                                        Obx(
+                                          () => con.itemIdsForWishList
+                                                  .contains(itemId)
+                                              ? GestureDetector(
+                                            onTap: (){
+                                              con.deleteDataFromWishList(con.timeStampForWishList);
+                                              con.fetchWishListData();
+                                            },
+                                                child: IconWidget(
+                                                    iconData:
+                                                        Icons.favorite,
+                                                    iconColor: Colors.orange,
+                                                  ),
+                                              )
+                                              : GestureDetector(
+                                            onTap: (){
+
+                                              con.addDataToFirebaseInWishList(
+                                                  userName,
+                                                  price,
+                                                  title,
+                                                  // DateTime.now(),
+                                                  1,
+                                                  itemId,
+                                                  itemImg,
+                                                  category,
+                                                  subCategory,
+                                                  discount);
+                                              con.fetchWishListData();
+                                            },
+
+                                                child: IconWidget(
+                                                    iconData:
+                                                        Icons.favorite_outline,
+                                                    iconColor: Colors.orange,
+                                                  ),
+                                              ),
                                         ),
+
                                         SizedBox(
                                           width: 15.w,
                                         ),
@@ -254,55 +290,57 @@ class DetailsScreen extends StatelessWidget {
                       color: Colors.orange,
                     ),
                     padding: EdgeInsets.all(16.0),
-                    child:Obx(()=> con.itemIds.contains(itemId)
-                        ? GestureDetector(
-                            onTap: () {
-                              Snackbar.showSnackBar(
-                                  'Note', 'Already in the cart');
-                            },
-                            child: Center(
-                              child: TextWidget(
-                                title: 'In Cart',
-                                textColor: Colors.white,
+                    child: Obx(
+                      () => con.itemIds.contains(itemId)
+                          ? GestureDetector(
+                              onTap: () {
+                                Snackbar.showSnackBar(
+                                    'Note', 'Already in the cart');
+                              },
+                              child: Center(
+                                child: TextWidget(
+                                  title: 'In Cart',
+                                  textColor: Colors.white,
+                                ),
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                listClick(widgetKey);
+                                con.fetchData();
+                                print(con.itemIds.contains(itemId).toString());
+                                print(con.isInCart(itemId).toString());
+                                // con.setIsTrue(true);
+                                DateTime currentDate = DateTime.now();
+                                DateTime dateTime = DateTime(currentDate.year,
+                                    currentDate.month, currentDate.day);
+
+                                con.addDataToFirebase(
+                                    userName,
+                                    price,
+                                    title,
+                                    dateTime,
+                                    1,
+                                    itemId,
+                                    itemImg,
+                                    category,
+                                    subCategory,
+                                    discount);
+                                cartCon.addTotalPrice(
+                                  con.calculateDiscountedPrice(price, discount),
+                                );
+
+                                // cartCon.isTrue.value == true;
+                              },
+                              child: Center(
+                                child: TextWidget(
+                                  title: 'Add to cart',
+                                  textColor: Colors.white,
+                                ),
                               ),
                             ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              listClick(widgetKey);
-                              con.fetchData();
-                              print(con.itemIds.contains(itemId).toString());
-                              print(con.isInCart(itemId).toString());
-                              // con.setIsTrue(true);
-                              DateTime currentDate = DateTime.now();
-                              DateTime dateTime = DateTime(currentDate.year,
-                                  currentDate.month, currentDate.day);
-
-                              con.addDataToFirebase(
-                                  userName,
-                                  price,
-                                  title,
-                                  dateTime,
-                                  1,
-                                  itemId,
-                                  itemImg,
-                                  category,
-                                  subCategory,
-                                  discount);
-                              cartCon.addTotalPrice(
-                                con.calculateDiscountedPrice(price, discount),
-                              );
-
-                              // cartCon.isTrue.value == true;
-                            },
-                            child: Center(
-                              child: TextWidget(
-                                title: 'Add to cart',
-                                textColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                  ),),
+                    ),
+                  ),
                 ),
               ),
             ],

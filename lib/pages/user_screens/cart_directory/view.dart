@@ -17,6 +17,8 @@ import 'package:grocery_app/pages/user_screens/faqs/controller.dart';
 class MyCartScreen extends GetView<MyCartController> {
   final cartController = Get.find<CartControllerReuseAble>();
 
+  // MyCartScreen({});
+
   Widget _buildlistTile(
       BuildContext context,
       String img,
@@ -306,7 +308,7 @@ class MyCartScreen extends GetView<MyCartController> {
                                                 ['totalPrice'],
                                                 snapshot.data!.docs[i]
                                                 ['items'],
-                                                DateTime.now(),
+                                                // DateTime.now(),
                                                 snapshot.data!.docs[i]
                                                 ['itemQty'],
                                                 snapshot.data!.docs[i]
