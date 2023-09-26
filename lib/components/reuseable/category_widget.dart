@@ -28,12 +28,17 @@ class CategoryWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: color.withOpacity(0.7),
-            width: 2,
-          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
+          // shape: BoxShape.circle,
+          borderRadius: BorderRadius.circular(16)
         ),
         child: Column(
           children: [

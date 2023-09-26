@@ -222,7 +222,7 @@ class _onSaleContainerState extends State<onSaleContainer> {
                           });
                           print('Price after : ' +
                               cartController.totalPrice.value.toString());
-                          cartController.reduceStockValue(widget.itemId, widget.stock);
+                          // cartController.reduceStockValue(widget.itemId, widget.stock);
                         },
                         child: Center(
                           child: TextWidget(

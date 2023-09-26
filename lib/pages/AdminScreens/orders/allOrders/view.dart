@@ -7,6 +7,7 @@ import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/allOrders/controller.dart';
+
 // import 'package:grocery_app/pages/AdminScreens/orders/controller.dart';
 import 'package:intl/intl.dart';
 
@@ -15,111 +16,164 @@ class OrdersView extends GetView<OrdersController> {
 
   Widget _buildlistTile(BuildContext context,
       AsyncSnapshot<QuerySnapshot> snapshot, index, String datetime) {
-    if(snapshot.hasError){
+    if (snapshot.hasError) {
       Snackbar.showSnackBar("Error", snapshot.error.toString());
-      return Container(child: CircularProgressIndicator(color: LightAppColor.btnColor,),);
+      return Container(
+        child: CircularProgressIndicator(
+          color: LightAppColor.btnColor,
+        ),
+      );
     }
-    if(snapshot.connectionState==ConnectionState.waiting){
-      return Container(child: CircularProgressIndicator(color: LightAppColor.btnColor,),);
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Container(
+        child: CircularProgressIndicator(
+          color: LightAppColor.btnColor,
+        ),
+      );
     }
     return snapshot.hasData
-            ? Card(
-                elevation: 5.0,
-                margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: ListTile(
-                    leading: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-
-                        children: [
-                          Text(
-                            snapshot.data!.docs[index]['name'],
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          Text(
-                            datetime,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ],
+        ? Card(
+            elevation: 5.0,
+            margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+            child: Container(
+              decoration: BoxDecoration(color: Colors.white),
+              child: ListTile(
+                leading: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                  snapshot.data!.docs[index]['name']
+                      .toString()
+                      .split('')
+                      .take(5)
+                      .join('')
+                      .length >=
+                      5
+                      ? snapshot.data!.docs[index]['name']
+                      .toString()
+                      .split('')
+                      .take(5)
+                      .join('').toString() +
+                      '...'
+                      : snapshot.data!.docs[index]['name']
+                      .toString()
+                    ,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-                    // title: Text(
-                    //   snapshot.data!.docs[index]['name'],
-                    //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    // ),
-                    subtitle: Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(height: 5.0),
-                            Text(
-                              snapshot.data!.docs[index]['number'],
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            SizedBox(height: 5.0),
-                            Text(
-                              snapshot.data!.docs[index]['paymentMethod']
+                      Text(
+                        datetime,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+
+                subtitle: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: 5.0),
+                        Text(
+
+                            snapshot.data!.docs[index]['number']
+                                        .toString()
+                                        .split('')
+                                        .take(5)
+                                        .join('')
+                                        .length >=
+                                    5
+                                ? snapshot.data!.docs[index]['number']
+                                        .toString()
+                                        .split('')
+                                        .take(5)
+                                        .join('').toString() +
+                                    '...'
+                                : snapshot.data!.docs[index]['number']
+                                    .toString()
+                          ,
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(height: 5.0),
+                        Text(
+                          snapshot.data!.docs[index]['paymentMethod']
+                              .toString(),
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(height: 5.0),
+                        Text(
+                          "Address: " +
+                              (snapshot.data!.docs[index]['address']
+                                              .toString()
+                                              .split('')
+                                              .take(5)
+                                              .join('')
+                                              .length >=
+                                          5
+                                      ? snapshot.data!.docs[index]['address']
+                                              .toString()
+                                              .split('')
+                                              .take(5)
+                                              .join('') +
+                                          '...'
+                                      : snapshot.data!.docs[index]['address']
+                                          .toString())
                                   .toString(),
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            SizedBox(height: 5.0),
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        SizedBox(height: 5.0),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             Text(
-                              "Address: " +
-                                  snapshot.data!.docs[index]['address']
-                                      .toString(),
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'RS${snapshot.data!.docs[index]['orderPrice']}',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green),
-                                ),
-                              ],
+                              'RS ${snapshot.data!.docs[index]['orderPrice']}',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    trailing: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Get.to(OrderDetailView(
-                                  orderId: snapshot.data!.docs[index]
-                                      ['orderId']));
-                            },
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.blue,
-                              size: 25.sp,
-                            ),
-                          ),
-                          TextWidget(title: snapshot.data!.docs[index]['status']
-                              .toString().capitalizeFirst.toString(),),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              )
-            : Container()
-
-        ;
+                trailing: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.to(OrderDetailView(
+                              orderId: snapshot.data!.docs[index]['orderId']));
+                        },
+                        child: Icon(
+                          Icons.arrow_forward,
+                          color: Colors.blue,
+                          size: 25.sp,
+                        ),
+                      ),
+                      TextWidget(
+                        title: snapshot.data!.docs[index]['status']
+                            .toString()
+                            .capitalizeFirst
+                            .toString(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          )
+        : Container();
   }
 
   @override
@@ -143,8 +197,8 @@ class OrdersView extends GetView<OrdersController> {
                     5.0), // Updated the padding based on your provided values
             child: Container(
               color: LightAppColor.btnColor.withOpacity(0.5),
-              height:
-                  50.0, // you provided this as 50.h (probably using screen_util or another package for responsive design)
+              height: 50.0,
+              // you provided this as 50.h (probably using screen_util or another package for responsive design)
               width: double.infinity,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

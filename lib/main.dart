@@ -8,6 +8,7 @@ import 'package:grocery_app/components/routes/routes.dart';
 import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/components/themes/dark_theme.dart';
 import 'package:grocery_app/components/themes/theme_data.dart';
+import 'package:grocery_app/pages/user_screens/cart_directory/controller.dart';
 import 'package:grocery_app/pages/user_screens/details/controller.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 import 'package:grocery_app/pages/user_screens/profile/controller.dart';
@@ -15,7 +16,7 @@ import 'package:grocery_app/pages/user_screens/profile/controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Get.put(DetailsController());
+  Get.put(MyCartController());
   Get.put(HomeController());
 
   Get.put(CartControllerReuseAble());

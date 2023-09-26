@@ -21,6 +21,7 @@ class AllProductsScreen extends GetView<AllProductsController> {
     required this.subCategory,
   });
 
+
   Widget _buildlistTile(BuildContext context, String img, String title,
       String category, String subCategory, int price, int discount) {
     return Card(
@@ -30,7 +31,7 @@ class AllProductsScreen extends GetView<AllProductsController> {
         decoration: BoxDecoration(color: Colors.white),
         child: ListTile(
           contentPadding:
-              EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
           leading: Container(
             padding: EdgeInsets.only(right: 12.0),
             decoration: BoxDecoration(
@@ -69,9 +70,12 @@ class AllProductsScreen extends GetView<AllProductsController> {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: Colors.green,
-                        decoration: TextDecoration.lineThrough),
+                        decoration: discount != 0 && discount > 0
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none),
                   ),
-                  Padding(
+                  discount != 0 && discount > 0
+                      ? Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       'RS ' +
@@ -83,7 +87,8 @@ class AllProductsScreen extends GetView<AllProductsController> {
                           fontWeight: FontWeight.bold,
                           color: Colors.red),
                     ),
-                  ),
+                  )
+                      : Container(),
                   if (discount != 0 && discount > 0)
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
@@ -110,7 +115,6 @@ class AllProductsScreen extends GetView<AllProductsController> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final con = Get.put(AllProductsController());
@@ -128,35 +132,6 @@ class AllProductsScreen extends GetView<AllProductsController> {
             iconData: Icons.arrow_back,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: IconWidget(
-              iconData: Icons.share,
-            ),
-          ),
-          SizedBox(
-            width: 5.w,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: IconWidget(
-              iconData: Icons.search,
-            ),
-          ),
-          SizedBox(
-            width: 5.w,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: IconWidget(
-              iconData: Icons.shopping_cart,
-            ),
-          ),
-          SizedBox(
-            width: 5.w,
-          ),
-        ],
         backgroundColor: LightAppColor.bgColor,
       ),
       body: Container(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class OrderScreen extends GetView<OrderController> {
     String orderId,
     String status,
     int itemQty,
+    String id,
   ) {
     Color statusColor;
 
@@ -110,6 +112,7 @@ class OrderScreen extends GetView<OrderController> {
         cancel: GestureDetector(
             onTap: () {
               Navigator.pop(context);
+              controller.cancelOrder(id);
             },
             child: Container(
                 width: double.infinity,
@@ -120,7 +123,7 @@ class OrderScreen extends GetView<OrderController> {
                 ))),
                 child: Center(
                     child:
-                        TextWidget(title: 'Close', textColor: Colors.orange)))),
+                        TextWidget(title: 'Cancel order', textColor: Colors.orange)))),
       );
     }
 
@@ -171,109 +174,101 @@ class OrderScreen extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: TextWidget(
+          title: 'My Orders',
+          fontSize: 18.sp,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Get.offAndToNamed(AppRoutes.homeScreen);
+          },
+          icon: IconWidget(
+            iconData: Icons.arrow_back,
+          ),
+        ),
+        backgroundColor: LightAppColor.bgColor,
+      ),
       body: SafeArea(
-        child: CustomScrollView(
-          physics: BouncingScrollPhysics(),
-          slivers: <Widget>[
-            SliverAppBar(
-              pinned: true,
-              forceElevated: true,
-              title: TextWidget(
-                title: 'My Orders',
-                fontSize: 18.sp,
-              ),
-              leading: IconButton(
-                onPressed: () {
-                  Get.offAndToNamed(AppRoutes.homeScreen);
-                },
-                icon: IconWidget(
-                  iconData: Icons.arrow_back,
-                ),
-              ),
-              backgroundColor: LightAppColor.bgColor,
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                FutureBuilder(
-                  future: controller.getAndShowALlOrdersData(),
-                  builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return snapshot.data!.length != 0
-                      ? Container(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15.w, vertical: 5.h),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => DetailsScreen(
-                                          title:
-                                              snapshot.data![index].itemName,
-                                          itemImg:
-                                              snapshot.data![index].itemImg,
-                                          price: snapshot
-                                              .data![index].totalPrice,
-                                          itemQty: snapshot
-                                              .data![index].itemQty
-                                              .toString(),
-                                          userName:
-                                              controller.state.username.value,
-                                          itemId: snapshot.data![index].itemId
-                                              .toString(),
-                                          category:
-                                              snapshot.data![index].category,
-                                          subCategory: snapshot
-                                              .data![index].subCategory,
-                                          discount: snapshot
-                                              .data![index].discount
-                                              .toInt()),
-                                    );
-                                  },
-                                  child: _buildlistTile(
-                                    context,
-                                    snapshot.data![index].itemImg,
-                                    snapshot.data![index].itemName,
-                                    snapshot.data![index].category,
-                                    snapshot.data![index].subCategory,
-                                    snapshot.data![index].totalPrice,
-                                    snapshot.data![index].discount.toInt(),
-                                    snapshot.data![index].orderId,
-                                    snapshot.data![index].status.toString(),
-                                    snapshot.data![index].itemQty,
-                                  ),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: controller.firestore,
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData) {
+              return snapshot.data!.docs.length != 0
+                  ? Container(
+                      child: ListView.builder(
+                          // shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w, vertical: 5.h),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    () => DetailsScreen(
+                                        title: snapshot.data!.docs[index]
+                                            ['itemName'],
+                                        itemImg: snapshot.data!.docs[index]
+                                            ['itemImg'],
+                                        price: snapshot.data!.docs[index]
+                                            ['totalPrice'],
+                                        itemQty: snapshot
+                                            .data!.docs[index]['itemQty']
+                                            .toString(),
+                                        userName:
+                                            controller.state.username.value,
+                                        itemId: snapshot
+                                            .data!.docs[index]['itemId']
+                                            .toString(),
+                                        category: snapshot.data!.docs[index]
+                                            ['category'],
+                                        subCategory: snapshot.data!.docs[index]
+                                            ['subCategory'],
+                                        discount: snapshot
+                                            .data!.docs[index]['discount']
+                                            .toInt()),
+                                  );
+                                },
+                                child: _buildlistTile(
+                                  context,
+                                  snapshot.data!.docs[index]['itemImg'],
+                                  snapshot.data!.docs[index]['items'],
+                                  snapshot.data!.docs[index]['category'],
+                                  snapshot.data!.docs[index]['subCategory'],
+                                  snapshot.data!.docs[index]['totalPrice'],
+                                  snapshot.data!.docs[index]['discount']
+                                      .toInt(),
+                                  snapshot.data!.docs[index]['orderId'],
+                                  snapshot.data!.docs[index]['status']
+                                      .toString(),
+                                  snapshot.data!.docs[index]['itemQty'],
+                                  snapshot.data!.docs[index]['id'],
                                 ),
-                              );
-                            }),
-                      )
-                      : Column(
-                          children: [
-                            TextWidget(
-                              title: 'No items here yet.',
-                              fontSize: 28.sp,
-                            ),
-                          ],
-                        );
-                } else if (snapshot.hasError) {
-                  print('Error : ' + snapshot.error.toString());
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.orange,
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-                  },
+                              ),
+                            );
+                          }),
+                    )
+                  : Column(
+                      children: [
+                        TextWidget(
+                          title: 'No items here yet.',
+                          fontSize: 28.sp,
+                        ),
+                      ],
+                    );
+            } else if (snapshot.hasError) {
+              print('Error : ' + snapshot.error.toString());
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Colors.orange,
                 ),
-              ]),
-            ),
-
-          ],
+              );
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
     );

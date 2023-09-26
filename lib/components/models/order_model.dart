@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderModel {
-  // final String? id;
+  final String? id;
   final String orderId;
   final String customerId;
   final String customerName;
@@ -15,10 +15,11 @@ class OrderModel {
   final String subCategory;
   final int discount;
   final String ?status;
+  final String ?isPaymentDone;
 
 
   OrderModel({
-    // this.id,
+    this.id,
     required this.orderId,
     required this.customerId,
     required this.customerName,
@@ -32,11 +33,12 @@ class OrderModel {
     required this.subCategory,
     required this.discount,
     this.status,
+    this.isPaymentDone,
 });
 
   toJson(){
     return {
-      // 'id' : id,
+      'id' : id,
       'orderId' : orderId,
       'customerId' : customerId,
       'customerName' : customerName,
@@ -49,14 +51,15 @@ class OrderModel {
       'category' : category,
       'subCategory' : subCategory,
       'discount' : discount,
-      'status' : 'pending'
+      'status' : 'pending',
+      'isPaymentDone' : 'no',
     };
   }
 
   factory OrderModel.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot){
     final data = snapshot.data()!;
     return OrderModel(
-      // id: data['id'],
+      id: data['id'],
       orderId:  data['orderId'],
       customerId: data['customerId'],
       customerName: data['customerName'],
@@ -70,6 +73,7 @@ class OrderModel {
       subCategory: data['subCategory'],
       discount: data['discount'],
       status: data['status'],
+      isPaymentDone: data['isPaymentDone'],
     );
 
 

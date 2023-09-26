@@ -46,8 +46,8 @@ class CategoryView extends GetView<CategoryController> {
         child: GridView.count(
           crossAxisCount: 2,
           childAspectRatio: 240 / 250,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
           children: List.generate(5, (index) => CategoryWidget(
             title: controller.catInfo[index]['catText'],
             image: controller.catInfo[index]['imgPath'],

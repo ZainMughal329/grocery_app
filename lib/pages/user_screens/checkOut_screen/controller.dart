@@ -8,16 +8,22 @@ import 'package:grocery_app/components/routes/routes.dart';
 import 'package:grocery_app/components/services/cart_controller_reuseable.dart';
 import 'package:grocery_app/pages/user_screens/checkOut_screen/state.dart';
 
+import '../../../components/models/order_model.dart';
 import '../details/controller.dart';
 
 class CheckOutController extends GetxController {
   final state = CheckOutState();
   final allOrdersRef = FirebaseFirestore.instance.collection('allOrders');
-  final cartCon = Get.find<CartControllerReuseAble>();
 
   void setLoading(bool value) {
     state.loading.value = value;
   }
+
+  final orderList = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('cartList')
+      .snapshots();
 
   Future<void> addOrder(
     PlaceOrderModel orderData,
@@ -26,49 +32,18 @@ class CheckOutController extends GetxController {
     setLoading(true);
     // final id = DateTime.timestamp().microsecondsSinceEpoch.toString();
     try {
-      await allOrdersRef
-          .doc(timeStamp)
-          .set(orderData.toJson())
-          .then((value) async {
+      await allOrdersRef.doc(timeStamp).set(orderData.toJson()).then((value) {
+        final cartCon = Get.find<CartControllerReuseAble>();
         setLoading(false);
         Snackbar.showSnackBar("Order Placed", "Successfully");
-        // Get.offNamed(AppRoutes.homeScreen);
-        // await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('cartList');
 
-
-        final CollectionReference collectionReference = FirebaseFirestore
-            .instance
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection('cartList');
-
-        final QuerySnapshot querySnapshot = await collectionReference.get();
-        for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-          await documentSnapshot.reference.delete().then((value) {
-            cartCon.totalPrice.value = 0;
-            print(
-              'Price of is :' + cartCon.totalPrice.value.toString(),
-            );
-            print('Deleted success');
-            // cartCon.totalPrice.value = 0;
-
-            final detailCon = Get.put(DetailsController());
-            print(
-              'object:' + cartCon.totalPrice.value.toString(),
-            );
-            detailCon.fetchData();
-          }).onError((error, stackTrace) {
-            print('Error is : ' + error.toString());
-          });
-        }
         state.addressController.clear();
         state.phoneController.clear();
         state.nameController.clear();
         state.addressLabel.value = '';
         state.paymentMethod.value = '';
         cartCon.totalPrice.value = 0;
-        Get.back();
-        Get.back();
+        // Get.toNamed(AppRoutes.homeScreen);
       }).onError((error, stackTrace) {
         setLoading(false);
 
@@ -80,78 +55,83 @@ class CheckOutController extends GetxController {
     }
   }
 
-  deleteCartList() async {
-    try {
-      final CollectionReference collectionReference = FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('cartList');
 
-      cartCon.totalPrice.value = 0;
-      print(
-        'Price of is :' + cartCon.totalPrice.value.toString(),
-      );
+  String timeId = '';
 
-      final QuerySnapshot querySnapshot = await collectionReference.get();
-      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-        await documentSnapshot.reference.delete().then((value) {
-          print('Deleted success');
-          // cartCon.totalPrice.value = 0;
-
-          final detailCon = Get.put(DetailsController());
-          print(
-            'object:' + cartCon.totalPrice.value.toString(),
-          );
-          detailCon.fetchData();
-        }).onError((error, stackTrace) {
-          print('Error is : ' + error.toString());
-        });
-      }
-      state.addressController.clear();
-      state.phoneController.clear();
-      state.nameController.clear();
-      state.addressLabel.value = '';
-      state.paymentMethod.value = '';
-      cartCon.totalPrice.value = 0;
-    } catch (e) {
-      print('e' + e.toString());
-    }
+  void createTimeStamp() {
+    timeId = DateTime.timestamp().microsecondsSinceEpoch.toString();
   }
 
-  deleteOrderList() async {
+  addDataToFirebase(
+      final String userName,
+      final int totalPrice,
+      final String itemName,
+      // final DateTime dateTime,
+      final int itemQty,
+      final String itemId,
+      final String itemImg,
+      final String category,
+      final String subCategory,
+      final int discount,
+      ) async {
     try {
-      final CollectionReference collectionReference = FirebaseFirestore.instance
+      String docId = DateTime.timestamp().microsecondsSinceEpoch.toString();
+
+      int tprice = totalPrice;
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection('orderList');
-      cartCon.totalPrice.value = 0;
-      print(
-        'Price of is :' + cartCon.totalPrice.value.toString(),
-      );
+          .collection('orderList')
+          .doc(docId)
+          .set(
+        OrderModel(
+          id: docId,
+          orderId: timeId,
+          customerId: FirebaseAuth.instance.currentUser!.uid.toString(),
+          customerName: userName,
+          totalPrice: totalPrice,
+          // dateTime: dateTime,
+          itemName: itemName,
+          itemQty: itemQty,
+          itemId: itemId,
+          itemImg: itemImg,
+          category: category,
+          subCategory: subCategory,
+          discount: discount,
+        ).toJson(),
+      )
+          .then((value) async {
+        print("data added into firebase");
+        final CollectionReference collectionReference = FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection('cartList');
 
-      final QuerySnapshot querySnapshot = await collectionReference.get();
-      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
-        await documentSnapshot.reference.delete().then((value) {
-          print('Deleted success');
-          // cartCon.totalPrice.value = 0;
+        // cartCon.totalPrice.value = 0;
+        // print(
+        //   'Price of is :' + cartCon.totalPrice.value.toString(),
+        // );
 
-          final detailCon = Get.put(DetailsController());
-          print(
-            'object:' + cartCon.totalPrice.value.toString(),
-          );
-          detailCon.fetchData();
-        }).onError((error, stackTrace) {
-          print('Error is : ' + error.toString());
-        });
-      }
-      state.addressController.clear();
-      state.phoneController.clear();
-      state.nameController.clear();
-      state.addressLabel.value = '';
-      state.paymentMethod.value = '';
-      cartCon.totalPrice.value = 0;
+        final QuerySnapshot querySnapshot = await collectionReference.get();
+        for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+          await documentSnapshot.reference.delete().then((value) {
+            print('Deleted success');
+            // cartCon.totalPrice.value = 0;
+
+            final detailCon = Get.put(DetailsController());
+
+            detailCon.fetchData();
+          }).onError((error, stackTrace) {
+            print('Error is : ' + error.toString());
+          });
+        }
+        print('Deleted cart data');
+        // cartCon.addTotalPrice(totalPrice);
+      });
     } catch (e) {
-      print('e' + e.toString());
+      print(
+        'Error is : ' + e.toString(),
+      );
     }
   }
 }

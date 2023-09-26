@@ -28,7 +28,6 @@ class HomeController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    fetchUsername();
   }
 
   List<String> imagesList = [
@@ -114,37 +113,7 @@ class HomeController extends GetxController {
 
   int get collectionLength => documents.length;
 
-  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
-    // Calculate the discount amount
-    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
 
-    // Calculate the discounted price
-    int discountedPrice = originalPrice - discountAmount;
-
-    return discountedPrice;
-  }
-
-  // Function to fetch the username of a specific user.
-  Future<void> fetchUsername() async {
-    try {
-      final snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-
-      if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>;
-        final fetchedUsername = data['userName'] as String;
-        state.username.value = fetchedUsername;
-      } else {
-        state.username.value =
-            'Guest User'; // User not found or document doesn't exist.
-      }
-    } catch (error) {
-      // Handle any potential errors here.
-      print('Error fetching username: $error');
-    }
-  }
 
   Future<List<ItemModel>> getAllItemsData() async {
     final snapshot = await FirebaseFirestore.instance.collection('Items').get();

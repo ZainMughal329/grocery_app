@@ -17,21 +17,15 @@ class MyCartController extends GetxController {
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
-  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
-    // Calculate the discount amount
-    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
 
-    // Calculate the discounted price
-    int discountedPrice = originalPrice - discountAmount;
-
-    return discountedPrice;
-  }
 
   final orderList = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('cartList')
       .snapshots();
+
+
 
   updateQuantityToOne(String id, int itemQty) async {
     await db
@@ -104,61 +98,87 @@ class MyCartController extends GetxController {
     totalPrice.value = total;
   }
 
-  String timeId = '';
-
-  void createTimeStamp() {
-    timeId = DateTime.timestamp().microsecondsSinceEpoch.toString();
-  }
-
-  addDataToFirebase(
-    final String userName,
-    final int totalPrice,
-    final String itemName,
-    // final DateTime dateTime,
-    final int itemQty,
-    final String itemId,
-    final String itemImg,
-    final String category,
-    final String subCategory,
-    final int discount,
-    final String timeStamp,
-  ) async {
-    try {
-     String docId = DateTime.timestamp().microsecondsSinceEpoch.toString();
-
-      int tprice = totalPrice;
-      await db
-          .collection('users')
-          .doc(auth.currentUser!.uid)
-          .collection('orderList')
-          .doc(docId)
-          .set(
-            OrderModel(
-              // id: docId,
-              orderId: timeStamp,
-              customerId: auth.currentUser!.uid.toString(),
-              customerName: userName,
-              totalPrice: totalPrice,
-              // dateTime: dateTime,
-              itemName: itemName,
-              itemQty: itemQty,
-              itemId: itemId,
-              itemImg: itemImg,
-              category: category,
-              subCategory: subCategory,
-              discount: discount,
-            ).toJson(),
-          )
-          .then((value) async {
-            print("data added into firebase");
-        // cartCon.addTotalPrice(totalPrice);
-      });
-    } catch (e) {
-      print(
-        'Error is : ' + e.toString(),
-      );
-    }
-  }
+  // String timeId = '';
+  //
+  // void createTimeStamp() {
+  //   timeId = DateTime.timestamp().microsecondsSinceEpoch.toString();
+  // }
+  //
+  // addDataToFirebase(
+  //   final String userName,
+  //   final int totalPrice,
+  //   final String itemName,
+  //   // final DateTime dateTime,
+  //   final int itemQty,
+  //   final String itemId,
+  //   final String itemImg,
+  //   final String category,
+  //   final String subCategory,
+  //   final int discount,
+  //   final String timeStamp,
+  // ) async {
+  //   try {
+  //    String docId = DateTime.timestamp().microsecondsSinceEpoch.toString();
+  //
+  //     int tprice = totalPrice;
+  //     await db
+  //         .collection('users')
+  //         .doc(auth.currentUser!.uid)
+  //         .collection('orderList')
+  //         .doc(docId)
+  //         .set(
+  //           OrderModel(
+  //             id: docId,
+  //             orderId: timeStamp,
+  //             customerId: auth.currentUser!.uid.toString(),
+  //             customerName: userName,
+  //             totalPrice: totalPrice,
+  //             // dateTime: dateTime,
+  //             itemName: itemName,
+  //             itemQty: itemQty,
+  //             itemId: itemId,
+  //             itemImg: itemImg,
+  //             category: category,
+  //             subCategory: subCategory,
+  //             discount: discount,
+  //           ).toJson(),
+  //         )
+  //         .then((value) async {
+  //           print("data added into firebase");
+  //           final CollectionReference collectionReference = FirebaseFirestore.instance
+  //               .collection('users')
+  //               .doc(FirebaseAuth.instance.currentUser!.uid)
+  //               .collection('cartList');
+  //
+  //           // cartCon.totalPrice.value = 0;
+  //           // print(
+  //           //   'Price of is :' + cartCon.totalPrice.value.toString(),
+  //           // );
+  //
+  //           final QuerySnapshot querySnapshot = await collectionReference.get();
+  //           for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+  //             await documentSnapshot.reference.delete().then((value) {
+  //               print('Deleted success');
+  //               // cartCon.totalPrice.value = 0;
+  //
+  //               final detailCon = Get.put(DetailsController());
+  //               // print(
+  //               //   'object:' + cartCon.totalPrice.value.toString(),
+  //               // );
+  //               detailCon.fetchData();
+  //             }).onError((error, stackTrace) {
+  //               print('Error is : ' + error.toString());
+  //             });
+  //           }
+  //           print('Deleted cart data');
+  //       // cartCon.addTotalPrice(totalPrice);
+  //     });
+  //   } catch (e) {
+  //     print(
+  //       'Error is : ' + e.toString(),
+  //     );
+  //   }
+  // }
 
 
 

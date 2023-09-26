@@ -44,6 +44,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     final con = Get.put(HomeController());
     Get.put(DetailsController());
+    final cartCon = Get.find<CartControllerReuseAble>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -218,7 +219,7 @@ class HomeView extends GetView<HomeController> {
                                                             .priceQty,
                                                         itemPrice: snapshot
                                                             .data![index].price,
-                                                        discountedPrice: controller
+                                                        discountedPrice: cartCon
                                                             .calculateDiscountedPrice(
                                                                 snapshot
                                                                     .data![
@@ -235,7 +236,7 @@ class HomeView extends GetView<HomeController> {
                                                             .data![index]
                                                             .discount!
                                                             .toInt(),
-                                                        userName: con.state
+                                                        userName: cartCon
                                                             .username.value,
                                                         itemId: snapshot
                                                             .data![index].itemId

@@ -88,7 +88,7 @@ class OrderItemsView extends GetView<OrderItemsController> {
               height: 5.h,
             ),
             TextWidget(
-              title: 'Original Price ' + price.toString(),
+              title: 'Original Price ' + (price * itemQty).toString(),
             ),
             SizedBox(
               height: 5.h,
@@ -152,7 +152,7 @@ class OrderItemsView extends GetView<OrderItemsController> {
               ),
               SizedBox(height: 8.0),
               TextWidget(
-                title: 'Price: '+ (price - ((discount/price)*100)).toString(),
+                title: 'Price: '+ ((price - ((discount/price)*100)) * itemQty).toString(),
                 fontSize: 12.sp,
               ),
               SizedBox(height: 8.0),

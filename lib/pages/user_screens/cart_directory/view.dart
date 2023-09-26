@@ -84,7 +84,7 @@ class MyCartScreen extends GetView<MyCartController> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       'RS ' +
-                          controller
+                          cartController
                               .calculateDiscountedPrice(price, discount)
                               .toString(),
                       style: TextStyle(
@@ -121,7 +121,7 @@ class MyCartScreen extends GetView<MyCartController> {
                               orderId,
                             );
 
-                            cartController.removeFromTotalPrice(controller
+                            cartController.removeFromTotalPrice(cartController
                                 .calculateDiscountedPrice(price, discount));
                             // cartController.updateStockValue(itemId, controller.stock.value);
                             final detailCon = Get.put(DetailsController());
@@ -141,7 +141,7 @@ class MyCartScreen extends GetView<MyCartController> {
                               orderId,
                               itemQty,
                             );
-                            cartController.removeFromTotalPrice(controller
+                            cartController.removeFromTotalPrice(cartController
                                 .calculateDiscountedPrice(price, discount));
                             // cartController.updateStockValue(itemId, controller.stock.value);
                           },
@@ -172,7 +172,7 @@ class MyCartScreen extends GetView<MyCartController> {
                         itemQty,
                       );
                       cartController.addTotalPrice(
-                          controller.calculateDiscountedPrice(price, discount));
+                          cartController.calculateDiscountedPrice(price, discount));
                       // cartController.reduceStockValue(itemId, controller.stock.value);
 
                       // print('price is:' +
@@ -210,252 +210,163 @@ class MyCartScreen extends GetView<MyCartController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.createTimeStamp();
     return Scaffold(
+      appBar: AppBar(
+        title: TextWidget(
+          title: 'My Cart',
+          fontSize: 18.sp,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Get.offAndToNamed(AppRoutes.homeScreen);
+          },
+          icon: IconWidget(
+            iconData: Icons.arrow_back,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              controller.deleteCartList();
+            },
+            icon: IconWidget(
+              iconData: Icons.delete_forever_outlined,
+            ),
+          ),
+        ],
+        backgroundColor: LightAppColor.bgColor,
+      ),
         body: SafeArea(
-      child: Stack(
-        children: [
-          CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                forceElevated: true,
-                title: TextWidget(
-                  title: 'My Cart',
-                  fontSize: 18.sp,
-                ),
-                leading: IconButton(
-                  onPressed: () {
-                    Get.offAndToNamed(AppRoutes.homeScreen);
-                  },
-                  icon: IconWidget(
-                    iconData: Icons.arrow_back,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      controller.deleteCartList();
-                    },
-                    icon: IconWidget(
-                      iconData: Icons.delete_forever_outlined,
-                    ),
-                  ),
-                ],
-                backgroundColor: LightAppColor.bgColor,
-              ),
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                // Container(),
+      child:
+            
 
-                Stack(
-                  children: [
-                    Container(
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: controller.orderList,
-                        builder:
-                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasData) {
-                            if (snapshot.data!.docs.length != 0) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  final now =
-                                      snapshot.data!.docs[index]['dateTime'];
-                                  print(now.toString());
-                                  List<Map<String, dynamic>> items = [];
+            Stack(
+              children: [
+                Container(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: controller.orderList,
+                    builder:
+                        (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.docs.length != 0) {
+                          return ListView.builder(
+                            // shrinkWrap: true,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              final now =
+                                  snapshot.data!.docs[index]['dateTime'];
+                              print(now.toString());
+                              List<Map<String, dynamic>> items = [];
 
-                                  for (var doc in snapshot.data!.docs) {
-                                    items.add(
-                                        doc.data() as Map<String, dynamic>);
-                                  }
+                              for (var doc in snapshot.data!.docs) {
+                                items.add(
+                                    doc.data() as Map<String, dynamic>);
+                              }
 
-                                  print(
-                                      'Total Price: \$${controller.totalPrice.value.toStringAsFixed(2)}');
-                                  controller.calculateTotalPrice(items,
-                                      snapshot.data!.docs[index]['totalPrice']);
-                                  return Column(
-                                    children: [
-                                      _buildlistTile(
-                                        context,
-                                        snapshot.data!.docs[index]['itemImg'],
-                                        snapshot.data!.docs[index]['items'],
-                                        snapshot.data!.docs[index]['category'],
-                                        snapshot.data!.docs[index]
-                                            ['subCategory'],
-                                        snapshot.data!.docs[index]
-                                            ['totalPrice'],
-                                        snapshot.data!.docs[index]['discount'],
-                                        snapshot.data!.docs[index]['orderId'],
-                                        snapshot.data!.docs[index]['itemId'],
-                                        // snapshot.data!.docs[index]['itemQty'],
-                                        snapshot.data!.docs[index]['itemQty'],
-                                      ),
-                                      index == snapshot.data!.docs.length - 1
-                                          ? Obx(() => RoundButton(
-                                              title: 'CheckOut Rs:' +
-                                                  cartController.totalPrice
-                                                      .toString(),
-                                              onPress: () {
-                                                final timeStamp =
-                                                    DateTime.timestamp()
-                                                        .microsecondsSinceEpoch
-                                                        .toString();
-                                                for (int i = 0;
-                                                    i <
-                                                        snapshot
-                                                            .data!.docs.length;
-                                                    i++) {
-                                                  print(i);
-                                                  print(snapshot
-                                                      .data!.docs.length
-                                                      .toString());
+                              print(
+                                  'Total Price: \$${controller.totalPrice.value.toStringAsFixed(2)}');
+                              controller.calculateTotalPrice(items,
+                                  snapshot.data!.docs[index]['totalPrice']);
+                              return Column(
+                                children: [
+                                  _buildlistTile(
+                                    context,
+                                    snapshot.data!.docs[index]['itemImg'],
+                                    snapshot.data!.docs[index]['items'],
+                                    snapshot.data!.docs[index]['category'],
+                                    snapshot.data!.docs[index]
+                                        ['subCategory'],
+                                    snapshot.data!.docs[index]
+                                        ['totalPrice'],
+                                    snapshot.data!.docs[index]['discount'],
+                                    snapshot.data!.docs[index]['orderId'],
+                                    snapshot.data!.docs[index]['itemId'],
+                                    // snapshot.data!.docs[index]['itemQty'],
+                                    snapshot.data!.docs[index]['itemQty'],
+                                  ),
+                                  index == snapshot.data!.docs.length - 1
+                                      ? Obx(() => RoundButton(
+                                          title: 'CheckOut Rs:' +
+                                              cartController.totalPrice
+                                                  .toString(),
+                                          onPress: () {
 
-                                                  print("controller.addDataTOFirebase Called");
+                                            Get.to(CheckOutView(
+                                            ));
 
-                                                  controller
-                                                          .addDataToFirebase(
-                                                          snapshot.data!.docs[i]
-                                                              ['customerName'],
-                                                          snapshot.data!.docs[i]
-                                                              ['totalPrice'],
-                                                          snapshot.data!.docs[i]
-                                                              ['items'],
-                                                          // DateTime.now(),
-                                                          snapshot.data!.docs[i]
-                                                              ['itemQty'],
-                                                          snapshot.data!.docs[i]
-                                                              ['itemId'],
-                                                          snapshot.data!.docs[i]
-                                                              ['itemImg'],
-                                                          snapshot.data!.docs[i]
-                                                              ['category'],
-                                                          snapshot.data!.docs[i]
-                                                              ['subCategory'],
-                                                          snapshot.data!.docs[i]
-                                                              ['discount'],
-                                                          controller.timeId,
-                                                        );
-                                                  Snackbar.showSnackBar(
-                                                      'Success',
-                                                      'Added data to cart successfully');
-                                                  Get.to(CheckOutView(
-                                                    totalPrice: cartController
-                                                        .totalPrice.value,
-                                                    timeStamp:
-                                                        controller.timeId,
-                                                  ));
-                                                }
-                                              }))
-                                          : Container(),
-                                    ],
-                                  );
-                                },
+                                          }))
+                                      : Container(),
+                                ],
                               );
-                            } else {
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 100.h,
-                                    ),
-                                    Image.asset('assets/cart1.png'),
-                                    Center(
-                                        child: TextWidget(
-                                      title:
-                                          'Your cart is empty\n Let\'s fill it up by adding some items!',
-                                      textColor: Colors.grey,
-                                      textAlign: TextAlign.center,
-                                    )),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // Get.toNamed(AppRoutes.homeScreen);
-                                      },
-                                      child: Container(
-                                          height: 50.h,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.8.w,
-                                          margin: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            color: Colors.orange,
-                                          ),
-                                          padding: EdgeInsets.all(16.0),
-                                          child: Center(
-                                            child: TextWidget(
-                                              title: 'Start Shopping',
-                                              textColor: Colors.white,
-                                            ),
-                                          )),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          } else if (snapshot.hasError) {
-                            return Column(
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                CircularProgressIndicator(),
+
+                                Image.asset('assets/cart1.png'),
+                                Center(
+                                    child: TextWidget(
+                                  title:
+                                      'Your cart is empty\n Let\'s fill it up by adding some items!',
+                                  textColor: Colors.grey,
+                                  textAlign: TextAlign.center,
+                                )),
+                                GestureDetector(
+                                  onTap: () {
+                                    // Get.toNamed(AppRoutes.homeScreen);
+                                  },
+                                  child: Container(
+                                      height: 50.h,
+                                      width: MediaQuery.of(context)
+                                              .size
+                                              .width *
+                                          0.8.w,
+                                      margin: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.orange,
+                                      ),
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Center(
+                                        child: TextWidget(
+                                          title: 'Start Shopping',
+                                          textColor: Colors.white,
+                                        ),
+                                      )),
+                                ),
                               ],
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //       top: MediaQuery.of(context).size.height - 150),
-                    //   child: RoundButton(
-                    //     title: "new button",
-                    //     onPress: () {},
-                    //   ),
-                    // )
-                  ],
-                )
-              ]))
-            ],
-          ),
-          // Obx(() =>Align(
-          //   alignment: Alignment.bottomCenter,
-          //   child: Container(
-          //       height: 50.h,
-          //       width: double.infinity,
-          //       margin: EdgeInsets.all(10),
-          //       decoration: BoxDecoration(
-          //         color: Colors.orange,
-          //       ),
-          //       // padding: EdgeInsets.all(16.0),
-          //       child: Padding(
-          //         padding: EdgeInsets.symmetric(
-          //             vertical: 8.0,
-          //             horizontal: 10.w),
-          //         child: Row(
-          //           mainAxisAlignment:
-          //           MainAxisAlignment
-          //               .spaceBetween,
-          //           children: [
-          //             TextWidget(
-          //               title: 'CheckOut',
-          //               textColor: Colors.white,
-          //             ),
-          //              TextWidget(
-          //               title: 'Rs ' +
-          //                   controller.totalPrice.value.toString(),
-          //               textColor: Colors.white,
-          //             ),
-          //           ],
-          //         ),
-          //       )),
-          // )),
-        ],
+                            ),
+                          );
+                        }
+                      } else if (snapshot.hasError) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularProgressIndicator(),
+                          ],
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ),
+                // Padding(
+                //   padding: EdgeInsets.only(
+                //       top: MediaQuery.of(context).size.height - 150),
+                //   child: RoundButton(
+                //     title: "new button",
+                //     onPress: () {},
+                //   ),
+                // )
+              ],
+            ),
+
       ),
-    ));
+    );
   }
 }

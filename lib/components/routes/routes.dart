@@ -30,6 +30,7 @@ import 'package:grocery_app/pages/AdminScreens/orders/pendingOrders/bindings.dar
 import 'package:grocery_app/pages/AdminScreens/orders/pendingOrders/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/shippedOrders/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/shippedOrders/view.dart';
+
 // import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
 import 'package:grocery_app/pages/session_sreens/forgot/index.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
@@ -134,10 +135,10 @@ class AppPages {
       binding: ProfileBindings(),
     ),
 
-
     GetPage(
       name: AppRoutes.checkOutScreen,
-      page: () => CheckOutView(totalPrice: 0,timeStamp: '',),
+      page: () => CheckOutView(
+      ),
       binding: CheckOutBindings(),
     ),
 
@@ -234,7 +235,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.orderItems,
-      page: () => OrderItemsView(customerId: '',orderId: ''),
+      page: () => OrderItemsView(customerId: '', orderId: ''),
       binding: OrderItemsBindings(),
       transition: Transition.rightToLeft,
       transitionDuration: Duration(milliseconds: 600),

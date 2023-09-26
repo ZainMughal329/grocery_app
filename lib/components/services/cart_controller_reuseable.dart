@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +14,7 @@ class CartControllerReuseAble extends GetxController {
     loadCartItemCount();
     saveCartItemCount();
     print('price is :' + totalPrice.value.toString());
+    fetchUsername();
   }
 
   addToCart() {
@@ -63,20 +65,37 @@ class CartControllerReuseAble extends GetxController {
 
 
 
-  updateStockValue(String itemId , int stock) async {
-    await FirebaseFirestore.instance.collection('Items').doc(itemId).update({
-      'stock' : stock+1
-    }).then((value) {
-      print('New stock value is : ' + stock.toString());
-    });
-  }
+  int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
+    // Calculate the discount amount
+    int discountAmount = (originalPrice * discountPercentage!) ~/ 100;
 
-  reduceStockValue(String itemId , int stock) async {
-    await FirebaseFirestore.instance.collection('Items').doc(itemId).update({
-      'stock' : stock-1
-    }).then((value) {
-      print('New stock value is : ' + stock.toString());
-    });
+    // Calculate the discounted price
+    int discountedPrice = originalPrice - discountAmount;
+
+    return discountedPrice;
+  }
+  RxString username = RxString('');
+
+  // Function to fetch the username of a specific user.
+  Future<void> fetchUsername() async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      if (snapshot.exists) {
+        final data = snapshot.data() as Map<String, dynamic>;
+        final fetchedUsername = data['userName'] as String;
+        username.value = fetchedUsername;
+      } else {
+        username.value =
+        'Guest User'; // User not found or document doesn't exist.
+      }
+    } catch (error) {
+      // Handle any potential errors here.
+      print('Error fetching username: $error');
+    }
   }
 
 

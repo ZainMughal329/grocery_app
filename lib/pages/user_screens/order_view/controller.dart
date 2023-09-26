@@ -17,19 +17,9 @@ class OrderController extends GetxController {
 
   OrderController();
 
-  Future<List<OrderModel>> getAllOrdersData() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('orderList')
-        .get();
-    final itemData = snapshot.docs.map((e) => OrderModel.fromJson(e)).toList();
-    return itemData;
-  }
 
-  Future<List<OrderModel>> getAndShowALlOrdersData() async {
-    return await getAllOrdersData();
-  }
+
+  final firestore = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('orderList').snapshots();
 
   int calculateDiscountedPrice(int originalPrice, int? discountPercentage) {
     // Calculate the discount amount
@@ -60,6 +50,12 @@ class OrderController extends GetxController {
       // Handle any potential errors here.
       print('Error fetching username: $error');
     }
+  }
+
+  cancelOrder(String id) async{
+    await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('orderList').doc(id).delete().then((value) {
+      print('Order canceled');
+    });
   }
 
 }

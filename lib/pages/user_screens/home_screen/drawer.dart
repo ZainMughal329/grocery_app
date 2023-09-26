@@ -17,7 +17,8 @@ import '../../../components/services/session_controller.dart';
 
 class BuildDrawer {
   static Drawer buildDrawer(BuildContext context) {
-    var con = Get.put(HomeController());
+    // var con = Get.put(HomeController());
+    var cartCon = Get.find<CartControllerReuseAble>();
     return Drawer(
       width: 300.w,
       backgroundColor
@@ -34,7 +35,7 @@ class BuildDrawer {
                 ),
                 Obx(
                   () => TextWidget(
-                    title: con.state.username.value.toString(),
+                    title: cartCon.username.value.toString(),
                     fontSize: 18.sp,
                     textColor: LightAppColor.btnColor,
                     fontWeight: FontWeight.w500,
@@ -80,6 +81,7 @@ class BuildDrawer {
             title: 'My Cart',
             onPress: () {
               Navigator.pop(context);
+              Get.toNamed(AppRoutes.cartScreen);
             },
           ),
           SizedBox(
