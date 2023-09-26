@@ -11,6 +11,8 @@ class CartControllerReuseAble extends GetxController {
   void onInit() {
     super.onInit();
     loadCartItemCount();
+    saveCartItemCount();
+    print('price is :' + totalPrice.value.toString());
   }
 
   addToCart() {

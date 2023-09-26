@@ -32,6 +32,7 @@ class OrdersView extends GetView<OrdersController> {
                     leading: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+
                         children: [
                           Text(
                             snapshot.data!.docs[index]['name'],
@@ -105,11 +106,11 @@ class OrdersView extends GetView<OrdersController> {
                             child: Icon(
                               Icons.arrow_forward,
                               color: Colors.blue,
-                              size: 30.sp,
+                              size: 25.sp,
                             ),
                           ),
                           TextWidget(title: snapshot.data!.docs[index]['status']
-                              .toString(),),
+                              .toString().capitalizeFirst.toString(),),
                         ],
                       ),
                     ),

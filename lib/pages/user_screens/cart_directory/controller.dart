@@ -11,7 +11,7 @@ import '../../../components/services/cart_controller_reuseable.dart';
 
 class MyCartController extends GetxController {
   final state = MyCartState();
-
+  // String docId = '';
   MyCartController();
 
   final db = FirebaseFirestore.instance;
@@ -124,7 +124,7 @@ class MyCartController extends GetxController {
     final String timeStamp,
   ) async {
     try {
-      String docId = DateTime.timestamp().microsecondsSinceEpoch.toString();
+     String docId = DateTime.timestamp().microsecondsSinceEpoch.toString();
 
       int tprice = totalPrice;
       await db
@@ -134,6 +134,7 @@ class MyCartController extends GetxController {
           .doc(docId)
           .set(
             OrderModel(
+              // id: docId,
               orderId: timeStamp,
               customerId: auth.currentUser!.uid.toString(),
               customerName: userName,
@@ -158,29 +159,7 @@ class MyCartController extends GetxController {
     }
   }
 
-  var stock = 0.obs; // Observable for the stock field
 
-  // Function to fetch the stock value for a specific item document
-  Future<void> fetchStockForItem(String itemId) async {
-    try {
-      final documentSnapshot = await FirebaseFirestore.instance
-          .collection('Items')
-          .doc(itemId)
-          .get();
 
-      // Check if the document exists
-      if (documentSnapshot.exists) {
-        final data = documentSnapshot.data() as Map<String, dynamic>;
-        final stockValue =
-            data['stock'] ?? 0; // Default to 0 if 'stock' is not found
-        stock.value = stockValue;
-        print(stock.value.toString());
-      } else {
-        // Document doesn't exist
-        stock.value = 0; // or any other default value
-      }
-    } catch (e) {
-      print('Error fetching stock: $e');
-    }
-  }
+
 }

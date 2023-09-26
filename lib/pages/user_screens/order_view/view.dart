@@ -171,10 +171,13 @@ class OrderScreen extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: CustomScrollView(
-          slivers: [
+          physics: BouncingScrollPhysics(),
+          slivers: <Widget>[
             SliverAppBar(
+              pinned: true,
               forceElevated: true,
               title: TextWidget(
                 title: 'My Orders',
@@ -192,82 +195,84 @@ class OrderScreen extends GetView<OrderController> {
             ),
             SliverList(
               delegate: SliverChildListDelegate([
-                Container(
-                    child: FutureBuilder(
+                FutureBuilder(
                   future: controller.getAndShowALlOrdersData(),
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return snapshot.data!.length != 0
-                          ? ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 15.w, vertical: 5.h),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(
-                                        () => DetailsScreen(
-                                            title:
-                                                snapshot.data![index].itemName,
-                                            itemImg:
-                                                snapshot.data![index].itemImg,
-                                            price: snapshot
-                                                .data![index].totalPrice,
-                                            itemQty: snapshot
-                                                .data![index].itemQty
-                                                .toString(),
-                                            userName:
-                                                controller.state.username.value,
-                                            itemId: snapshot.data![index].itemId
-                                                .toString(),
-                                            category:
-                                                snapshot.data![index].category,
-                                            subCategory: snapshot
-                                                .data![index].subCategory,
-                                            discount: snapshot
-                                                .data![index].discount
-                                                .toInt()),
-                                      );
-                                    },
-                                    child: _buildlistTile(
-                                      context,
-                                      snapshot.data![index].itemImg,
-                                      snapshot.data![index].itemName,
-                                      snapshot.data![index].category,
-                                      snapshot.data![index].subCategory,
-                                      snapshot.data![index].totalPrice,
-                                      snapshot.data![index].discount.toInt(),
-                                      snapshot.data![index].orderId,
-                                      snapshot.data![index].status.toString(),
-                                      snapshot.data![index].itemQty,
-                                    ),
+                if (snapshot.hasData) {
+                  return snapshot.data!.length != 0
+                      ? Container(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 15.w, vertical: 5.h),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(
+                                      () => DetailsScreen(
+                                          title:
+                                              snapshot.data![index].itemName,
+                                          itemImg:
+                                              snapshot.data![index].itemImg,
+                                          price: snapshot
+                                              .data![index].totalPrice,
+                                          itemQty: snapshot
+                                              .data![index].itemQty
+                                              .toString(),
+                                          userName:
+                                              controller.state.username.value,
+                                          itemId: snapshot.data![index].itemId
+                                              .toString(),
+                                          category:
+                                              snapshot.data![index].category,
+                                          subCategory: snapshot
+                                              .data![index].subCategory,
+                                          discount: snapshot
+                                              .data![index].discount
+                                              .toInt()),
+                                    );
+                                  },
+                                  child: _buildlistTile(
+                                    context,
+                                    snapshot.data![index].itemImg,
+                                    snapshot.data![index].itemName,
+                                    snapshot.data![index].category,
+                                    snapshot.data![index].subCategory,
+                                    snapshot.data![index].totalPrice,
+                                    snapshot.data![index].discount.toInt(),
+                                    snapshot.data![index].orderId,
+                                    snapshot.data![index].status.toString(),
+                                    snapshot.data![index].itemQty,
                                   ),
-                                );
-                              })
-                          : Column(
-                              children: [
-                                TextWidget(
-                                  title: 'No items here yet.',
-                                  fontSize: 28.sp,
                                 ),
-                              ],
-                            );
-                    } else if (snapshot.hasError) {
-                      print('Error : ' + snapshot.error.toString());
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.orange,
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
+                              );
+                            }),
+                      )
+                      : Column(
+                          children: [
+                            TextWidget(
+                              title: 'No items here yet.',
+                              fontSize: 28.sp,
+                            ),
+                          ],
+                        );
+                } else if (snapshot.hasError) {
+                  print('Error : ' + snapshot.error.toString());
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.orange,
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
                   },
-                ),),
+                ),
               ]),
             ),
+
           ],
         ),
       ),

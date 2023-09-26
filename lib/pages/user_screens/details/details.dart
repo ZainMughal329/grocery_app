@@ -197,7 +197,7 @@ class DetailsScreen extends StatelessWidget {
                                                   .contains(itemId)
                                               ? GestureDetector(
                                             onTap: (){
-                                              con.deleteDataFromWishList(con.timeStampForWishList);
+                                              con.deleteDataFromWishList(itemId);
                                               con.fetchWishListData();
                                             },
                                                 child: IconWidget(

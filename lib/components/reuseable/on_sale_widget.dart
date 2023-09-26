@@ -190,10 +190,7 @@ class _onSaleContainerState extends State<onSaleContainer> {
                         onTap: () {
                           widget.onClick(widget.widgetKey);
                           detailsCon.fetchData();
-                          final CartControllerReuseAble cartController =
-                              Get.find<CartControllerReuseAble>();
-                          print('Price before : ' +
-                              cartController.totalPrice.toString());
+
 
                           print(detailsCon.itemIds
                               .contains(widget.itemId)
@@ -215,12 +212,16 @@ class _onSaleContainerState extends State<onSaleContainer> {
                               widget.cat,
                               widget.subCat,
                               widget.dis);
+                          final CartControllerReuseAble cartController =
+                          Get.find<CartControllerReuseAble>();
+                          print('Price before : ' +
+                              cartController.totalPrice.value.toString());
                           cartController.addTotalPrice(widget.discountedPrice);
                           setState(() {
                             isTrue = true;
                           });
                           print('Price after : ' +
-                              cartController.totalPrice.toString());
+                              cartController.totalPrice.value.toString());
                           cartController.reduceStockValue(widget.itemId, widget.stock);
                         },
                         child: Center(

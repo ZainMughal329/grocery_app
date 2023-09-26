@@ -121,6 +121,13 @@ class AppPages {
     ),
 
     GetPage(
+      name: AppRoutes.profileScreen,
+      page: () => ProfileView(),
+      binding: ProfileBindings(),
+    ),
+
+
+    GetPage(
       name: AppRoutes.checkOutScreen,
       page: () => CheckOutView(totalPrice: 0,timeStamp: '',),
       binding: CheckOutBindings(),

@@ -46,6 +46,7 @@ class HomeView extends GetView<HomeController> {
     Get.put(DetailsController());
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: LightAppColor.bgColor,
       key: _scaffoldKey,
       drawer: BuildDrawer.buildDrawer(context),

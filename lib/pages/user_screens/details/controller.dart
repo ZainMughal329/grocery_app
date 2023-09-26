@@ -12,7 +12,6 @@ class DetailsController extends GetxController {
   final state = DetailsState();
   final cartCon = Get.find<CartControllerReuseAble>();
 
-
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
 
@@ -134,7 +133,7 @@ class DetailsController extends GetxController {
     }
   }
 
-  String timeStampForWishList = '' ;
+  RxString timeStampForWishList = ''.obs;
 
   addDataToFirebaseInWishList(
     final String userName,
@@ -149,15 +148,15 @@ class DetailsController extends GetxController {
     final int discount,
   ) async {
     try {
-      timeStampForWishList=  DateTime.now().millisecondsSinceEpoch.toString();
+      timeStampForWishList.value = DateTime.now().millisecondsSinceEpoch.toString();
       await db
           .collection('users')
           .doc(auth.currentUser!.uid)
           .collection('wishList')
-          .doc(timeStampForWishList)
+          .doc(itemId)
           .set(
             OrderModel(
-              orderId: timeStampForWishList,
+              orderId: timeStampForWishList.value,
               customerId: auth.currentUser!.uid.toString(),
               customerName: userName,
               totalPrice: totalPrice,
@@ -183,12 +182,12 @@ class DetailsController extends GetxController {
     }
   }
 
-  deleteDataFromWishList(String orderId) async {
+  deleteDataFromWishList(String itemId) async {
     await db
         .collection('users')
         .doc(auth.currentUser!.uid)
         .collection('wishList')
-        .doc(orderId)
+        .doc(itemId)
         .delete()
         .then((value) {
       print('Remove from wishList');

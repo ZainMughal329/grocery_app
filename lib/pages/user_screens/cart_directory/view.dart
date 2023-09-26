@@ -116,16 +116,16 @@ class MyCartScreen extends GetView<MyCartController> {
                   itemQty == 1
                       ? GestureDetector(
                           onTap: () {
-                            controller.fetchStockForItem(itemId);
+                            // controller.fetchStockForItem(itemId);
                             controller.deleteItem(
                               orderId,
                             );
+
                             cartController.removeFromTotalPrice(controller
                                 .calculateDiscountedPrice(price, discount));
-                            cartController.updateStockValue(itemId, controller.stock.value);
+                            // cartController.updateStockValue(itemId, controller.stock.value);
                             final detailCon = Get.put(DetailsController());
                             detailCon.fetchData();
-
                           },
                           child: Center(
                             child: IconWidget(
@@ -136,15 +136,14 @@ class MyCartScreen extends GetView<MyCartController> {
                         )
                       : GestureDetector(
                           onTap: () {
-                            controller.fetchStockForItem(itemId);
+                            // controller.fetchStockForItem(itemId);
                             controller.removeQuantityToOne(
                               orderId,
                               itemQty,
                             );
                             cartController.removeFromTotalPrice(controller
                                 .calculateDiscountedPrice(price, discount));
-                            cartController.updateStockValue(itemId, controller.stock.value);
-
+                            // cartController.updateStockValue(itemId, controller.stock.value);
                           },
                           child: Container(
                             height: 20.w,
@@ -167,14 +166,14 @@ class MyCartScreen extends GetView<MyCartController> {
                   TextWidget(title: itemQty.toString()),
                   GestureDetector(
                     onTap: () {
-                      controller.fetchStockForItem(itemId);
+                      // controller.fetchStockForItem(itemId);
                       controller.updateQuantityToOne(
                         orderId,
                         itemQty,
                       );
                       cartController.addTotalPrice(
                           controller.calculateDiscountedPrice(price, discount));
-                      cartController.reduceStockValue(itemId, controller.stock.value);
+                      // cartController.reduceStockValue(itemId, controller.stock.value);
 
                       // print('price is:' +
                       //     cartController
@@ -278,62 +277,75 @@ class MyCartScreen extends GetView<MyCartController> {
                                   return Column(
                                     children: [
                                       _buildlistTile(
-                                          context,
-                                          snapshot.data!.docs[index]['itemImg'],
-                                          snapshot.data!.docs[index]['items'],
-                                          snapshot.data!.docs[index]['category'],
-                                          snapshot.data!.docs[index]['subCategory'],
-                                          snapshot.data!.docs[index]['totalPrice'],
-                                          snapshot.data!.docs[index]['discount'],
-                                          snapshot.data!.docs[index]['orderId'],
-                                          snapshot.data!.docs[index]['itemId'],
+                                        context,
+                                        snapshot.data!.docs[index]['itemImg'],
+                                        snapshot.data!.docs[index]['items'],
+                                        snapshot.data!.docs[index]['category'],
+                                        snapshot.data!.docs[index]
+                                            ['subCategory'],
+                                        snapshot.data!.docs[index]
+                                            ['totalPrice'],
+                                        snapshot.data!.docs[index]['discount'],
+                                        snapshot.data!.docs[index]['orderId'],
+                                        snapshot.data!.docs[index]['itemId'],
                                         // snapshot.data!.docs[index]['itemQty'],
                                         snapshot.data!.docs[index]['itemQty'],
-
-
                                       ),
-                                      index == snapshot.data!.docs.length - 1 ? 
-                                      Obx(() => RoundButton(
-                                          title: 'CheckOut Rs:'+cartController.totalPrice.toString(),
-                                          onPress: (){
-                                            final timeStamp = DateTime.timestamp().microsecondsSinceEpoch.toString();
-                                            for(int i=0;i<snapshot.data!.docs.length ;i++){
-                                              print(i);
-                                              print(snapshot.data!.docs.length.toString());
+                                      index == snapshot.data!.docs.length - 1
+                                          ? Obx(() => RoundButton(
+                                              title: 'CheckOut Rs:' +
+                                                  cartController.totalPrice
+                                                      .toString(),
+                                              onPress: () {
+                                                final timeStamp =
+                                                    DateTime.timestamp()
+                                                        .microsecondsSinceEpoch
+                                                        .toString();
+                                                for (int i = 0;
+                                                    i <
+                                                        snapshot
+                                                            .data!.docs.length;
+                                                    i++) {
+                                                  print(i);
+                                                  print(snapshot
+                                                      .data!.docs.length
+                                                      .toString());
 
-                                              controller.addDataToFirebase(
-                                                snapshot.data!.docs[i]
-                                                ['customerName'],
-                                                snapshot.data!.docs[i]
-                                                ['totalPrice'],
-                                                snapshot.data!.docs[i]
-                                                ['items'],
-                                                // DateTime.now(),
-                                                snapshot.data!.docs[i]
-                                                ['itemQty'],
-                                                snapshot.data!.docs[i]
-                                                ['itemId'],
-                                                snapshot.data!.docs[i]
-                                                ['itemImg'],
-                                                snapshot.data!.docs[i]
-                                                ['category'],
-                                                snapshot.data!.docs[i]
-                                                ['subCategory'],
-                                                snapshot.data!.docs[i]
-                                                ['discount'],
-                                                controller.timeId,
-                                              );
-                                              Snackbar.showSnackBar('Success', 'Added data to cart successfully');
-                                              Get.to(CheckOutView(
-                                                totalPrice: cartController.totalPrice.value,
-                                                timeStamp: controller.timeId,
-                                              ));
-
-                                            }
-
-
-
-                                          })) : Container(),
+                                                  controller
+                                                          .addDataToFirebase(
+                                                          snapshot.data!.docs[i]
+                                                              ['customerName'],
+                                                          snapshot.data!.docs[i]
+                                                              ['totalPrice'],
+                                                          snapshot.data!.docs[i]
+                                                              ['items'],
+                                                          // DateTime.now(),
+                                                          snapshot.data!.docs[i]
+                                                              ['itemQty'],
+                                                          snapshot.data!.docs[i]
+                                                              ['itemId'],
+                                                          snapshot.data!.docs[i]
+                                                              ['itemImg'],
+                                                          snapshot.data!.docs[i]
+                                                              ['category'],
+                                                          snapshot.data!.docs[i]
+                                                              ['subCategory'],
+                                                          snapshot.data!.docs[i]
+                                                              ['discount'],
+                                                          controller.timeId,
+                                                        );
+                                                  Snackbar.showSnackBar(
+                                                      'Success',
+                                                      'Added data to cart successfully');
+                                                  Get.to(CheckOutView(
+                                                    totalPrice: cartController
+                                                        .totalPrice.value,
+                                                    timeStamp:
+                                                        controller.timeId,
+                                                  ));
+                                                }
+                                              }))
+                                          : Container(),
                                     ],
                                   );
                                 },
@@ -356,14 +368,15 @@ class MyCartScreen extends GetView<MyCartController> {
                                       textAlign: TextAlign.center,
                                     )),
                                     GestureDetector(
-                                      onTap: (){
+                                      onTap: () {
                                         // Get.toNamed(AppRoutes.homeScreen);
                                       },
                                       child: Container(
                                           height: 50.h,
-                                          width:
-                                              MediaQuery.of(context).size.width *
-                                                  0.8.w,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.8.w,
                                           margin: EdgeInsets.all(10),
                                           decoration: BoxDecoration(
                                             color: Colors.orange,
