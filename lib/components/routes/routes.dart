@@ -15,6 +15,10 @@ import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditScreen/bindi
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditScreen/view.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/CancledOrders/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/CancledOrders/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/DelieveredOrders/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/DelieveredOrders/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderHome/bindings.dart';
@@ -22,6 +26,10 @@ import 'package:grocery_app/pages/AdminScreens/orders/OrderItems/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderItems/view.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/allOrders/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/allOrders/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/pendingOrders/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/pendingOrders/view.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/shippedOrders/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/orders/shippedOrders/view.dart';
 // import 'package:grocery_app/pages/AdminScreens/orders/view.dart';
 import 'package:grocery_app/pages/session_sreens/forgot/index.dart';
 import 'package:grocery_app/pages/session_sreens/login/index.dart';
@@ -221,14 +229,42 @@ class AppPages {
       name: AppRoutes.orderDetail,
       page: () => OrderDetailView(orderId: ''),
       binding: OrderDetailsBindings(),
-      transition: Transition.leftToRight,
+      transition: Transition.rightToLeft,
       transitionDuration: Duration(milliseconds: 600),
     ),
     GetPage(
       name: AppRoutes.orderItems,
       page: () => OrderItemsView(customerId: '',orderId: ''),
       binding: OrderItemsBindings(),
-      transition: Transition.leftToRight,
+      transition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    GetPage(
+      name: AppRoutes.orderPending,
+      page: () => PendingOrderView(),
+      binding: PendingOrderBindings(),
+      transition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    GetPage(
+      name: AppRoutes.orderShipped,
+      page: () => ShippedOrderView(),
+      binding: ShippedOrderBindings(),
+      transition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    GetPage(
+      name: AppRoutes.orderDelivered,
+      page: () => DeliveredOrderView(),
+      binding: DeliveredOrderBindings(),
+      transition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    GetPage(
+      name: AppRoutes.orderCanceled,
+      page: () => CanceledOrderView(),
+      binding: CanceledOrderBindings(),
+      transition: Transition.rightToLeft,
       transitionDuration: Duration(milliseconds: 600),
     ),
 

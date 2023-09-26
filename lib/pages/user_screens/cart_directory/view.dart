@@ -311,6 +311,8 @@ class MyCartScreen extends GetView<MyCartController> {
                                                       .data!.docs.length
                                                       .toString());
 
+                                                  print("controller.addDataTOFirebase Called");
+
                                                   controller
                                                           .addDataToFirebase(
                                                           snapshot.data!.docs[i]

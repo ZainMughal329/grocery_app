@@ -150,6 +150,7 @@ class MyCartController extends GetxController {
             ).toJson(),
           )
           .then((value) async {
+            print("data added into firebase");
         // cartCon.addTotalPrice(totalPrice);
       });
     } catch (e) {

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:grocery_app/components/colors/light_app_colors.dart';
+import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
+import 'package:grocery_app/components/services/session_controller.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderDetail/controller.dart';
 import 'package:grocery_app/pages/AdminScreens/orders/OrderItems/view.dart';
 
@@ -70,7 +72,9 @@ class OrderDetailView extends GetView<OrderDetailController> {
                                 return DropdownButton(
                                   hint: Text(controller.state.hint.value),
                                   items: <DropdownMenuItem>[
+
                                     DropdownMenuItem(child: Text('Pending'),value: 'pending',),
+                                    DropdownMenuItem(child: Text('Shipped'),value: 'shipped',),
                                     DropdownMenuItem(child: Text('Delivered'),value: 'delivered',),
                                     DropdownMenuItem(child: Text('Cancelled'),value: 'cancelled',),
                                   ],
@@ -90,10 +94,14 @@ class OrderDetailView extends GetView<OrderDetailController> {
                                 TextButton(
                                   child: Text('Change'),
                                   onPressed: () {
-                                    controller.changeStatus(orderId, controller.state.hint.value);
+                                    String uid = controller.orderDetails!.customerId.toString();
+                                    controller.changeStatus(orderId,uid, controller.state.hint.value);
+                                    Get.back();
+                                    Get.back();
                                     Navigator.of(context).pop();
-                                    Get.back();
-                                    Get.back();
+                                    Snackbar.showSnackBar("Update", "Updated All Statuses");
+
+
 
 
                                   },
@@ -101,7 +109,12 @@ class OrderDetailView extends GetView<OrderDetailController> {
                               ],);
                           });
                         },
-                        child: _detailText('Status', controller.orderDetails!.status.toString(), true, controller.orderDetails!.status == "delivered" ? Colors.green : Colors.red)),
+                        child: _detailText('Status\n(tap to change)', controller.orderDetails!.status.toString(), true, controller.orderDetails!.status == "pending" ? LightAppColor.btnColor :
+                        controller.orderDetails!.status == "delivered" ? Colors.green :
+                        controller.orderDetails!.status == "shipped" ? Colors.yellow :
+                        controller.orderDetails!.status == "cancelled" ? Colors.red :
+                        Colors.black ,
+                        ),),
                     SizedBox(height: 15.h),  // Provide some spacing before the button
 
                     // Button with styling

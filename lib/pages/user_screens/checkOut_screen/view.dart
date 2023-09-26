@@ -30,8 +30,8 @@ class CheckOutView extends GetView<CheckOutController> {
       onWillPop: () async{
         Get.back();
         Get.back();
-        controller.deleteCartList();
-        controller.deleteOrderList();
+        // controller.deleteCartList();
+        // controller.deleteOrderList();
         cartCon.totalPrice.value = 0;
         return true;
       },

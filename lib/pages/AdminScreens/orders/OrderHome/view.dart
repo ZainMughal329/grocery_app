@@ -33,25 +33,33 @@ class OrderHomeView extends GetView<OrderHomeController> {
                   title: 'Pending',
                   icon: Icons.access_time_outlined,
                   color: LightAppColor.btnColor,
-                  onPress: () {},
+                  onPress: () {
+                    Get.toNamed(AppRoutes.orderPending);
+                  },
                 ),
                 InventoryWidget(
                   title: 'Shipped',
                   icon: Icons.local_shipping_outlined,
                   color: LightAppColor.btnColor,
-                  onPress: () {},
+                  onPress: () {
+                    Get.toNamed(AppRoutes.orderShipped);
+                  },
                 ),
                 InventoryWidget(
                   title: 'Delivered',
                   icon: Icons.pending_actions_outlined,
                   color: LightAppColor.btnColor,
-                  onPress: () {},
+                  onPress: () {
+                    Get.toNamed(AppRoutes.orderDelivered);
+                  },
                 ),
                 InventoryWidget(
                   title: 'Cancelled',
                   icon: Icons.cancel_outlined,
                   color: LightAppColor.btnColor,
-                  onPress: () {},
+                  onPress: () {
+                    Get.toNamed(AppRoutes.orderCanceled);
+                  },
                 ),
               ],
             ),

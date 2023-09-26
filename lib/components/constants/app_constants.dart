@@ -18,6 +18,9 @@ class AppConstants{
 
   //Admin Constants
   static const String administration = 'Administration';
+  static const String adminEmail = 'grocezone452@gmail.com';
+  static const String adminPassword = 'aim75938';
+
 
 
 

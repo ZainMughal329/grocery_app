@@ -33,6 +33,12 @@ static const inventoryAddItem = '/inventoryAddItem';
   static const orderDetail = '/orderDetail';
   static const orderItems = '/orderItems';
 
+  static const orderPending = '/orderPending';
+  static const orderShipped = '/orderShipped';
+  static const orderDelivered = '/orderDelivered';
+  static const orderCanceled = '/orderCanceled';
+
+
 
 
 }

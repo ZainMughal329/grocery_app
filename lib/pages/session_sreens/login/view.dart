@@ -99,11 +99,11 @@ class LogInView extends GetView<LogInController> {
                     if (controller.state.emailController.text
                                 .trim()
                                 .toString() ==
-                            "grocezone452@gmail.com" &&
+                            AppConstants.adminEmail &&
                         controller.state.passController.text
                                 .trim()
                                 .toString() ==
-                            "aim75938") {
+                            AppConstants.adminPassword) {
                       Get.offAndToNamed(AppRoutes.adminHomeScreen);
                       Snackbar.showSnackBar(
                           "Success", "Admin Login Successfully");
