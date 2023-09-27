@@ -251,7 +251,8 @@ class CheckOutView extends GetView<CheckOutController> {
                                     }
                                     controller.addOrder(
                                         orderData, controller.timeId);
-                                    cartCon.totalPrice.value = 0;
+                                    cartCon.updateTotalPrice(0);
+
 
                                     print(
                                       'Price of is :' +

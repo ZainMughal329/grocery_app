@@ -107,16 +107,11 @@ class CheckOutController extends GetxController {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .collection('cartList');
 
-        // cartCon.totalPrice.value = 0;
-        // print(
-        //   'Price of is :' + cartCon.totalPrice.value.toString(),
-        // );
 
         final QuerySnapshot querySnapshot = await collectionReference.get();
         for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
           await documentSnapshot.reference.delete().then((value) {
             print('Deleted success');
-            // cartCon.totalPrice.value = 0;
 
             final detailCon = Get.put(DetailsController());
 
@@ -126,7 +121,6 @@ class CheckOutController extends GetxController {
           });
         }
         print('Deleted cart data');
-        // cartCon.addTotalPrice(totalPrice);
       });
     } catch (e) {
       print(

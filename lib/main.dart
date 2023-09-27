@@ -16,7 +16,7 @@ import 'package:grocery_app/pages/user_screens/profile/controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Get.put(MyCartController());
+  // Get.put(MyCartController());
   Get.put(HomeController());
 
   Get.put(CartControllerReuseAble());

@@ -9,6 +9,7 @@ import 'package:grocery_app/components/reuseable/list_tile_widet.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/components/routes/name.dart';
 import 'package:grocery_app/components/themes/dark_theme.dart';
+import 'package:grocery_app/pages/user_screens/details/controller.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
 
 import '../../../components/reuseable/snackbar_widget.dart';
@@ -150,7 +151,12 @@ class BuildDrawer {
             onPress: () async {
               Navigator.pop(context);
               final cartCon = Get.find<CartControllerReuseAble>();
-              cartCon.totalPrice.value = 0;
+              cartCon.updateTotalPrice(0);
+              print('Price is : ' + cartCon.totalPrice.value.toString(),);
+              final detailCon = Get.put(DetailsController());
+              detailCon.itemIds.clear();
+              print('Items are : ' + detailCon.itemIds.toString());
+
               final CollectionReference collectionReference = FirebaseFirestore
                   .instance
                   .collection('users')
