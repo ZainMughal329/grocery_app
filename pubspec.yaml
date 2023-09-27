@@ -52,6 +52,7 @@ dependencies:
   intl:
   pie_chart:
   vertical_barchart:
+  fl_chart: 
 
 dev_dependencies:
   flutter_test:

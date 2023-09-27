@@ -6,6 +6,8 @@ import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/controller.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:fl_chart/fl_chart.dart' as fl;
+
 // import 'package:sliver_bar_chart/sliver_bar_chart.dart';
 import 'package:vertical_barchart/vertical-barchart.dart';
 import 'package:vertical_barchart/vertical-legend.dart';
@@ -16,7 +18,7 @@ class DashBoardView extends GetView<DashBoardController> {
 
   Widget _pieChart(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only( bottom: 10.h),
+      padding: EdgeInsets.only(bottom: 10.h),
       child: PieChart(
         dataMap: controller.loadedMap,
         animationDuration: Duration(milliseconds: 800),
@@ -65,25 +67,25 @@ class DashBoardView extends GetView<DashBoardController> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Sales Report",
-              style: GoogleFonts.poppins(
-                color: LightAppColor.btnColor,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
+          alignment: Alignment.topLeft,
+          child: Text(
+            "Sales Report",
+            style: GoogleFonts.poppins(
+              color: LightAppColor.btnColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
+          ),
         ),
         Container(
           // height: 150.h,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: LightAppColor.btnColor.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Colors.grey,
-              ),
+            color: LightAppColor.btnColor.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.grey,
+            ),
           ),
           child: Padding(
             padding: EdgeInsets.only(
@@ -91,12 +93,13 @@ class DashBoardView extends GetView<DashBoardController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Align(alignment: Alignment.topRight,
-                child: InkWell(
-                    onTap: (){
-                      controller.refreshData();
-                    },
-                    child: Icon(Icons.refresh)),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                      onTap: () {
+                        controller.refreshData();
+                      },
+                      child: Icon(Icons.refresh)),
                 ),
                 _pieChart(context),
                 Align(
@@ -128,11 +131,14 @@ class DashBoardView extends GetView<DashBoardController> {
                               title: controller.state.totalOrders.toString(),
                             ),
                             TextWidget(
-                                title: controller.state.pendingOrders.toString()),
+                                title:
+                                    controller.state.pendingOrders.toString()),
                             TextWidget(
-                                title: controller.state.deliveredOrders.toString()),
+                                title: controller.state.deliveredOrders
+                                    .toString()),
                             TextWidget(
-                                title: controller.state.cancelledOrders.toString()),
+                                title: controller.state.cancelledOrders
+                                    .toString()),
                           ],
                         ),
                       ),
@@ -163,22 +169,190 @@ class DashBoardView extends GetView<DashBoardController> {
               color: Colors.grey,
             ),
           ),
-          child: VerticalBarchart(
-            background: LightAppColor.btnColor.withOpacity(0.02),
-            maxX: 55,
-            data: controller.state.bardata,
-            showLegend: true,
-            legend: [
-              Vlegend(
-                isSquare: false,
-                color: Colors.orange,
-                text: "Orders",
-              ),
+          // child: VerticalBarchart(
+          //   background: LightAppColor.btnColor.withOpacity(0.02),
+          //   maxX: 55,
+          //   data: controller.state.bardata,
+          //   showLegend: true,
+          //   legend: [
+          //     Vlegend(
+          //       isSquare: false,
+          //       color: Colors.orange,
+          //       text: "Orders",
+          //     ),
+          //
+          //   ],
+          // ),
+          child: VerticalBarChart(
+                    controller.state.orderCounts,
+                  )
 
-            ],
+        ),
+        // SizedBox(
+        //   height: 20.h,
+        // ),
+
+        // For past week data
+
+        // Container(
+        //   height: 250.h,
+        //   decoration: BoxDecoration(
+        //     color: LightAppColor.btnColor.withOpacity(0.2),
+        //     borderRadius: BorderRadius.circular(10),
+        //     border: Border.all(
+        //       color: Colors.grey,
+        //     ),
+        //   ),
+        //
+        //   child: Obx(() {
+        //     return controller.state.lastWeekOrderCounts.isNotEmpty ||
+        //             controller.state.currentWeekOrderCounts.isNotEmpty
+        //         ? VerticalBarChartForPastData(
+        //             controller.state.lastWeekOrderCounts,
+        //             controller.state.currentWeekOrderCounts,
+        //           )
+        //         : Container();
+        //   }),
+        // )
+
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            "Monthly Sales",
+            style: GoogleFonts.poppins(
+              color: LightAppColor.btnColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        )
+        ),
+        Container(
+          height: 350.h,
+          decoration: BoxDecoration(
+            color: LightAppColor.btnColor.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.grey,
+            ),
+          ),
+          // child: VerticalBarchart(
+          //   background: LightAppColor.btnColor.withOpacity(0.02),
+          //   maxX: 55,
+          //   data: controller.state.bardata,
+          //   showLegend: true,
+          //   legend: [
+          //     Vlegend(
+          //       isSquare: false,
+          //       color: Colors.orange,
+          //       text: "Orders",
+          //     ),
+          //
+          //   ],
+          // ),
+          child:  Container(
+                    height: 300.h,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 200.h,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 10.h),
+                          child: fl.LineChart(
+                            fl.LineChartData(
+                              titlesData: fl.FlTitlesData(
+                                topTitles: fl.AxisTitles(
+                                    sideTitles:
+                                        fl.SideTitles(showTitles: false)),
+                                leftTitles: fl.AxisTitles(
+                                    sideTitles:
+                                        fl.SideTitles(showTitles: false)),
+                                bottomTitles: fl.AxisTitles(
+                                  sideTitles: fl.SideTitles(
+                                    showTitles: true,
+                                    interval: 0.5,
+                                    reservedSize: 32,
+                                    getTitlesWidget: (value, meta) {
+                                      print('Value : ' + value.toString());
+                                      int index = (value /
+                                              (1 /
+                                                  (controller
+                                                          .state.months.length -
+                                                      1)))
+                                          .round();
+                                      if (index >= 0 &&
+                                          index <
+                                              controller.state.months.length) {
+                                        var mon =
+                                            controller.state.months[index];
+                                        print('object + ' + index.toString());
 
+                                        // print('mon : ' + mon[index].toString());
+                                        return fl.SideTitleWidget(
+                                          space: 4,
+                                          fitInside: fl.SideTitleFitInsideData(
+                                              enabled: true,
+                                              axisPosition: 10,
+                                              parentAxisSize: 0,
+                                              distanceFromEdge: -60),
+                                          // angle: 80,
+                                          axisSide: meta.axisSide,
+                                          child: Text(
+                                            mon.toString(),
+                                            style: TextStyle(
+                                              fontSize: 10.sp,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      return Container();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              borderData: fl.FlBorderData(
+                                show: true,
+                                border: Border.all(
+                                  color: const Color(0xff37434d),
+                                  width: 1,
+                                ),
+                              ),
+                              gridData: fl.FlGridData(show: false),
+                              minX: 0,
+                              maxX: (controller.state.months.length - 1)
+                                  .toDouble(),
+                              minY: 0,
+                              // maxY: controller.getMaxOrderCount(),
+                              lineBarsData: [
+                                fl.LineChartBarData(
+                                  spots: controller.getChartData(),
+                                  isCurved: true,
+                                  color: Colors.orange,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Text('Select a Month to View Data:'),
+                        Wrap(
+                          spacing: 10,
+                          children: controller.state.months
+                              .asMap()
+                              .entries
+                              .map((entry) {
+                            final index = entry.key;
+                            final month = entry.value;
+                            return ElevatedButton(
+                              onPressed: () =>
+                                  controller.showDataForMonth(index),
+                              child: Text(month),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+        ),
       ],
     );
   }
@@ -189,17 +363,146 @@ class DashBoardView extends GetView<DashBoardController> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-            child: Obx((){
+          child:  Obx(
+            () {
               return controller.state.loaded.value == false
                   ? _buildLoadingWidget(context)
                   : Padding(
-                padding:
-                EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                child: _buildLoadedWidget(context),
-              );
-            })
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 10.h),
+                      child: _buildLoadedWidget(context),
+                    );
+            },
+          ),
         ),
       ),
     );
   }
 }
+
+class VerticalBarChart extends GetView<DashBoardController> {
+  final Map<String, int> data;
+
+  VerticalBarChart(this.data);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      child: Container(
+        height: 200.h,
+        child: fl.BarChart(
+          fl.BarChartData(
+            alignment: fl.BarChartAlignment.spaceAround,
+            titlesData: fl.FlTitlesData(
+              topTitles:
+                  fl.AxisTitles(sideTitles: fl.SideTitles(showTitles: false)),
+              leftTitles:
+                  fl.AxisTitles(sideTitles: fl.SideTitles(showTitles: false)),
+              bottomTitles: fl.AxisTitles(
+                sideTitles: fl.SideTitles(
+                  showTitles: true,
+                  getTitlesWidget: (value, meta) {
+                    var date = data.keys.toList()[value.toInt()];
+                    return fl.SideTitleWidget(
+                        axisSide: meta.axisSide, child: Text(date.toString()));
+                  },
+                ),
+              ),
+            ),
+            borderData: fl.FlBorderData(
+              show: true,
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+            ),
+            gridData: fl.FlGridData(show: false),
+            barGroups: data.entries.map(
+              (entry) {
+                return fl.BarChartGroupData(
+                  x: data.keys.toList().indexOf(entry.key),
+                  barRods: [
+                    fl.BarChartRodData(
+                      toY: entry.value.toDouble(),
+                      color: entry.key.length < 9 ? Colors.red : Colors.orange,
+                    ),
+                  ],
+                );
+              },
+            ).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// class VerticalBarChartForPastData extends StatelessWidget {
+//   final Map<String, int> lastWeekData;
+//   final Map<String, int> currentWeekData;
+//
+//   VerticalBarChartForPastData(this.lastWeekData, this.currentWeekData);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 200.h,
+//       child: fl.BarChart(
+//         fl.BarChartData(
+//           alignment: fl.BarChartAlignment.spaceAround,
+//           titlesData: fl.FlTitlesData(
+//             leftTitles: fl.AxisTitles(
+//                 sideTitles:
+//                 fl.SideTitles(showTitles: true)),
+//             bottomTitles: fl.AxisTitles(
+//     sideTitles:fl.SideTitles(
+//               showTitles: true,
+//               getTitlesWidget: (value , meta) {
+//                 List<String> days = lastWeekData.keys.toList();
+//                 if (value >= 0 && value < days.length) {
+//                   var d =  days[value.toInt()];
+//                   return fl.SideTitleWidget(child: Text(d.toString()), axisSide: meta.axisSide);
+//                 }
+//                 return Container();
+//               },
+//             ),),
+//           ),
+//           borderData: fl.FlBorderData(
+//             show: true,
+//             border: Border.all(
+//               color: const Color(0xff37434d),
+//               width: 1,
+//             ),
+//           ),
+//           barGroups: [
+//             fl.BarChartGroupData(
+//               x: 0,
+//               barRods: lastWeekData.entries.map(
+//                     (entry) {
+//                   return fl.BarChartRodData(
+//                     toY: entry.value.toDouble(),
+//                     color: Colors.blue,
+//                   );
+//                 },
+//               ).toList(),
+//             ),
+//             fl.BarChartGroupData(
+//               x: 1,
+//               barRods: currentWeekData.entries.map(
+//                     (entry) {
+//                   return fl.BarChartRodData(
+//                     toY: entry.value.toDouble(),
+//                     color: Colors.red,
+//                   );
+//                 },
+//               ).toList(),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+//
+//
+// }
