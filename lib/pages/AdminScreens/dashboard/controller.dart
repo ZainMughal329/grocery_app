@@ -15,6 +15,7 @@ class DashBoardController extends GetxController {
 
     fetchAllOrdersData();
     fetchPendingOrdersData();
+    fetchShippedOrdersData();
     fetchDeliveredOrdersData();
     fetchCancelledOrdersData();
     fetchDataAndCountOrdersForMonth();
@@ -31,6 +32,7 @@ class DashBoardController extends GetxController {
     loadedMap = {
       "Orders": state.totalOrders.toDouble(),
       "Pending": state.pendingOrders.toDouble(),
+      "Shipped": state.shippedOrders.toDouble(),
       "Delivered": state.deliveredOrders.toDouble(),
       "Cancelled": state.cancelledOrders.toDouble(),
     };
@@ -44,9 +46,16 @@ class DashBoardController extends GetxController {
 
     if (snapshot.docs.isNotEmpty) {
       state.pendingOrders = snapshot.docs.length;
-      // loadedMap.addAll(
-      //     {"Pending": state.pendingOrders.toDouble()}
-      // );
+    }
+  }
+  Future<void> fetchShippedOrdersData() async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('allOrders')
+        .where('status', isEqualTo: 'shipped')
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      state.shippedOrders = snapshot.docs.length;
     }
   }
 

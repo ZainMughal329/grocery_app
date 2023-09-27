@@ -114,6 +114,7 @@ class DashBoardView extends GetView<DashBoardController> {
                             TextWidget(title: 'Total Sales  '),
                             TextWidget(title: 'Total Orders  '),
                             TextWidget(title: 'Pending Orders  '),
+                            TextWidget(title: 'Shipped Orders  '),
                             TextWidget(title: 'Delivered Orders  '),
                             TextWidget(title: 'Cancelled Orders  '),
                           ],
@@ -133,6 +134,9 @@ class DashBoardView extends GetView<DashBoardController> {
                             TextWidget(
                                 title:
                                     controller.state.pendingOrders.toString()),
+                            TextWidget(
+                                title:
+                                controller.state.shippedOrders.toString()),
                             TextWidget(
                                 title: controller.state.deliveredOrders
                                     .toString()),
@@ -169,52 +173,12 @@ class DashBoardView extends GetView<DashBoardController> {
               color: Colors.grey,
             ),
           ),
-          // child: VerticalBarchart(
-          //   background: LightAppColor.btnColor.withOpacity(0.02),
-          //   maxX: 55,
-          //   data: controller.state.bardata,
-          //   showLegend: true,
-          //   legend: [
-          //     Vlegend(
-          //       isSquare: false,
-          //       color: Colors.orange,
-          //       text: "Orders",
-          //     ),
-          //
-          //   ],
-          // ),
+
           child: VerticalBarChart(
                     controller.state.orderCounts,
                   )
 
         ),
-        // SizedBox(
-        //   height: 20.h,
-        // ),
-
-        // For past week data
-
-        // Container(
-        //   height: 250.h,
-        //   decoration: BoxDecoration(
-        //     color: LightAppColor.btnColor.withOpacity(0.2),
-        //     borderRadius: BorderRadius.circular(10),
-        //     border: Border.all(
-        //       color: Colors.grey,
-        //     ),
-        //   ),
-        //
-        //   child: Obx(() {
-        //     return controller.state.lastWeekOrderCounts.isNotEmpty ||
-        //             controller.state.currentWeekOrderCounts.isNotEmpty
-        //         ? VerticalBarChartForPastData(
-        //             controller.state.lastWeekOrderCounts,
-        //             controller.state.currentWeekOrderCounts,
-        //           )
-        //         : Container();
-        //   }),
-        // )
-
         Align(
           alignment: Alignment.topLeft,
           child: Text(
@@ -227,7 +191,7 @@ class DashBoardView extends GetView<DashBoardController> {
           ),
         ),
         Container(
-          height: 350.h,
+          // height: 350.h,
           decoration: BoxDecoration(
             color: LightAppColor.btnColor.withOpacity(0.2),
             borderRadius: BorderRadius.circular(10),
@@ -235,123 +199,109 @@ class DashBoardView extends GetView<DashBoardController> {
               color: Colors.grey,
             ),
           ),
-          // child: VerticalBarchart(
-          //   background: LightAppColor.btnColor.withOpacity(0.02),
-          //   maxX: 55,
-          //   data: controller.state.bardata,
-          //   showLegend: true,
-          //   legend: [
-          //     Vlegend(
-          //       isSquare: false,
-          //       color: Colors.orange,
-          //       text: "Orders",
-          //     ),
-          //
-          //   ],
-          // ),
-          child:  Container(
-                    height: 300.h,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 200.h,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 10.h),
-                          child: fl.LineChart(
-                            fl.LineChartData(
-                              titlesData: fl.FlTitlesData(
-                                topTitles: fl.AxisTitles(
-                                    sideTitles:
-                                        fl.SideTitles(showTitles: false)),
-                                leftTitles: fl.AxisTitles(
-                                    sideTitles:
-                                        fl.SideTitles(showTitles: false)),
-                                bottomTitles: fl.AxisTitles(
-                                  sideTitles: fl.SideTitles(
-                                    showTitles: true,
-                                    interval: 0.5,
-                                    reservedSize: 32,
-                                    getTitlesWidget: (value, meta) {
-                                      print('Value : ' + value.toString());
-                                      int index = (value /
-                                              (1 /
-                                                  (controller
-                                                          .state.months.length -
-                                                      1)))
-                                          .round();
-                                      if (index >= 0 &&
-                                          index <
-                                              controller.state.months.length) {
-                                        var mon =
-                                            controller.state.months[index];
-                                        print('object + ' + index.toString());
 
-                                        // print('mon : ' + mon[index].toString());
-                                        return fl.SideTitleWidget(
-                                          space: 4,
-                                          fitInside: fl.SideTitleFitInsideData(
-                                              enabled: true,
-                                              axisPosition: 10,
-                                              parentAxisSize: 0,
-                                              distanceFromEdge: -60),
-                                          // angle: 80,
-                                          axisSide: meta.axisSide,
-                                          child: Text(
-                                            mon.toString(),
-                                            style: TextStyle(
-                                              fontSize: 10.sp,
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                      return Container();
-                                    },
+          child:  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 200.h,
+                padding: EdgeInsets.only(
+                    left: 25.w, top: 20.h,bottom: 10.h),
+                child: fl.LineChart(
+                  fl.LineChartData(
+                    titlesData: fl.FlTitlesData(
+                      topTitles: fl.AxisTitles(
+                          sideTitles:
+                              fl.SideTitles(showTitles: false)),
+                      leftTitles: fl.AxisTitles(
+                          sideTitles:
+                              fl.SideTitles(showTitles: false)),
+                      bottomTitles: fl.AxisTitles(
+                        sideTitles: fl.SideTitles(
+
+                          showTitles: true,
+                          interval: 0.6,
+                          // reservedSize: 32,
+                          getTitlesWidget: (value, meta) {
+                            print('Value : ' + value.toString());
+                            int index = (value /
+                                    (1 /
+                                        (controller
+                                                .state.months.length -
+                                            1)))
+                                .round();
+                            if (index >= 0 &&
+                                index <
+                                    controller.state.months.length) {
+                              var mon =
+                                  controller.state.months[index];
+                              print('object + ' + index.toString());
+
+                              // print('mon : ' + mon[index].toString());
+                              return fl.SideTitleWidget(
+                                space: 4,
+                                fitInside: fl.SideTitleFitInsideData(
+                                    enabled: true,
+                                    axisPosition: 10,
+                                    parentAxisSize: 10,
+                                    distanceFromEdge: -90),
+                                // angle: 80,
+                                axisSide: meta.axisSide,
+                                child: Text(
+                                  mon.toString(),
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
                                   ),
                                 ),
-                              ),
-                              borderData: fl.FlBorderData(
-                                show: true,
-                                border: Border.all(
-                                  color: const Color(0xff37434d),
-                                  width: 1,
-                                ),
-                              ),
-                              gridData: fl.FlGridData(show: false),
-                              minX: 0,
-                              maxX: (controller.state.months.length - 1)
-                                  .toDouble(),
-                              minY: 0,
-                              // maxY: controller.getMaxOrderCount(),
-                              lineBarsData: [
-                                fl.LineChartBarData(
-                                  spots: controller.getChartData(),
-                                  isCurved: true,
-                                  color: Colors.orange,
-                                ),
-                              ],
-                            ),
-                          ),
+                              );
+                            }
+                            return Container();
+                          },
                         ),
-                        SizedBox(height: 20),
-                        Text('Select a Month to View Data:'),
-                        Wrap(
-                          spacing: 10,
-                          children: controller.state.months
-                              .asMap()
-                              .entries
-                              .map((entry) {
-                            final index = entry.key;
-                            final month = entry.value;
-                            return ElevatedButton(
-                              onPressed: () =>
-                                  controller.showDataForMonth(index),
-                              child: Text(month),
-                            );
-                          }).toList(),
-                        ),
-                      ],
+                      ),
                     ),
+                    borderData: fl.FlBorderData(
+                      show: true,
+                      border: Border.all(
+                        color: const Color(0xff37434d),
+                        width: 1,
+                      ),
+                    ),
+                    gridData: fl.FlGridData(show: false),
+                    minX: 0,
+                    maxX: (controller.state.months.length - 1)
+                        .toDouble(),
+                    minY: 0,
+                    // maxY: controller.getMaxOrderCount(),
+                    lineBarsData: [
+                      fl.LineChartBarData(
+                        spots: controller.getChartData(),
+                        isCurved: true,
+                        color: Colors.orange,
+                      ),
+                    ],
                   ),
+                ),
+              ),
+              // SizedBox(height: 20),
+              Text('Select a Month to View Data:'),
+              Wrap(
+                spacing: 10,
+                children: controller.state.months
+                    .asMap()
+                    .entries
+                    .map((entry) {
+                  final index = entry.key;
+                  final month = entry.value;
+                  return ElevatedButton(
+                    onPressed: () =>
+                        controller.showDataForMonth(index),
+                    child: Text(month),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -388,9 +338,9 @@ class VerticalBarChart extends GetView<DashBoardController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      padding: EdgeInsets.only(left: 25.w, top: 10.h,bottom: 10.h),
       child: Container(
-        height: 200.h,
+        // height: 200.h,
         child: fl.BarChart(
           fl.BarChartData(
             alignment: fl.BarChartAlignment.spaceAround,
@@ -412,9 +362,11 @@ class VerticalBarChart extends GetView<DashBoardController> {
             ),
             borderData: fl.FlBorderData(
               show: true,
+
               border: Border.all(
+
                 color: Colors.grey,
-                width: 1,
+                width: 1.5,
               ),
             ),
             gridData: fl.FlGridData(show: false),
