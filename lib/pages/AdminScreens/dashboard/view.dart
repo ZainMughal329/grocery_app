@@ -6,6 +6,9 @@ import 'package:grocery_app/components/colors/light_app_colors.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';
 import 'package:grocery_app/pages/AdminScreens/dashboard/controller.dart';
 import 'package:pie_chart/pie_chart.dart';
+// import 'package:sliver_bar_chart/sliver_bar_chart.dart';
+import 'package:vertical_barchart/vertical-barchart.dart';
+import 'package:vertical_barchart/vertical-legend.dart';
 
 class DashBoardView extends GetView<DashBoardController> {
   DashBoardView({Key? key}) : super(key: key);
@@ -22,11 +25,11 @@ class DashBoardView extends GetView<DashBoardController> {
         colorList: controller.state.colorList,
         initialAngleInDegree: 0,
         chartType: ChartType.ring,
-        ringStrokeWidth: 40,
+        ringStrokeWidth: 30.r,
         centerText: "Sales",
         legendOptions: LegendOptions(
           showLegendsInRow: false,
-          legendPosition: LegendPosition.right,
+          // legendPosition: LegendPosition.right,
           showLegends: true,
           legendShape: BoxShape.circle,
           legendTextStyle: TextStyle(
@@ -80,7 +83,8 @@ class DashBoardView extends GetView<DashBoardController> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: Colors.grey,
-              )),
+              ),
+          ),
           child: Padding(
             padding: EdgeInsets.only(
                 top: 15.h, bottom: 10.h, left: 10.h, right: 10.h),
@@ -139,6 +143,42 @@ class DashBoardView extends GetView<DashBoardController> {
             ),
           ),
         ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            "DayWise Sales",
+            style: GoogleFonts.poppins(
+              color: LightAppColor.btnColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Container(
+          height: 250.h,
+          decoration: BoxDecoration(
+            color: LightAppColor.btnColor.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.grey,
+            ),
+          ),
+          child: VerticalBarchart(
+            background: LightAppColor.btnColor.withOpacity(0.02),
+            maxX: 55,
+            data: controller.state.bardata,
+            showLegend: true,
+            legend: [
+              Vlegend(
+                isSquare: false,
+                color: Colors.orange,
+                text: "Orders",
+              ),
+
+            ],
+          ),
+        )
+
       ],
     );
   }
@@ -149,15 +189,15 @@ class DashBoardView extends GetView<DashBoardController> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Obx((){
-            return controller.state.loaded.value == false
-                ? _buildLoadingWidget(context)
-                : Padding(
+            child: Obx((){
+              return controller.state.loaded.value == false
+                  ? _buildLoadingWidget(context)
+                  : Padding(
                 padding:
                 EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
                 child: _buildLoadedWidget(context),
-            );
-          })
+              );
+            })
         ),
       ),
     );

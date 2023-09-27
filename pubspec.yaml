@@ -50,8 +50,8 @@ dependencies:
   shared_preferences:
   add_to_cart_animation:
   intl:
-  fl_chart:
   pie_chart:
+  vertical_barchart:
 
 dev_dependencies:
   flutter_test:
