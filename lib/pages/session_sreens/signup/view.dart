@@ -103,7 +103,8 @@ class SignInView extends GetView<SignInController> {
                 height: 20.h,
               ),
               Obx(
-                () => RoundButton(
+                () => controller.state.loading==true ? CircularProgressIndicator(color: LightAppColor.btnColor,) :
+                RoundButton(
                   title: AppConstants.signUp,
                   onPress: () async {
                     if (controller.formIsValid()) {
@@ -138,6 +139,7 @@ class SignInView extends GetView<SignInController> {
                   },
                   loading: controller.state.loading.value,
                 ),
+
               ),
               SizedBox(
                 height: 10.h,

@@ -31,18 +31,18 @@ class HomeController extends GetxController {
   }
 
   List<String> imagesList = [
-    'assets/pic1.jpeg',
-    'assets/pic2.jpeg',
-    'assets/pic3.jpeg',
-    'assets/pic4.jpeg',
     'assets/pic5.jpeg',
+    'assets/4.jpg',
+    'assets/3.png',
+    'assets/1.png',
+    'assets/2.png',
   ];
 
   final List<CategoryItem> category = [
     CategoryItem(
       category: 'HouseHold',
       subTitle:
-          "Furniture. Appliances such as a microwave or toaster oven. Electronic equipment such as TVs and computers. Rugs. Tools for cooking and utensils for eating",
+          "Furniture,appliances,Electronic equipment,rugs,Tools,utensils and many more",
       subCategory: [
         'Cleaning',
         'Furniture',
@@ -54,7 +54,7 @@ class HomeController extends GetxController {
     CategoryItem(
       category: 'Kitchen',
       subTitle:
-          ' the tools, utensils, appliances, dishes, and cookware used in food preparation, or the serving of food.',
+          'Tools,utensils,appliances,dishes,cookware and many more.',
       subCategory: [
         'Appliances',
         'Cookwares',
@@ -66,7 +66,7 @@ class HomeController extends GetxController {
     CategoryItem(
       category: 'Bathroom',
       subTitle:
-          'Common bathroom organization categories include hair items, makeup, medicine, towels, nail supplies, and toiletries',
+          'Common bathroom items,makeup,medicine,toiletries and many more',
       subCategory: [
         'Hygiene',
         'Soaps',
@@ -78,7 +78,7 @@ class HomeController extends GetxController {
     CategoryItem(
       category: 'Clothing',
       subTitle:
-          'Casual wear – worn as standard clothing. Formal wear – worn for events such as weddings. Lingerie – undergarments worn for support and / or decoration. Sportswear – worn for athletic activities like running.',
+          'Casual wear,Formal wear,Lingerie,Sportswear and many more.',
       subCategory: [
         'Men',
         'Women',
@@ -90,7 +90,7 @@ class HomeController extends GetxController {
     CategoryItem(
       category: 'Grocery',
       subTitle:
-          ' Fruits, vegetables , meat , sea food and freshly baked bakery items.',
+          ' Fruits,vegetables,meat,sea-food and many more.',
       subCategory: [
         'Vegetables',
         'Fruits',

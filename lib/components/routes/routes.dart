@@ -9,6 +9,8 @@ import 'package:grocery_app/pages/AdminScreens/InventoryManagement/bindings.dart
 import 'package:grocery_app/pages/AdminScreens/InventoryManagement/view.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/AddItem/view.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/DiscountedItems/bindings.dart';
+import 'package:grocery_app/pages/AdminScreens/InventoryScreens/DiscountedItems/view.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/bindings.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditItems/view.dart';
 import 'package:grocery_app/pages/AdminScreens/InventoryScreens/EditScreen/bindings.dart';
@@ -221,6 +223,13 @@ class AppPages {
       name: AppRoutes.inventoryEdit,
       page: () => EditScreenView(id: ''),
       binding: EditScreenBindings(),
+      transition: Transition.downToUp,
+      transitionDuration: Duration(milliseconds: 600),
+    ),
+    GetPage(
+      name: AppRoutes.inventoryDiscounted,
+      page: () => DiscountedItemView(),
+      binding: DiscountedItemBindings(),
       transition: Transition.downToUp,
       transitionDuration: Duration(milliseconds: 600),
     ),

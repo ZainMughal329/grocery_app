@@ -33,29 +33,26 @@ class SignInController extends GetxController {
             SessionController().userId = value.user!.uid.toString();
         userModel.id = auth.currentUser!.uid.toString();
         storeUserData(userModel);
-        // print('created user successfully');
         state.passController.clear();
         state.userNameController.clear();
         state.emailController.clear();
         state.phoneController.clear();
         passNotifier.value = null;
-        setLoading(false);
       }).onError((error, stackTrace) {
         print('Error is : ' + error.toString());
         state.passController.clear();
         state.userNameController.clear();
         state.emailController.clear();
         state.phoneController.clear();
-
         setLoading(false);
       });
     } catch (e) {
       Get.defaultDialog();
+      setLoading(false);
     }
   }
 
   storeUserData(UserModel userModel) async {
-    setLoading(true);
     await db
         .collection('users')
         .doc(auth.currentUser!.uid)
@@ -65,10 +62,9 @@ class SignInController extends GetxController {
         .then((value) {
       // Get.snackbar('Success', 'Store data successfully');
       Snackbar.showSnackBar("Success", "User Created Successfully");
-      Get.offAndToNamed(AppRoutes.homeScreen);
       setLoading(false);
+      Get.offAndToNamed(AppRoutes.homeScreen);
     }).onError((error, stackTrace) {
-      // Get.snackbar('Error', 'Error while store data successfully');
       Snackbar.showSnackBar("Error", error.toString());
       setLoading(false);
     });

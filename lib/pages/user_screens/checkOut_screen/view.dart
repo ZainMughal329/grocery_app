@@ -249,8 +249,8 @@ class CheckOutView extends GetView<CheckOutController> {
                                                 ['subCategory'],
                                             snapshot.data!.docs[i]['discount'],
                                           );
-                                          Snackbar.showSnackBar('Success',
-                                              'Added data to cart successfully');
+                                          // Snackbar.showSnackBar('Success',
+                                          //     'Added data to cart successfully');
                                         }
                                         controller.addOrder(
                                             orderData, controller.timeId);

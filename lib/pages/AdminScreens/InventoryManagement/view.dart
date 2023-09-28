@@ -43,7 +43,9 @@ class InventoryView extends GetView<InventoryController> {
                   title: 'Discounted Items',
                   icon: Icons.discount_outlined,
                   color: LightAppColor.btnColor,
-                  onPress: () {},
+                  onPress: () {
+                    Get.toNamed(AppRoutes.inventoryDiscounted);
+                  },
                 ),
 
 

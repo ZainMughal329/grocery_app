@@ -28,7 +28,12 @@ class DashBoardController extends GetxController {
 
     loadedMap.clear();
     updateLoadedMap();
-    state.loaded.value = true;
+    print('before');
+    Future.delayed(Duration(seconds: 2),(){
+      state.loaded.value = true;
+      print('after');
+    });
+    // state.loaded.value = true;
   }
 
 

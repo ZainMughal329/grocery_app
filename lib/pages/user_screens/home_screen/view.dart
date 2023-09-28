@@ -136,17 +136,19 @@ class HomeView extends GetView<HomeController> {
                         height: 10.h,
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.33.h,
+                        // height: MediaQuery.of(context).size.height * 0.33.h,
                         color: Colors.grey.withOpacity(0.3),
+                        // color: Colors.grey.shade300,
                         padding: EdgeInsets.symmetric(vertical: 20.h),
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.28.h,
+                          height: MediaQuery.of(context).size.height * 0.2.h,
                           child: Swiper(
+                           
                             itemBuilder: (BuildContext context, int index) {
                               return Image.asset(
                                 con.imagesList[index],
                                 fit: BoxFit.cover,
-                                height: 188.h,
+                                // height: 188.h,
                                 width: 288.w,
                               );
                             },
@@ -329,13 +331,22 @@ class HomeView extends GetView<HomeController> {
                                 textColor: Colors.grey,
                               ),
                               leading: Container(
-                                height: 160,
-                                width: 110,
-                                child: Image.asset(
-                                  // 'assets/pic'+index.toString()+'.jpeg',
-                                  controller.imagesList[index].toString(),
-                                  fit: BoxFit.cover,
+                                // height: 160,
+                                width: 80.w,
+                                child: Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.asset(
+                                      controller.imagesList[index].toString(),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
+                                // child: Image.asset(
+                                //   // 'assets/pic'+index.toString()+'.jpeg',
+                                //   controller.imagesList[index].toString(),
+                                //   fit: BoxFit.contain,
+                                // ),
                               ),
                               title: TextWidget(
                                 title: controller.category[index].category,
