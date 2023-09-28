@@ -45,6 +45,7 @@ class BuildDrawer {
               ],
             ),
           ),
+          Divider(),
           Container(
             // height: 30.sp,
             padding: EdgeInsets.symmetric(vertical: 0.h),
@@ -52,14 +53,7 @@ class BuildDrawer {
             width: MediaQuery.of(context).size.width * 0.8.w,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: LightAppColor.borderColor,
-              ),
-            ),
-            child: ListTileWidget(
-              iconData: Icons.location_pin,
-              title: 'My location',
-              onPress: () {},
+
             ),
           ),
           SizedBox(

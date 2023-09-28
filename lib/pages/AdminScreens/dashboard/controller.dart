@@ -10,6 +10,9 @@ class DashBoardController extends GetxController {
   final state = DashBoardState();
   Map<String, double> loadedMap = {};
 
+
+
+
   Future<void> fetchData() async {
 
 
@@ -28,6 +31,13 @@ class DashBoardController extends GetxController {
     state.loaded.value = true;
   }
 
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    fetchData();
+  }
   updateLoadedMap() {
     loadedMap = {
       "Orders": state.totalOrders.toDouble(),

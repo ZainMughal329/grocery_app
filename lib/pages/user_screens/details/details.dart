@@ -120,12 +120,6 @@ class DetailsScreen extends StatelessWidget {
                       ),
                     ),
                     actions: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: IconWidget(
-                          iconData: Icons.share,
-                        ),
-                      ),
                       SizedBox(
                         width: 5.w,
                       ),
@@ -194,52 +188,95 @@ class DetailsScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         Padding(
-                                          padding:  EdgeInsets.symmetric(horizontal: 10),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
                                           child: InkWell(
-                                              onTap: (){
-                                                con.shareProduct(title,price.toString(), itemImg);
+                                              onTap: () {
+                                                Get.snackbar(
+                                                  'Please wait',
+                                                  'Loading...',
+                                                  backgroundColor: LightAppColor
+                                                      .snackBarbgColor,
+                                                  // dark grey background
+                                                  colorText:
+                                                      LightAppColor.textColor,
+                                                  titleText: Text(
+                                                    'Please wait',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: LightAppColor
+                                                          .btnColor, // for a splash of color
+                                                    ),
+                                                  ),
+                                                  messageText: Text(
+                                                    'Loading...',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: LightAppColor
+                                                          .textColor,
+                                                    ),
+                                                  ),
+                                                  icon: Icon(
+                                                    Icons.info_outline,
+                                                    color:
+                                                        LightAppColor.iconColor,
+                                                  ),
+                                                  snackPosition:
+                                                      SnackPosition.TOP,
+                                                  borderRadius: 8,
+                                                  margin: EdgeInsets.all(10),
+                                                  forwardAnimationCurve:
+                                                      Curves.easeOutExpo,
+                                                  reverseAnimationCurve:
+                                                      Curves.easeInOut,
+                                                );
 
-                                          },
-                                              child: Icon(Icons.share,color: Colors.green,)),
+                                                con.shareProduct(title,
+                                                    price.toString(), itemImg);
+                                              },
+                                              child: Icon(
+                                                Icons.share,
+                                                color: Colors.orange,
+                                              )),
                                         ),
                                         // IconButton(onPressed: () {}, icon: AnimatedIcon(icon: AnimatedIcons., progress: progress)),
                                         Obx(
                                           () => con.itemIdsForWishList
                                                   .contains(itemId)
                                               ? GestureDetector(
-                                            onTap: (){
-                                              con.deleteDataFromWishList(itemId);
-                                              con.fetchWishListData();
-                                            },
-                                                child: IconWidget(
-                                                    iconData:
-                                                        Icons.favorite,
+                                                  onTap: () {
+                                                    con.deleteDataFromWishList(
+                                                        itemId);
+                                                    con.fetchWishListData();
+                                                  },
+                                                  child: IconWidget(
+                                                    iconData: Icons.favorite,
                                                     iconColor: Colors.orange,
                                                   ),
-                                              )
+                                                )
                                               : GestureDetector(
-                                            onTap: (){
-
-                                              con.addDataToFirebaseInWishList(
-                                                  userName,
-                                                  price,
-                                                  title,
-                                                  // DateTime.now(),
-                                                  1,
-                                                  itemId,
-                                                  itemImg,
-                                                  category,
-                                                  subCategory,
-                                                  discount);
-                                              con.fetchWishListData();
-                                            },
-
-                                                child: IconWidget(
+                                                  onTap: () {
+                                                    con.addDataToFirebaseInWishList(
+                                                        userName,
+                                                        price,
+                                                        title,
+                                                        // DateTime.now(),
+                                                        1,
+                                                        itemId,
+                                                        itemImg,
+                                                        category,
+                                                        subCategory,
+                                                        discount);
+                                                    con.fetchWishListData();
+                                                  },
+                                                  child: IconWidget(
                                                     iconData:
                                                         Icons.favorite_outline,
                                                     iconColor: Colors.orange,
                                                   ),
-                                              ),
+                                                ),
                                         ),
 
                                         SizedBox(

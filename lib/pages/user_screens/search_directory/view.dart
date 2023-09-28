@@ -188,7 +188,7 @@ class SearchView extends GetView<SearchBarController> {
                             print('Item is : ' + item.toString());
                             return Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 2),
+                                  horizontal: 5, vertical: 2),
                               child: Column(
                                 children: [
                                   GestureDetector(

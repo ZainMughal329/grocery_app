@@ -16,6 +16,7 @@ import 'package:grocery_app/pages/session_sreens/login/controller.dart';
 import 'package:grocery_app/pages/session_sreens/signup/controller.dart';
 import 'package:grocery_app/pages/user_screens/details/controller.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/controller.dart';
+import 'package:grocery_app/pages/user_screens/home_screen/widgets/all_o_sale_items.dart';
 
 import '../../../components/colors/light_app_colors.dart';
 import '../../../components/constants/app_constants.dart';
@@ -192,7 +193,9 @@ class HomeView extends GetView<HomeController> {
                                               children: [
                                                 TextWidget(title: 'On Sale Products'),
                                                 TextButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Get.to( ()=> SeeAllOnSaleItems());
+                                                  },
                                                   child: Container(
                                                     height: 30.h,
                                                     width: 70.w,
@@ -230,6 +233,7 @@ class HomeView extends GetView<HomeController> {
                                                       0) {
                                                     return Container();
                                                   } else {
+                                                    if (index <=10){
                                                     return Padding(
                                                       padding: EdgeInsets.only(
                                                           left: 5.w,
@@ -276,7 +280,7 @@ class HomeView extends GetView<HomeController> {
                                                           .data![index].stock,
                                                       ),
                                                     );
-                                                  }
+                                                  }}
                                                 },
                                               ),
                                             ),

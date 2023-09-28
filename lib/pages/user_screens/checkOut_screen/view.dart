@@ -196,69 +196,75 @@ class CheckOutView extends GetView<CheckOutController> {
                                           'Select' &&
                                       controller.state.paymentMethod.value !=
                                           'Select') {
-                                    final id =
-                                        SessionController().userId.toString();
+                                    if(controller.state.paymentMethod.value != 'Card Payment'){
+                                        final id = SessionController()
+                                            .userId
+                                            .toString();
 
-                                    final orderData = PlaceOrderModel(
-                                      orderId: controller.timeId,
-                                      customerId: id,
-                                      name: controller.state.nameController.text
-                                          .trim()
-                                          .toString(),
-                                      number: controller.state.phoneController.text
-                                          .trim()
-                                          .toString(),
-                                      address: controller
-                                          .state.addressController.text
-                                          .trim()
-                                          .toString(),
-                                      addressLabel: controller
-                                          .state.addressLabel.value
-                                          .toString(),
-                                      paymentMethod: controller
-                                          .state.paymentMethod.value
-                                          .toString(),
-                                      orderPrice: cartCon.totalPrice.value,
-                                    );
-                                    for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                                      print(i);
-                                      print(snapshot.data!.docs.length.toString());
+                                        final orderData = PlaceOrderModel(
+                                          orderId: controller.timeId,
+                                          customerId: id,
+                                          name: controller
+                                              .state.nameController.text
+                                              .trim()
+                                              .toString(),
+                                          number: controller
+                                              .state.phoneController.text
+                                              .trim()
+                                              .toString(),
+                                          address: controller
+                                              .state.addressController.text
+                                              .trim()
+                                              .toString(),
+                                          addressLabel: controller
+                                              .state.addressLabel.value
+                                              .toString(),
+                                          paymentMethod: controller
+                                              .state.paymentMethod.value
+                                              .toString(),
+                                          orderPrice: cartCon.totalPrice.value,
+                                        );
+                                        for (int i = 0;
+                                            i < snapshot.data!.docs.length;
+                                            i++) {
+                                          print(i);
+                                          print(snapshot.data!.docs.length
+                                              .toString());
 
-                                      print("controller.addDataTOFirebase Called");
+                                          print(
+                                              "controller.addDataTOFirebase Called");
 
-                                      controller.addDataToFirebase(
-                                        snapshot.data!.docs[i]
-                                        ['customerName'],
-                                        snapshot.data!.docs[i]
-                                        ['totalPrice'],
-                                        snapshot.data!.docs[i]
-                                        ['items'],
-                                        // DateTime.now(),
-                                        snapshot.data!.docs[i]
-                                        ['itemQty'],
-                                        snapshot.data!.docs[i]
-                                        ['itemId'],
-                                        snapshot.data!.docs[i]
-                                        ['itemImg'],
-                                        snapshot.data!.docs[i]
-                                        ['category'],
-                                        snapshot.data!.docs[i]
-                                        ['subCategory'],
-                                        snapshot.data!.docs[i]
-                                        ['discount'],);
-                                      Snackbar.showSnackBar('Success',
-                                          'Added data to cart successfully');
+                                          controller.addDataToFirebase(
+                                            snapshot.data!.docs[i]
+                                                ['customerName'],
+                                            snapshot.data!.docs[i]
+                                                ['totalPrice'],
+                                            snapshot.data!.docs[i]['items'],
+                                            // DateTime.now(),
+                                            snapshot.data!.docs[i]['itemQty'],
+                                            snapshot.data!.docs[i]['itemId'],
+                                            snapshot.data!.docs[i]['itemImg'],
+                                            snapshot.data!.docs[i]['category'],
+                                            snapshot.data!.docs[i]
+                                                ['subCategory'],
+                                            snapshot.data!.docs[i]['discount'],
+                                          );
+                                          Snackbar.showSnackBar('Success',
+                                              'Added data to cart successfully');
+                                        }
+                                        controller.addOrder(
+                                            orderData, controller.timeId);
+                                        cartCon.updateTotalPrice(0);
+
+                                        print(
+                                          'Price of is :' +
+                                              cartCon.totalPrice.value
+                                                  .toString(),
+                                        );
+                                      }else {
+                                      Snackbar.showSnackBar("Card Payment", "Not available now.Coming Soon");
                                     }
-                                    controller.addOrder(
-                                        orderData, controller.timeId);
-                                    cartCon.updateTotalPrice(0);
-
-
-                                    print(
-                                      'Price of is :' +
-                                          cartCon.totalPrice.value.toString(),
-                                    );
-                                  } else {
+                                    } else {
                                     Snackbar.showSnackBar("No", "Not validated");
                                   }
                                 } else {
