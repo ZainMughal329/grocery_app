@@ -9,7 +9,6 @@ import 'package:grocery_app/components/models/item_model.dart';
 import 'package:grocery_app/components/reuseable/inventory_input_widget.dart';
 import 'package:grocery_app/components/reuseable/profile_text_field.dart';
 import 'package:grocery_app/components/reuseable/round_button.dart';
-import 'package:grocery_app/components/reuseable/search_text_field.dart';
 import 'package:grocery_app/components/reuseable/snackbar_widget.dart';
 import 'package:grocery_app/components/reuseable/text_form_field.dart';
 import 'package:grocery_app/components/reuseable/text_widget.dart';

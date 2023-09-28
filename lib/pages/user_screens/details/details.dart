@@ -130,7 +130,9 @@ class DetailsScreen extends StatelessWidget {
                         width: 5.w,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.searchScreen);
+                        },
                         icon: IconWidget(
                           iconData: Icons.search,
                         ),

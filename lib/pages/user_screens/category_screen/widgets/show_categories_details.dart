@@ -132,17 +132,11 @@ class ShowAllCategoriesProductsScreen extends GetView<CategoryController> {
           ),
         ),
         actions: [
+
           IconButton(
-            onPressed: () {},
-            icon: IconWidget(
-              iconData: Icons.share,
-            ),
-          ),
-          SizedBox(
-            width: 5.w,
-          ),
-          IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(AppRoutes.searchScreen);
+            },
             icon: IconWidget(
               iconData: Icons.search,
             ),
@@ -151,7 +145,10 @@ class ShowAllCategoriesProductsScreen extends GetView<CategoryController> {
             width: 5.w,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(AppRoutes.cartScreen);
+
+            },
             icon: IconWidget(
               iconData: Icons.shopping_cart,
             ),

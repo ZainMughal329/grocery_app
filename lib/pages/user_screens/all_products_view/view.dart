@@ -132,6 +132,32 @@ class AllProductsScreen extends GetView<AllProductsController> {
             iconData: Icons.arrow_back,
           ),
         ),
+        actions: [
+
+          IconButton(
+            onPressed: () {
+              Get.toNamed(AppRoutes.searchScreen);
+            },
+            icon: IconWidget(
+              iconData: Icons.search,
+            ),
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
+          IconButton(
+            onPressed: () {
+              Get.toNamed(AppRoutes.cartScreen);
+
+            },
+            icon: IconWidget(
+              iconData: Icons.shopping_cart,
+            ),
+          ),
+          SizedBox(
+            width: 5.w,
+          ),
+        ],
         backgroundColor: LightAppColor.bgColor,
       ),
       body: Container(

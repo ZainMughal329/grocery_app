@@ -49,6 +49,7 @@ import 'package:grocery_app/pages/user_screens/faqs/bindings.dart';
 import 'package:grocery_app/pages/user_screens/home_screen/index.dart';
 import 'package:grocery_app/pages/user_screens/order_view/index.dart';
 import 'package:grocery_app/pages/user_screens/profile/index.dart';
+import 'package:grocery_app/pages/user_screens/search_directory/index.dart';
 import 'package:grocery_app/pages/user_screens/wishList_screen/index.dart';
 
 import '../../pages/session_sreens/splash/view.dart';
@@ -133,6 +134,12 @@ class AppPages {
       name: AppRoutes.profileScreen,
       page: () => ProfileView(),
       binding: ProfileBindings(),
+    ),
+
+    GetPage(
+      name: AppRoutes.searchScreen,
+      page: () => SearchView(),
+      binding: SearchBindings(),
     ),
 
     GetPage(

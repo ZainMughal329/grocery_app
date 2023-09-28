@@ -97,12 +97,35 @@ class HomeView extends GetView<HomeController> {
                   ],
                   title: Padding(
                     padding: EdgeInsets.only(bottom: 5.h),
-                    child: SearchInputTextField(
-                        contr: controller.state.searchController,
-                        descrip: AppConstants.search,
-                        textInputAction: TextInputAction.search,
-                        keyboardType: TextInputType.text,
-                        icon: Icons.search),
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.searchScreen);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 0),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 0),
+                        width: MediaQuery.of(context).size.width * 0.80.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                            color: LightAppColor.bgColor,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: LightAppColor.borderColor,
+                            )),
+                        child: Padding(
+                          padding: EdgeInsets.only(left:8.w),
+                          child: Row(
+                            children: [
+                              IconWidget(iconData: Icons.search , fontSize: 20.sp,),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              TextWidget(title: 'What are you looking for?' , fontSize: 12.sp,)
+                            ],
+                          ),
+                        ),
+                      )
+                    ),
                   ),
                 ),
                 SliverList(
@@ -153,48 +176,48 @@ class HomeView extends GetView<HomeController> {
                             color: Colors.white,
                             border: Border.all(color: Colors.grey),
                           ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    TextWidget(title: 'On Sale Products'),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: Container(
-                                        height: 30.h,
-                                        width: 70.w,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          border: Border.all(
-                                            color: LightAppColor.borderColor,
+                          child: FutureBuilder(
+                            future: con.getAndShowALlItemsData(),
+                            builder: (BuildContext context, snapshot) {
+                              try {
+                                if (snapshot.hasData) {
+                                  return snapshot.data!.length != 0
+                                      ? Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                TextWidget(title: 'On Sale Products'),
+                                                TextButton(
+                                                  onPressed: () {},
+                                                  child: Container(
+                                                    height: 30.h,
+                                                    width: 70.w,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(5),
+                                                      border: Border.all(
+                                                        color: LightAppColor.borderColor,
+                                                      ),
+                                                    ),
+                                                    child: Center(
+                                                      child: TextWidget(
+                                                        title: 'View all',
+                                                        textColor: Colors.orange,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        child: Center(
-                                          child: TextWidget(
-                                            title: 'View all',
-                                            textColor: Colors.orange,
+                                          SizedBox(
+                                            height: 10.h,
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              FutureBuilder(
-                                future: con.getAndShowALlItemsData(),
-                                builder: (BuildContext context, snapshot) {
-                                  try {
-                                    if (snapshot.hasData) {
-                                      return snapshot.data!.length != 0
-                                          ? Expanded(
+                                          Expanded(
                                               child: ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
@@ -256,30 +279,30 @@ class HomeView extends GetView<HomeController> {
                                                   }
                                                 },
                                               ),
-                                            )
-                                          : Container();
-                                    } else if (snapshot.hasError) {
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Center(
-                                              child: CircularProgressIndicator(
-                                            color: LightAppColor.btnColor,
-                                          )),
+                                            ),
                                         ],
-                                      );
-                                    } else {
-                                      return SizedBox();
-                                    }
-                                  } catch (e) {
-                                    return Text(
-                                      'data : ' + e.toString(),
-                                    );
-                                  }
-                                },
-                              ),
-                            ],
+                                      )
+                                      : Container();
+                                } else if (snapshot.hasError) {
+                                  return Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                          child: CircularProgressIndicator(
+                                        color: LightAppColor.btnColor,
+                                      )),
+                                    ],
+                                  );
+                                } else {
+                                  return SizedBox();
+                                }
+                              } catch (e) {
+                                return Text(
+                                  'data : ' + e.toString(),
+                                );
+                              }
+                            },
                           ),
                         ),
                       ),

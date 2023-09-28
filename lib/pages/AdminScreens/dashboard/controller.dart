@@ -324,6 +324,9 @@ class DashBoardController extends GetxController {
           actions: [
             ElevatedButton(
               onPressed: () => Navigator.of(Get.context!).pop(),
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.orange),
+              ),
               child: Text('Close'),
             ),
           ],

@@ -14,6 +14,7 @@ class AppRoutes {
   static const checkOutScreen = '/checkOutScreen';
   static const wishListScreen = '/wishList';
   static const orderScreen = '/order';
+  static const searchScreen = '/search';
 
 
   //AdminScreens

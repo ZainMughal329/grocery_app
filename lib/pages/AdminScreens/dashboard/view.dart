@@ -296,6 +296,9 @@ class DashBoardView extends GetView<DashBoardController> {
                   return ElevatedButton(
                     onPressed: () =>
                         controller.showDataForMonth(index),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.orange),
+                    ),
                     child: Text(month),
                   );
                 }).toList(),
@@ -342,7 +345,9 @@ class VerticalBarChart extends GetView<DashBoardController> {
       child: Container(
         // height: 200.h,
         child: fl.BarChart(
+
           fl.BarChartData(
+
             alignment: fl.BarChartAlignment.spaceAround,
             titlesData: fl.FlTitlesData(
               topTitles:
