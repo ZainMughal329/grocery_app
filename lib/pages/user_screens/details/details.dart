@@ -193,6 +193,15 @@ class DetailsScreen extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
+                                        Padding(
+                                          padding:  EdgeInsets.symmetric(horizontal: 10),
+                                          child: InkWell(
+                                              onTap: (){
+                                                con.shareProduct(title,price.toString(), itemImg);
+
+                                          },
+                                              child: Icon(Icons.share,color: Colors.green,)),
+                                        ),
                                         // IconButton(onPressed: () {}, icon: AnimatedIcon(icon: AnimatedIcons., progress: progress)),
                                         Obx(
                                           () => con.itemIdsForWishList

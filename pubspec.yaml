@@ -54,6 +54,8 @@ dependencies:
   vertical_barchart:
   fl_chart:
   flutter_search_bar:
+  share_plus:
+  path_provider:
 
 dev_dependencies:
   flutter_test:
