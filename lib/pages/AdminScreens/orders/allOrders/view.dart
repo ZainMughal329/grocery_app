@@ -187,74 +187,7 @@ class OrdersView extends GetView<OrdersController> {
           'Edit Inventory',
           style: TextStyle(color: Colors.white, fontSize: 20.sp),
         ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(
-              50.h), // set the height of the custom app bar bottom
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical:
-                    5.0), // Updated the padding based on your provided values
-            child: Container(
-              color: LightAppColor.btnColor.withOpacity(0.5),
-              height: 50.0,
-              // you provided this as 50.h (probably using screen_util or another package for responsive design)
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextWidget(
-                    title: "Apply Filter",
-                    textColor: LightAppColor.bgColor,
-                    fontSize: 16,
-                  ), // This was TextWidget(title: "Apply Filter") in your code
-                  DropdownButton(
-                      iconEnabledColor: Colors.white,
-                      hint: TextWidget(title: "All"),
-                      items: [
-                        DropdownMenuItem(
-                          child: TextWidget(
-                            title: 'All',
-                          ),
-                          value: 'All',
-                        ),
-                        DropdownMenuItem(
-                          child: TextWidget(
-                            title: 'HouseHold',
-                          ),
-                          value: 'HouseHold',
-                        ),
-                        DropdownMenuItem(
-                          child: TextWidget(
-                            title: 'Grocery',
-                          ),
-                          value: 'Grocery',
-                        ),
-                        DropdownMenuItem(
-                          child: TextWidget(
-                            title: 'Kitchen',
-                          ),
-                          value: 'Kitchen',
-                        ),
-                        DropdownMenuItem(
-                          child: TextWidget(
-                            title: 'Bathroom',
-                          ),
-                          value: 'Bathroom',
-                        ),
-                        DropdownMenuItem(
-                          child: TextWidget(
-                            title: 'Clothing',
-                          ),
-                          value: 'Clothing',
-                        ),
-                      ],
-                      onChanged: (value) {}),
-                ],
-              ),
-            ),
-          ),
-        ),
+
       ),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(

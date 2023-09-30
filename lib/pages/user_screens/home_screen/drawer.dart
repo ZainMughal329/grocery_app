@@ -20,6 +20,8 @@ class BuildDrawer {
   static Drawer buildDrawer(BuildContext context) {
     // var con = Get.put(HomeController());
     var cartCon = Get.find<CartControllerReuseAble>();
+    cartCon.fetchUsername();
+    print('UserName is : ' + cartCon.username.value.toString());
     return Drawer(
       width: 300.w,
       backgroundColor

@@ -360,7 +360,9 @@ class VerticalBarChart extends GetView<DashBoardController> {
                   getTitlesWidget: (value, meta) {
                     var date = data.keys.toList()[value.toInt()];
                     return fl.SideTitleWidget(
-                        axisSide: meta.axisSide, child: Text(date.toString()));
+                        axisSide: meta.axisSide, child: Text(date.toString(),style: TextStyle(
+                      fontSize: 10.sp,
+                    ),));
                   },
                 ),
               ),
